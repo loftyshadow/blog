@@ -1,0 +1,10 @@
+# 监听ip
+http.host: 0.0.0.0
+# 集群名
+cluster.name: docker-cluster
+# 节点名
+node.name: node
+# 开启x-pack插件,用于添加账号密码、安全控制等配置
+xpack.security.enabled: false #最关键的一句
+xpack.security.transport.ssl.enabled: false
+xpack.security.enrollment.enabled: false

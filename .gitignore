@@ -1,0 +1,9 @@
+*.local
+node_modules
+dist
+stats.html
+.temp
+.cache
+.idea/vcs.xml
+.idea/**
+/node_modules/
