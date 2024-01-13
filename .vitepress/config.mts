@@ -15,7 +15,7 @@ export default defineConfig({
     //默认主题所有配置请写在这里！！！
     nav,
     sidebar,
-    socialLinks: [{ icon: 'github', link: 'https://github.com/loftyshadow' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/loftyshadow/blog' }],
   },
   markdown: {
     math: true
