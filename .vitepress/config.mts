@@ -8,10 +8,9 @@ export default defineConfig({
   lang: 'zh-CN',
   title: 'Blog',
   description: '基于VitePress个人博客整理站点',
-  head: [['link', {rel: 'icon', href: 'favicon.ico'}]],
+  head: [['link', {rel: 'icon', href: '/icons/favicon.ico'}]],
   themeConfig: {
-    logo: '/favicon.ico',
-    logoLink: '/favicon.ico',
+    logo: '/icons/favicon.ico',
     //默认主题所有配置请写在这里！！！
     nav,
     sidebar,
