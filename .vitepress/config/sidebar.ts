@@ -119,7 +119,7 @@ export const sidebar: Sidebar = {
     '/leetcode/': [
         {
             text: '一维动态规划',
-            collapsible: true,
+            collapsed: false,
             activeMatch: '/leetcode/one-dimensionalDynamicProgramming/',
             items: [
                 {
@@ -134,7 +134,7 @@ export const sidebar: Sidebar = {
         },
         {
             text: '二分查找',
-            collapsible: true,
+            collapsed: false,
             activeMatch: '/leetcode/binarySearch/',
             items: [
                 {
