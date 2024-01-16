@@ -1,62 +1,63 @@
 import {Sidebar} from "vitepress/types/default-theme";
 
-export const sidebar:Sidebar = {
+export const sidebar: Sidebar = {
     '/mysql/': [
         {
             text: 'MySQL的MVCC',
             link: '/mysql/MySQL的MVCC.md',
         },
-    ],
-    '/docker/': [
         {
-            text: '目录',
-            items: [
-                {
-                    text: '安装Docker',
-                    link: '/docker/安装Docker.md',
-                },
-                {
-                    text: '安装docker-compose',
-                    link: '/docker/安装Docker-compose.md',
-                },
-                {
-                    text: 'Docker安装Mysql.md',
-                    link: '/docker/Docker安装Mysql.md',
-                },
-                {
-                    text: 'Docker安装mongodb.md',
-                    link: '/docker/Docker安装mongodb.md',
-                },
-                {
-                    text: 'Docker安装Nacos',
-                    link: '/docker/Docker安装Nacos.md',
-                },
-                {
-                    text: 'Docker安装PostgreSQL',
-                    link: '/docker/Docker安装PostgreSQL.md',
-                },
-                {
-                    text: 'Docker安装RabbitMQ',
-                    link: '/docker/Docker安装RabbitMQ.md',
-                },
-                {
-                    text: 'Docker安装ElasticSearch',
-                    link: '/docker/Docker安装ElasticSearch.md',
-                },
-                {
-                    text: 'Docker安装Kibana',
-                    link: '/docker/Docker安装Kibana.md',
-                },
-                {
-                    text: 'Docker安装Canal',
-                    link: '/docker/Docker安装Canal.md',
-                },
-                {
-                    text: 'Docker安装ExcaliDraw',
-                    link: '/docker/Docker安装ExcaliDraw.md',
-                }],
-        }
+            text: 'MySQL的Explain执行计划',
+            link: '/mysql/MySQL的Explain执行计划.md',
+        },
     ],
+    '/docker/':
+        [
+            {
+                text: '安装Docker',
+                link: '/docker/安装Docker.md',
+            },
+            {
+                text: '安装docker-compose',
+                link: '/docker/安装Docker-compose.md',
+            },
+            {
+                text: 'Docker安装Mysql.md',
+                link: '/docker/Docker安装Mysql.md',
+            },
+            {
+                text: 'Docker安装mongodb.md',
+                link: '/docker/Docker安装mongodb.md',
+            },
+            {
+                text: 'Docker安装Nacos',
+                link: '/docker/Docker安装Nacos.md',
+            },
+            {
+                text: 'Docker安装PostgreSQL',
+                link: '/docker/Docker安装PostgreSQL.md',
+            },
+            {
+                text: 'Docker安装RabbitMQ',
+                link: '/docker/Docker安装RabbitMQ.md',
+            },
+            {
+                text: 'Docker安装ElasticSearch',
+                link: '/docker/Docker安装ElasticSearch.md',
+            },
+            {
+                text: 'Docker安装Kibana',
+                link: '/docker/Docker安装Kibana.md',
+            },
+            {
+                text: 'Docker安装Canal',
+                link: '/docker/Docker安装Canal.md',
+            },
+            {
+                text: 'Docker安装ExcaliDraw',
+                link: '/docker/Docker安装ExcaliDraw.md',
+            }
+        ],
     '/idea/': [
         {
             text: '模板Live Templates',

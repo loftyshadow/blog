@@ -36,8 +36,13 @@ export default defineConfig({
         },
       },
     },
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2024-present LoftyShadow'
+    }
   },
   markdown: {
-    math: true
+    math: true,
+    lineNumbers: true, // 显示代码行数
   },
 })
