@@ -1,7 +1,7 @@
 # Docker安装mysql
 ## 创建mysql配置
 
-```shell
+```shell:no-line-numbers
 mkdir -p /mydata/mysql/data
 mkdir -p /mydata/mysql/log
 mkdir -p /mydata/mysql/conf
@@ -38,7 +38,7 @@ thread_cache_size=64
 
 ## docker 启动mysql8.2.0
 
-```shell
+```shell:no-line-numbers
 docker pull mysql:8.2.0
 
 docker run --restart=always --privileged=true -p 3306:3306 --name mysql \
@@ -51,7 +51,7 @@ docker run --restart=always --privileged=true -p 3306:3306 --name mysql \
 
 ## docker启动mysql5.7
 
-```shell
+```shell:no-line-numbers
 docker run --restart=always --privileged=true -p 3306:3306 --name mysql \
 -v /mydata/mysql/log:/var/log/mysql \
 -v /mydata/mysql/data:/var/lib/mysql \

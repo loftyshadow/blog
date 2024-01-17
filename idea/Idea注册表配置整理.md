@@ -8,17 +8,17 @@
 
 ## 直接复制选中单词
 
-```text
+```text:no-line-numbers
 ide.find.select.word.at.caret
 ```
 
 ## 展示内存
 
-```text
+```text:no-line-numbers
 show memory indicator
 ```
 
 ### 终端新ui(目前不推荐使用)
-```text
+```text:no-line-numbers
 ide.experimental.ui.new.terminal
 ```

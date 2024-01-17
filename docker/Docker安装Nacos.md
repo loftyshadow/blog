@@ -1,6 +1,6 @@
 # docker 启动nacos
 
-```shell
+```shell:no-line-numbers
 mkdir -p /mydata/nacos/logs/                      #新建logs目录
 mkdir -p /mydata/nacos/init.d/
 vim /mydata/nacos/init.d/custom.properties        #修改配置文件
@@ -8,7 +8,7 @@ vim /mydata/nacos/init.d/custom.properties        #修改配置文件
 
 ## Nacos配置
 
-```text
+```text:no-line-numbers
 server.contextPath=/nacos
 server.servlet.contextPath=/nacos
 server.port=8848
@@ -43,7 +43,7 @@ nacos-db.sql
 
 ## 单机启动
 
-```shell
+```shell:no-line-numbers
 docker pull nacos/nacos-server:v2.3.0
 
 docker run \
@@ -65,11 +65,11 @@ nacos/nacos-server:v2.3.0
 
 ## docker kibana
 
-```shell
+```shell:no-line-numbers
 docker pull kibana:7.4.2
 ```
 
-```shell
+```shell:no-line-numbers
 docker run --name kibana -e ELASTICSEARCH_HOSTS=http://192.168.232.128:9200/ -p 5601:5601 \
 -d kibana:7.4.2
 ```

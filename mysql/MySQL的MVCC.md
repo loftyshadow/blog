@@ -11,7 +11,7 @@ MySQL原生的MyISAM引擎就不支持事务，这也是MyISAM被InnoDB取代的
 
 开启事务用start transaction或者begin，配套的提交语句是commit，回滚语句是rollback。
 
-```sql
+```sql:no-line-numbers
 //开启事务，READ WRITE可写可不写，默认就是READ WRITE，也可以指定只读READ ONLY
 START TRANSACTION READ WRITE;
 
@@ -37,7 +37,7 @@ set SESSION autocommit=0, 关闭自动提交，关闭以后单条语句也必须
 
 查询事务表，比如下面这个语句，用来持续查找持续时间超过60s的事务。
 
-```sql
+```sql:no-line-numbers
 select * from information_schema.innodb_trx where TIME_TO_SEC(timediff(now(),trx_started))>60
 ```
 
@@ -83,7 +83,7 @@ SERIALIZABLE)。)
 
 对同一行记录，“写”加“写锁”，“读”加“读锁”。当出现读写锁冲突的时候，后访问的事务必须等待前一个事务执行完成，才能继续执行。
 
-```sql
+```sql:no-line-numbers
 //修改当前会话读未提交
 SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 

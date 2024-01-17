@@ -4,13 +4,13 @@ Idea配置Live Templates位置如上图
 
 ### log
 
-```text
+```text:no-line-numbers
 private static final Logger log = LoggerFactory.getLogger($CLASS_NAME$.class);
 ```
 
 ### test
 
-```text
+```text:no-line-numbers
 @Test
 public void $METHOD_NAME$() {
     $METHOD_BODY$
@@ -19,13 +19,13 @@ public void $METHOD_NAME$() {
 
 ### sleep
 
-```text
+```text:no-line-numbers
 try { TimeUnit.SECONDS.sleep($SECONDS$); } catch (InterruptedException e) { throw new RuntimeException(e); }
 ```
 
 ### thread 新建一个线程:
 
-```text
+```text:no-line-numbers
 new Thread(() -> {
         $threadBody$
     }, $threadName$).start();
@@ -33,7 +33,7 @@ new Thread(() -> {
 
 ### @DNA
 
-```text
+```text:no-line-numbers
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

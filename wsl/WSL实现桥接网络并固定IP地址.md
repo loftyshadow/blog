@@ -15,7 +15,7 @@
 ## 修改配置文件
 
 1.使用快捷键Win+R唤出运行窗口，在打开栏内填入%USERPROFILE%并在打开的文件夹内创建配置文件".wslconfig"，并在该配置文件内输入以下内容。
-```text
+```text:no-line-numbers
 [wsl2]
 vmIdleTimeout=-1
 networkingMode=bridged
@@ -25,7 +25,7 @@ dhcp=false
 ```
 
 2.进入wsl的Ubuntu子系统，打开/etc/wsl.conf，若文件不存在则创建,在wsl.conf配置文件内填入以下内容
-```text
+```text:no-line-numbers
 [boot]
 systemd = true
 [network]
@@ -34,7 +34,7 @@ generateResolvConf = false
 ```
 
 3.检查/etc/systemd/network/，若文件夹下没有文件则创建一个配置文件my-network.conf，若文件夹下有文件则忽略此步骤。
-```shell
+```shell:no-line-numbers
 sudo vim /etc/systemd/network/my-network.conf
 
 [Match]
@@ -45,12 +45,12 @@ DHCP=ipv4
 ```
 
 重启networkd
-```shell
+```shell:no-line-numbers
 sudo systemctl restart systemd-networkd.service
 ```
 
 打开配置文件/etc/netplan/00-wsl2.yaml，如果不存在就创建。
-```shell
+```shell:no-line-numbers
 sudo vim /etc/netplan/00-wsl2.yaml
 
 network:
@@ -64,7 +64,7 @@ network:
         addresses: [8.8.8.8, 144.144.144.144]
 ```
 
-```text
+```text:no-line-numbers
 network:
   version: 2
   ethernets:
@@ -77,6 +77,6 @@ network:
 ```
 
 然后使用sudo netplan apply应用新的网络设置，重启WSL2子系统即可。
-```shell
+```shell:no-line-numbers
 sudo netplan apply
 ```

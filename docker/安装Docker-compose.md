@@ -1,6 +1,6 @@
 # 下载docker-compose
 
-```shell
+```shell:no-line-numbers
 #运行此命令以下载 Docker Compose 的当前稳定版本
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 #对二进制文件应用可执行权限
@@ -10,7 +10,7 @@ docker-compose --version
 #若有docker-compose version 1.29.2, build 5becea4c，则安装成功
 ```
 
-```shell
+```shell:no-line-numbers
  # 1. 基于docker-compose.yml启动管理的容器
 docker-compose up -d
 # 2. 关闭并删除容器

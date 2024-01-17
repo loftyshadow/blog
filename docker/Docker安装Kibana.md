@@ -1,11 +1,11 @@
 # Docker安装Kibana
 
 ## 下载镜像
-```shell
+```shell:no-line-numbers
 docker pull kibana:8.11.1
 ```
 
-```shell
+```shell:no-line-numbers
 docker run -d \
 --name kibana \
 -e ELASTICSEARCH_HOSTS=http://192.168.1.14:9200 \

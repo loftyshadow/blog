@@ -10,6 +10,10 @@ export const sidebar: Sidebar = {
             text: 'MySQL的Explain执行计划',
             link: '/mysql/MySQL的Explain执行计划.md',
         },
+        {
+            text: 'MySQL索引失效',
+            link: '/mysql/MySQL索引失效.md',
+        },
     ],
     '/docker/':
         [

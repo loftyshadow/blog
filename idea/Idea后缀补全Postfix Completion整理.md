@@ -5,67 +5,67 @@ Idea配置Postfix Completion位置如上图
 
 ### debug
 
-```text
+```text:no-line-numbers
 log.debug($EXPR$);
 ```
 
 ### error
 
-```text
+```text:no-line-numbers
 log.error($EXPR$);
 ```
 
 ### info
 
-```text
+```text:no-line-numbers
 log.info($EXPR$);
 ```
 
 ### warn
 
-```text
+```text:no-line-numbers
 log.warn($EXPR$);
 ```
 
 ### pdebug
 
-````text
+````text:no-line-numbers
 log.debug("$EXPR$为: {}", $EXPR$);
 ````
 
 ### perror
 
-```text
+```text:no-line-numbers
 log.error("$EXPR$为: {}", $EXPR$);
 ```
 
 ### pinfo
 
-```text
+```text:no-line-numbers
 log.info("$EXPR$为: {}", $EXPR$);
 ```
 
 ### pwarn
 
-```text
+```text:no-line-numbers
 log.warn("$EXPR$为: {}", $EXPR$);
 ```
 
 ### toInteger
 
-```text
+```text:no-line-numbers
 Integer.parseInt($EXPR$)
 ```
 
 ### toDecimal
 
-```text
+```text:no-line-numbers
 new BigDecimal($EXPR$)
 ```
 
 ### isNull
 
-```text
+```text:no-line-numbers
 if (Objects.isNull($EXPR$)) {
     $END$
 }
@@ -73,6 +73,6 @@ if (Objects.isNull($EXPR$)) {
 
 ### fdebug
 
-```text
+```text:no-line-numbers
 .forEach(item -> log.debug("{}", item));
 ```

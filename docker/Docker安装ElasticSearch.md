@@ -1,12 +1,12 @@
 # Docker安装ElasticSearch
 
 ## 下载镜像
-```shell
+```shell:no-line-numbers
 docker pull elasticsearch:8.11.1
 ```
 
 ## 创建相关文件
-```shell
+```shell:no-line-numbers
 mkdir -p /mydata/elasticsearch/img
 mkdir -p /mydata/elasticsearch/data
 mkdir -p /mydata/elasticsearch/logs
@@ -30,7 +30,7 @@ xpack.security.enrollment.enabled: false" >>//mydata/elasticsearch/img/elasticse
 
 ## 启动es
 
-```shell
+```shell:no-line-numbers
 docker run --name elasticsearch -p 9200:9200 -p 9300:9300 \
 --restart=always \
 -e "discovery.type=single-node" \

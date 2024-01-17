@@ -1,8 +1,9 @@
-import Theme from 'vitepress/theme'
 import Counter from './components/Counter.vue'
+import DefaultTheme from 'vitepress/theme'
+import './custom.css'
 
 export default {
-    ...Theme,
+    ...DefaultTheme,
     enhanceApp({app}) {
         app.component('Counter', Counter)
     }

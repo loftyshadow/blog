@@ -2,11 +2,11 @@
 
 ## 下载镜像
 
-```shell
+```shell:no-line-numbers
 docker pull canal/canal-server:v1.1.6
 ```
 
-```shell
+```shell:no-line-numbers
 mkdir -p /mydata/canal/conf/example
 mkdir -p /mydata/canal/logs
 
@@ -14,11 +14,11 @@ chmod 777 -R /mydata/canal/conf/example
 chmod 777 -R /mydata/canal/logs
 ```
 
-```shell
+```shell:no-line-numbers
 vim /mydata/canal/conf/canal.properties
 ```
 
-```text
+```text:no-line-numbers
 #################################################
 ######### 		common argument		#############
 #################################################
@@ -195,11 +195,11 @@ rabbitmq.password = 123456
 rabbitmq.deliveryMode =
 ```
 
-```shell
+```shell:no-line-numbers
 vim /mydata/canal/conf/example/instance.properties
 ```
 
-```text
+```text:no-line-numbers
 #################################################
 ## mysql serverId , v1.0.26+ will autoGen
 # canal.instance.mysql.slaveId=0
@@ -259,7 +259,7 @@ canal.mq.partition=0
 #canal.mq.dynamicTopicPartitionNum=test.*:4,mycanal:6
 #################################################
 ```
-```shell
+```shell:no-line-numbers
 docker run --name canal -p 11111:11111 \
 -v /mydata/canal/conf/example:/home/admin/canal-server/conf/example \
 -v /mydata/canal/conf/canal.properties:/home/admin/canal-server/conf/canal.properties \
