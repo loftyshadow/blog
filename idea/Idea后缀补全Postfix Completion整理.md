@@ -3,67 +3,67 @@
 ![Idea后缀补全位置](./img/Idea后缀补全位置.png)
 Idea配置Postfix Completion位置如上图
 
-### debug
+## debug
 
 ```text:no-line-numbers
 log.debug($EXPR$);
 ```
 
-### error
+## error
 
 ```text:no-line-numbers
 log.error($EXPR$);
 ```
 
-### info
+## info
 
 ```text:no-line-numbers
 log.info($EXPR$);
 ```
 
-### warn
+## warn
 
 ```text:no-line-numbers
 log.warn($EXPR$);
 ```
 
-### pdebug
+## pdebug
 
 ````text:no-line-numbers
 log.debug("$EXPR$为: {}", $EXPR$);
 ````
 
-### perror
+## perror
 
 ```text:no-line-numbers
 log.error("$EXPR$为: {}", $EXPR$);
 ```
 
-### pinfo
+## pinfo
 
 ```text:no-line-numbers
 log.info("$EXPR$为: {}", $EXPR$);
 ```
 
-### pwarn
+## pwarn
 
 ```text:no-line-numbers
 log.warn("$EXPR$为: {}", $EXPR$);
 ```
 
-### toInteger
+## toInteger
 
 ```text:no-line-numbers
 Integer.parseInt($EXPR$)
 ```
 
-### toDecimal
+## toDecimal
 
 ```text:no-line-numbers
 new BigDecimal($EXPR$)
 ```
 
-### isNull
+## isNull
 
 ```text:no-line-numbers
 if (Objects.isNull($EXPR$)) {
@@ -71,7 +71,7 @@ if (Objects.isNull($EXPR$)) {
 }
 ```
 
-### fdebug
+## fdebug
 
 ```text:no-line-numbers
 .forEach(item -> log.debug("{}", item));

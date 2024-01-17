@@ -8,15 +8,21 @@ hero:
   image:
     src: /welcome.png
 features:
-  - icon: 📒
-    title: 整理常用文档
-    details: 常用的配置
-  - icon: 💻
-    title: 整理编写代码心得
-    details: 实际代码中遇到的问题解决办法
-  - icon: 🔗
-    title: 整理一些好的文章
-    details: 网上的一些技术文章整理
+  - icon:
+      dark: /svg/linux.svg
+      light: /svg/linux.svg
+    title: WSL整理
+    link : /wsl/WSL安装整理.md
+  - icon:
+      dark: /svg/Docker.svg
+      light: /svg/Docker.svg
+    title: Docker整理
+    link : /docker/安装Docker.md
+  - icon:
+      dark: /svg/Mysql.svg
+      light: /svg/Mysql.svg
+    title: MySQL整理
+    link : /mysql/MySQL的MVCC.md
   - icon:
       dark: /svg/Reference.svg
       light: /svg/Reference.svg
@@ -28,7 +34,7 @@ features:
       dark: /svg/juejin.svg
       light: /svg/juejin.svg
     title: 掘金
-    details: 掘金是一个帮助开发者成长的社区，是一个面向互联网技术人的内容分享平台。
+    details: 掘金是面向互联网技术人的内容分享平台。
     link : https://juejin.cn/
     linkText: 掘金
   - icon: 

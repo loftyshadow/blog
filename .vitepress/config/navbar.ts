@@ -6,21 +6,6 @@ export const nav: NavItem[] = [
         link: '/'
     },
     {
-        text: 'WSL整理',
-        activeMatch: '^/wsl/',
-        link: '/wsl/WSL安装整理.md'
-    },
-    {
-        text: 'Docker整理',
-        activeMatch: '^/docker/',
-        link: '/docker/安装Docker.md'
-    },
-    {
-        text: 'MySQL整理',
-        activeMatch: '^/mysql/',
-        link: '/mysql/MySQL的MVCC.md'
-    },
-    {
         text: '算法整理',
         activeMatch: '^/leetcode/',
         link: '/leetcode/目录.md'
