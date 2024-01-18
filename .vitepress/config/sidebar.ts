@@ -30,6 +30,10 @@ export const sidebar: Sidebar = {
                 link: '/docker/Docker安装Mysql.md',
             },
             {
+                text: 'Docker安装Redis.md',
+                link: '/docker/Docker安装Redis.md',
+            },
+            {
                 text: 'Docker安装mongodb.md',
                 link: '/docker/Docker安装mongodb.md',
             },
@@ -144,6 +148,17 @@ export const sidebar: Sidebar = {
                 {
                     text: '搜索插入位置',
                     link: '/leetcode/binarySearch/搜索插入位置searchInsert.md'
+                },
+            ]
+        },
+        {
+            text: '双指针',
+            collapsed: false,
+            activeMatch: '/leetcode/dualPointers/',
+            items: [
+                {
+                    text: '验证回文串',
+                    link: '/leetcode/dualPointers/验证回文串isPalindrome.md'
                 },
             ]
         },
