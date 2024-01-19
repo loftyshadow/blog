@@ -5,7 +5,7 @@
 ```shell:no-line-numbers
 docker pull canal/canal-server:v1.1.6
 ```
-
+## 修改配置
 ```shell:no-line-numbers
 mkdir -p /mydata/canal/conf/example
 mkdir -p /mydata/canal/logs
@@ -259,6 +259,8 @@ canal.mq.partition=0
 #canal.mq.dynamicTopicPartitionNum=test.*:4,mycanal:6
 #################################################
 ```
+
+## 启动Canal
 ```shell:no-line-numbers
 docker run --name canal -p 11111:11111 \
 -v /mydata/canal/conf/example:/home/admin/canal-server/conf/example \
