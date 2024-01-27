@@ -163,6 +163,10 @@ export const sidebar: Sidebar = {
           text: '验证回文串',
           link: '/leetcode/dualPointers/验证回文串isPalindrome.md',
         },
+        {
+          text: '是否子序列',
+          link: '/leetcode/dualPointers/isSubsequence.md',
+        },
       ],
     },
   ],
