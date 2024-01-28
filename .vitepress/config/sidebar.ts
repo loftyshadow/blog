@@ -82,6 +82,10 @@ export const sidebar: Sidebar = {
       text: 'Idea插件整理',
       link: '/idea/Idea插件整理.md',
     },
+    {
+      text: 'IdeaVim配置',
+      link: '/idea/IdeaVim配置.md',
+    },
   ],
   '/wsl/': [
     {
