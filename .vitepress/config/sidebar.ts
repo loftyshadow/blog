@@ -105,6 +105,12 @@ export const sidebar: Sidebar = {
       link: '/wsl/已知错误整理.md',
     },
   ],
+  '/rust/': [
+    {
+      text: 'Rust环境安装',
+      link: '/rust/rust环境安装.md',
+    },
+  ],
   '/utils/': [
     {
       text: '计算工具类ArithUtils',

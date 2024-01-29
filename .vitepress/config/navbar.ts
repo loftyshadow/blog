@@ -16,6 +16,11 @@ export const nav: NavItem[] = [
     link: '/idea/Idea的liveTemplates整理.md',
   },
   {
+    text: 'Rust整理',
+    activeMatch: '^/rust/',
+    link: '/rust/rust环境安装.md',
+  },
+  {
     text: '常用工具类Utils整理',
     activeMatch: '^/utils/',
     link: '/utils/计算工具类ArithUtils.md',
