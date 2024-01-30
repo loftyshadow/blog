@@ -110,6 +110,10 @@ export const sidebar: Sidebar = {
       text: 'Rust环境安装',
       link: '/rust/rust环境安装.md',
     },
+    {
+      text: 'Rust相关书籍',
+      link: '/rust/rust相关书籍.md',
+    },
   ],
   '/utils/': [
     {
