@@ -10,7 +10,7 @@
 
 [鼠标图片悬停放大插件](https://chromewebstore.google.com/detail/hover-zoom+/pccckmaobkjjboncdfnnofkonhgpceea)
 
-# Infinity新标签页
+# Infinity 新标签页
 
 [自定义新标签页插件](https://chrome.google.com/webstore/detail/nnnkddnnlpamobajfibfdgfnbcnkgngh)
 
@@ -26,7 +26,10 @@
 
 [复制插件](https://chromewebstore.google.com/detail/supercopy-%E8%B6%85%E7%BA%A7%E5%A4%8D%E5%88%B6/onepmapfbjohnegdmfhndpefjkppbjkm)
 
-
 # MagicCopy
 
-[AI抠图](https://chromewebstore.google.com/detail/magic-copy/nnifclicibdhgakebbnbfmomniihfmkg)
+[AI 抠图](https://chromewebstore.google.com/detail/magic-copy/nnifclicibdhgakebbnbfmomniihfmkg)
+
+# Vimium C
+
+[vim 操作浏览器](https://chromewebstore.google.com/detail/vimium-c-%E5%85%A8%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C%E6%B5%8F%E8%A7%88%E5%99%A8/hfjbmagddngcpeloejdejnfgbamkjaeg)

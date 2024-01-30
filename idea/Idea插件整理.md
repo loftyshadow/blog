@@ -65,8 +65,11 @@
 # ideavim
 
 [IdeaVim](https://plugins.jetbrains.com/plugin/164-ideavim)
+
 [IdeaVimExtension](https://plugins.jetbrains.com/plugin/9615-ideavimextension)
+
 [IdeaVim-EasyMotion](https://plugins.jetbrains.com/plugin/13360-ideavim-easymotion)
+
 [Which-Key](https://plugins.jetbrains.com/plugin/13360-ideavim-easymotion)
 
 # Ace Jump
