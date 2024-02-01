@@ -47,6 +47,10 @@ export const nav: NavItem[] = [
         link: '/snippets/油猴脚本.md',
       },
       {
+        text: 'ZSH整理',
+        link: '/snippets/ZSH整理.md',
+      },
+      {
         text: '双拼输入法',
         link: '/snippets/设置双拼输入法.md',
       },
