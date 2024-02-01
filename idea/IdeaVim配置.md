@@ -1,8 +1,6 @@
 # IdeaVim 配置
 
 ```text
-let mapleader=" "
-
 " =========插件配置 (Plugins config) https://github.com/JetBrains/ideavim/wiki/IdeaVim-Plugins========
 " NerdTree
 Plug 'preservim/nerdtree'
@@ -83,6 +81,8 @@ map Q gq
 " Goto
 "跳转到下一个错误或警告
 nmap ge <action>(GotoNextError)
+"跳转到上一个错误或警告
+map gE <Action>(GotoPreviousError)
 "在源代码和测试代码之间快速切换
 nmap gt <action>(GotoTest)
 "将光标移动到上一个方法的声明处
@@ -100,12 +100,27 @@ map gf <Action>(ShowUsages)
 nmap J <action>(PreviousTab)
 nmap K <action>(NextTab)
 " 代码折叠/展开 (Code fold/expand)
-map zm <Action>(CollapseRegion)
-map za <Action>(ExpandRegion)
-map zM <Action>(CollapseAllRegions)
-map zR <Action>(ExpandAllRegions)
+map zc <Action>(CollapseRegion)
+map ze <Action>(ExpandRegion)
+map zC <Action>(CollapseAllRegions)
+map zE <Action>(ExpandAllRegions)
 
 "==================leader映射============
+" 启用whichkey
+"set which-key
+"set notimeout
+"leader映射
+let mapleader=" "
+let g:WhichKeyDesc_LeaderKeymap= "<leader> 🦝LeaderKeymap🦝"
+"弹出窗口显示默认VIM操作gg, zz, zt, <C-w>k, etc
+let g:WhichKey_ShowVimActions = "true"
+" 显示延迟
+let g:WhichKey_DefaultDelay = 0
+" 输入未配置按键直接关闭窗口
+let g:WhichKey_ProcessUnknownMappings = "false"
+" whichkey颜色
+let g:WhichKey_KeyColor = "blue"
+
 "关闭所有标签
 nmap <leader>ca <action>(CloseAllEditors)
 "extract method/function 将选中的代码片段提取为一个独立的方法(Ctrl + Alt + M)
@@ -143,14 +158,21 @@ nmap <leader>i f(a
 "普通模式下在行尾一个分号，然后进入插入模式并在当前行的下方新建一行
 nmap <leader>j A;<ESC>o
 nmap <leader>m <Plug>NextWholeOccurrence
-"取消搜索高亮显示(No light)
-nmap <leader>nh :nohlsearch<CR>
+"在当前目录新建类
+let g:WhichKeyDesc_NERDTreeOrNew_NewClass = "<leader>nc 在当前目录新建类"
+nmap <leader>nc <action>(NewClass)
 "在当前目录新建文件夹
 nmap <leader>nd <action>(NewDir)
-"在当前目录新建类
-nmap <leader>nc <action>(NewClass)
+"取消搜索高亮显示(No light)
+nmap <leader>nh :nohlsearch<CR>
+"文件资源管理器中定位当前编辑文件所在的节点
+map <leader>no :NERDTreeFind<CR>
+"使焦点转移到 NERDTree 窗口
+map <leader>nt :NERDTreeFocus<CR>
 "运行当前编辑器中的文件或类(Shift + F10)
-nmap <leader>ru :action RunClass<CR>
+nmap <leader>rc :action RunClass<CR>
+"回滚当前行
+nmap <leader>rb <action>(Vcs.RollbackChangedLines)
 "最近打开项目
 nmap <leader>rp <Action>(ManageRecentProjects)
 "重新运行最近一次运行的程序或测试(Ctrl+Shift + F10)
@@ -161,6 +183,9 @@ nmap <leader>rt <action>(RerunTests)
 map <leader>rn <action>(RenameElement)
 " 打开终端并进入项目根目录 (ActivateTerminal with project root dir)
 map <leader>tt <Action>(ActivateTerminalToolWindow)
+"翻译选中文字
+let g:WhichKeyDesc_Translate = "<leader>t Translate"
+map <leader>t <action>($EditorTranslateAction)
 " 分屏 垂直/水平/关闭 (Pane vertically split/horizontally split/close)
 map <leader>wv <Action>(SplitVertically)
 map <leader>ws <Action>(SplitHorizontally);
@@ -170,7 +195,26 @@ nmap <leader>wc :action CloseEditor<CR>
 map <leader>wj <Action>(PrevSplitter)
 map <leader>wk <Action>(NextSplitter)
 " zen-mode
-nnoremap <leader>z :action ToggleDistractionFreeMode<CR>
+nmap <leader>z <Action>(ToggleZenMode)
+
+" ================================================================================================
+" 🌸🌸🌸 NERDTree 🌸🌸🌸
+" ================================================================================================
+"<C-w-w>：在多个打开的编辑器窗口之间切换
+"在目录中，按下 go 打开文件并保持光标在目录
+"在目录中，按下 gi 以上下并排窗口形式打开文件(并关闭目录)
+"光标在目录时，按Esc回到编辑器
+"编辑器和目录间切换存在许多功能类似的快捷键，相似但不完全相同
+"仅 打开/关闭 目录推荐使用<leader>wo 其次 Alt + 1
+
+
+
+let g:WhichKeyDesc_NERDTreeOrNo_NERDTreeFocus = "< leader>nn NERDTreeFocus"
+"按下 <C-n> 将打开 NERDTree 文件资源管理器
+nnoremap <C-n> :NERDTree<CR>
+"按下 <C-t> 将切换 NERDTree 文件资源管理器的显示状态，即打开或关闭 NERDTree
+nnoremap <C-t> :NERDTreeToggle<CR>
+
 
 "========================sethandler
 " Use ctrl-c as an ide shortcut in normal and visual modes

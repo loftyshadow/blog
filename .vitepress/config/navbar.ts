@@ -21,6 +21,11 @@ export const nav: NavItem[] = [
     link: '/rust/rust环境安装.md',
   },
   {
+    text: '文章整理',
+    activeMatch: '^/article/',
+    link: '/article/文章整理.md',
+  },
+  {
     text: '常用工具类Utils整理',
     activeMatch: '^/utils/',
     link: '/utils/计算工具类ArithUtils.md',
