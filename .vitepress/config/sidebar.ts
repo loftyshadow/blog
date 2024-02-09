@@ -115,6 +115,12 @@ export const sidebar: Sidebar = {
       link: '/rust/rust相关书籍.md',
     },
   ],
+  '/article/': [
+    {
+      text: 'Zsh安装',
+      link: '/article/Zsh安装.md'
+    }
+  ],
   '/utils/': [
     {
       text: '计算工具类ArithUtils',
