@@ -77,12 +77,14 @@ set fdm=marker
 "将 jk 映射为 <Esc>
 imap jk <Esc>
 "格式化（规范化）文本，即对选定的文本进行换行或重排，适应指定的文本宽度。全文规范化：Ctrl+Alt+l
-map Q gq
+map Q gq<CR>
 " Goto
 "跳转到下一个错误或警告
-nmap ge <action>(GotoNextError)
+nmap ]e <action>(GotoNextError)
+let g:WhichKeyDesc_GotoNextError = "]e 跳转到下一个错误或警告"
 "跳转到上一个错误或警告
-map gE <Action>(GotoPreviousError)
+map [e <Action>(GotoPreviousError)
+let g:WhichKeyDesc_GotoPrevError = "[e 跳转到上一个错误或警告"
 "在源代码和测试代码之间快速切换
 nmap gt <action>(GotoTest)
 "将光标移动到上一个方法的声明处
@@ -97,8 +99,8 @@ map gs <Action>(GotoSuperMethod)
 map gf <Action>(ShowUsages)
 
 " 切换标签页
-nmap J <action>(PreviousTab)
-nmap K <action>(NextTab)
+nmap [b <action>(PreviousTab)
+nmap ]b <action>(NextTab)
 " 代码折叠/展开 (Code fold/expand)
 map zc <Action>(CollapseRegion)
 map ze <Action>(ExpandRegion)
@@ -107,113 +109,132 @@ map zE <Action>(ExpandAllRegions)
 
 "==================leader映射============
 " 启用whichkey
-"set which-key
-"set notimeout
+set which-key
+set notimeout
 "leader映射
 let mapleader=" "
 let g:WhichKeyDesc_LeaderKeymap= "<leader> 🦝LeaderKeymap🦝"
-"弹出窗口显示默认VIM操作gg, zz, zt, <C-w>k, etc
-let g:WhichKey_ShowVimActions = "true"
 " 显示延迟
-let g:WhichKey_DefaultDelay = 0
+let g:WhichKey_DefaultDelay = 500
 " 输入未配置按键直接关闭窗口
 let g:WhichKey_ProcessUnknownMappings = "false"
-" whichkey颜色
+" which-key颜色
 let g:WhichKey_KeyColor = "blue"
 
+let g:WhichKeyDesc_Buffer = "<leader>b 标签页相关"
+"关闭当前标签页
+nmap <leader>bc :action CloseEditor<CR>
+let g:WhichKeyDesc_CloseEditors = "<leader>bc 关闭当前标签"
 "关闭所有标签
-nmap <leader>ca <action>(CloseAllEditors)
+nmap <leader>ba <action>(CloseAllEditors)
+let g:WhichKeyDesc_CloseAllEditors = "<leader>ba 关闭所有标签"
+let g:WhichKeyDesc_Extract = "<leader>e 提取相关"
 "extract method/function 将选中的代码片段提取为一个独立的方法(Ctrl + Alt + M)
 vmap <leader>em <action>(ExtractMethod)
+let g:WhichKeyDesc_ExtractMethod = "<leader>em 提取选中方法"
 "extract constant （引入常量）的重构操作:将选中的代码片段抽取为一个常量，并自动替换选中的代码片段为新的常量引用(Ctrl + Alt + C)
 vmap <leader>ec <action>(IntroduceConstant)
+let g:WhichKeyDesc_IntroduceConstant = "<leader>ec 提取常量"
 "extract field （引入字段）的重构操作:将选中的代码片段转化为一个新的字段，并自动将选中的代码片段替换为对该字段的引用(Ctrl + Alt + F)
 vmap <leader>ef <action>(IntroduceField)
+let g:WhichKeyDesc_IntroduceConstant = "<leader>ef 提取新字段"
 "extract variable （引入变量）的重构操作:将选中的代码片段抽取为一个新的变量，并自动替换选中的代码片段为新的变量引用(Ctrl + Alt + V)
 vmap <leader>ev <action>(IntroduceVariable)
+let g:WhichKeyDesc_IntroduceVariable = "<leader>ev 提取变量"
+
+let g:WhichKeyDesc_Debug = "<leader>d Debug相关"
 "打断点/解除断点
 nmap <leader>dp <Action>(ToggleLineBreakpoint)
+let g:WhichKeyDesc_ToggleLineBreakpoint = "<leader>dp 设置断点"
 "调试
 nmap <leader>db <Action>(Debug)
+let g:WhichKeyDesc_Debug = "<leader>db 调试"
 "查找
 nmap <leader><leader>f <Plug>(easymotion-bd-f)
+let g:WhichKeyDesc_Search = "<leader><leader>f easymotion查找"
+"let g:WhichKeyDesc_Format = "<leader>f Format相关"
 "重新格式化代码，使其符合预定义的代码样式和规范 \| 优化导入语句，删除未使用的导入，并将导入语句按字母顺序进行排列
-nmap <leader>fm <action>(ReformatCode) \| <action>(OptimizeImports)
+"nmap <leader>fm <action>(ReformatCode) \| <action>(OptimizeImports)
+let g:WhichKeyDesc_GitAndGenerate = "<leader>g Git版本控制和代码生成"
 "执行版本控制（VCS）的回滚操作，将修改的代码还原到之前的版本
 nmap <leader>gr :action Vcs.RollbackChangedLines<CR>
+let g:WhichKeyDesc_VcsRollbackChangedLines = "<leader>gr 回滚修改"
 "生成构造器
 nmap <leader>gc :action GenerateConstructor<CR>
+let g:WhichKeyDesc_GenerateConstructor = "<leader>gc 生成构造器"
 "生成getter
 nmap <leader>gg :action GenerateGetter<CR>
+let g:WhichKeyDesc_GenerateGetter = "<leader>gg 生成getter"
 "生成setter
 nmap <leader>gs :action GenerateSetter<CR>
+let g:WhichKeyDesc_GenerateSetter = "<leader>gs 生成setter"
 "生成setter和getter
 nmap <leader>ga <action>(GenerateGetterAndSetter)
+let g:WhichKeyDesc_GenerateGetterAndSetter = "<leader>ga 生成getter和setter"
 "生成 equals() 和 hashcode() 的重写方法
 nmap <leader>ge <action>(GenerateEquals)
+let g:WhichKeyDesc_GenerateEquals = "<leader>ge 生成 equals() 和 hashcode() 的重写方法"
 "生成toString
 nmap <leader>gt <action>(Actions.ActionsPlugin.GenerateToString)
+let g:WhichKeyDesc_GenerateToString = "<leader>gt 生成toString"
 "快速查找并跳转到下一个以 ( 开始的函数或方法调用的位置️
 nmap <leader>i f(a
+let g:WhichKeyDesc_NextWholeOccurrence = "<leader>i 跳转到下一个以 ( 开始的函数或方法调用的位置️"
 "普通模式下在行尾一个分号，然后进入插入模式并在当前行的下方新建一行
 nmap <leader>j A;<ESC>o
-nmap <leader>m <Plug>NextWholeOccurrence
+let g:WhichKeyDesc_JumpToNextLine = "<leader>j 在行尾一个分号，然后进入插入模式并在当前行的下方新建一行"
 "在当前目录新建类
-let g:WhichKeyDesc_NERDTreeOrNew_NewClass = "<leader>nc 在当前目录新建类"
 nmap <leader>nc <action>(NewClass)
+let g:WhichKeyDesc_NERDTreeOrNew_NewClasd = "<leader>nc 在当前目录新建类";
 "在当前目录新建文件夹
 nmap <leader>nd <action>(NewDir)
+let g:WhichKeyDesc_NERDTreeOrNew_NewDir = "<leader>nd 在当前目录新建文件夹";
 "取消搜索高亮显示(No light)
 nmap <leader>nh :nohlsearch<CR>
-"文件资源管理器中定位当前编辑文件所在的节点
-map <leader>no :NERDTreeFind<CR>
+let g:WhichKeyDesc_NoHighlight = "<leader>nh 取消搜索高亮显示"
+"文件资源管理器中定位当前编辑文件所在的节
+map <leader>o :NERDTreeFind<CR>
+let g:WhichKeyDesc_NERDTreeFind = "<leader>o 定位当前编辑文件所在的节点"
 "使焦点转移到 NERDTree 窗口
-map <leader>nt :NERDTreeFocus<CR>
+map <leader>ne :NERDTreeFocus<CR>
+let g:WhichKeyDesc_NERDTreeFocus = "<leader>ne 使焦点转移到 NERDTree 窗口"
 "运行当前编辑器中的文件或类(Shift + F10)
 nmap <leader>rc :action RunClass<CR>
+let g:WhichKeyDesc_RunClass = "<leader>rc 运行当前编辑器中的文件或类";
 "回滚当前行
 nmap <leader>rb <action>(Vcs.RollbackChangedLines)
+let g:WhichKeyDesc_RollbackChangedLines = "<leader>rb 回滚当前行";
 "最近打开项目
 nmap <leader>rp <Action>(ManageRecentProjects)
+let g:WhichKeyDesc_ManageRecentProjects = "<leader>rp 最近打开项目";
 "重新运行最近一次运行的程序或测试(Ctrl+Shift + F10)
 nmap <leader>rr <action>(Rerun)
+let g:WhichKeyDesc_Rerun = "<leader>rr 重新运行最近一次运行的程序或测试";
 "重新运行最近一次运行的测试（Unit Tests）(Ctrl + Shift + F10)
 nmap <leader>rt <action>(RerunTests)
+let g:WhichKeyDesc_RerunTests = "<leader>rt 重新运行最近一次运行的测试（Unit Tests）";
 "在代码中快速更改一个标识符的名称，并自动处理所有相关的引用(Shift + F6)
 map <leader>rn <action>(RenameElement)
+let g:WhichKeyDesc_RenameElement = "<leader>rn 在代码中快速更改一个标识符的名称，并自动处理所有相关的引用";
+" 分屏 垂直/水平/关闭 (Pane vertically split/horizontally split/close)
+map <leader>sv <Action>(SplitVertically)
+let g:WhichKeyDesc_SplitVertically = "<leader>sv 分屏 垂直";
+map <leader>sh <Action>(SplitHorizontally);
+let g:WhichKeyDesc_SplitHorizontally = "<leader>sh 分屏 水平";
 " 打开终端并进入项目根目录 (ActivateTerminal with project root dir)
 map <leader>tt <Action>(ActivateTerminalToolWindow)
+let g:WhichKeyDesc_ActivateTerminalToolWindow = "<leader>tt 打开终端并进入项目根目录";
 "翻译选中文字
-let g:WhichKeyDesc_Translate = "<leader>t Translate"
 map <leader>t <action>($EditorTranslateAction)
-" 分屏 垂直/水平/关闭 (Pane vertically split/horizontally split/close)
-map <leader>wv <Action>(SplitVertically)
-map <leader>ws <Action>(SplitHorizontally);
-"关闭当前标签页
-nmap <leader>wc :action CloseEditor<CR>
+let g:WhichKeyDesc_Translate = "<leader>t Translate"
 " 分屏切换
 map <leader>wj <Action>(PrevSplitter)
+let g:WhichKeyDesc_NextSplitter = "<leader>wj 分屏切换";
 map <leader>wk <Action>(NextSplitter)
+let g:WhichKeyDesc_PrevSplitter = "<leader>wk 分屏切换";
 " zen-mode
 nmap <leader>z <Action>(ToggleZenMode)
-
-" ================================================================================================
-" 🌸🌸🌸 NERDTree 🌸🌸🌸
-" ================================================================================================
-"<C-w-w>：在多个打开的编辑器窗口之间切换
-"在目录中，按下 go 打开文件并保持光标在目录
-"在目录中，按下 gi 以上下并排窗口形式打开文件(并关闭目录)
-"光标在目录时，按Esc回到编辑器
-"编辑器和目录间切换存在许多功能类似的快捷键，相似但不完全相同
-"仅 打开/关闭 目录推荐使用<leader>wo 其次 Alt + 1
-
-
-
-let g:WhichKeyDesc_NERDTreeOrNo_NERDTreeFocus = "< leader>nn NERDTreeFocus"
-"按下 <C-n> 将打开 NERDTree 文件资源管理器
-nnoremap <C-n> :NERDTree<CR>
-"按下 <C-t> 将切换 NERDTree 文件资源管理器的显示状态，即打开或关闭 NERDTree
-nnoremap <C-t> :NERDTreeToggle<CR>
+let g:WhichKeyDesc_ToggleZenMode = "<leader>z zen-mode";
 
 
 "========================sethandler
