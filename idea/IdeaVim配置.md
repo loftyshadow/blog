@@ -1,4 +1,5 @@
 # IdeaVim 配置
+[actionList](./ideaActionList.md)
 
 ```text
 " =========插件配置 (Plugins config) https://github.com/JetBrains/ideavim/wiki/IdeaVim-Plugins========
@@ -76,8 +77,13 @@ set fdm=marker
 "======================map映射==========
 "将 jk 映射为 <Esc>
 imap jk <Esc>
+imap <A-a> <Esc>A
+nmap J 5j
+nmap K 5k
 "格式化（规范化）文本，即对选定的文本进行换行或重排，适应指定的文本宽度。全文规范化：Ctrl+Alt+l
 map Q gq<CR>
+nmap [i <action>(Back)
+nmap ]i <action>(Forward)
 " Goto
 "跳转到下一个错误或警告
 nmap ]e <action>(GotoNextError)
@@ -96,8 +102,11 @@ map gd <Action>(GotoDeclaration)
 "跳转到父方法
 map gs <Action>(GotoSuperMethod)
 "跳转到使用
-map gf <Action>(ShowUsages)
+map gu <Action>(ShowUsages)
 
+"跳转到下一个改变
+map ]g <action>(VcsShowNextChangeMarker)
+map [g <action>(VcsShowPrevChangeMarker)
 " 切换标签页
 nmap [b <action>(PreviousTab)
 nmap ]b <action>(NextTab)
@@ -107,6 +116,8 @@ map ze <Action>(ExpandRegion)
 map zC <Action>(CollapseAllRegions)
 map zE <Action>(ExpandAllRegions)
 
+map <A-S-j> <action>(MoveLineDown)
+map <A-S-k> <action>(MoveLineUp)
 "==================leader映射============
 " 启用whichkey
 set which-key
@@ -125,10 +136,13 @@ let g:WhichKeyDesc_Buffer = "<leader>b 标签页相关"
 "关闭当前标签页
 nmap <leader>bc :action CloseEditor<CR>
 let g:WhichKeyDesc_CloseEditors = "<leader>bc 关闭当前标签"
-"关闭所有标签
-nmap <leader>ba <action>(CloseAllEditors)
-let g:WhichKeyDesc_CloseAllEditors = "<leader>ba 关闭所有标签"
+"关闭除当前标签外的所有标签
+nmap <leader>bo <action>(CloseAllEditorsButActive)
+let g:WhichKeyDesc_CloseAllEditorsButActive = "<leader>bo 关闭除当前标签外的所有标签"
 let g:WhichKeyDesc_Extract = "<leader>e 提取相关"
+"使焦点转移到 NERDTree 窗口
+map <leader>e :NERDTreeFocus<CR>
+let g:WhichKeyDesc_NERDTreeFocus = "<leader>e 提取相关"
 "extract method/function 将选中的代码片段提取为一个独立的方法(Ctrl + Alt + M)
 vmap <leader>em <action>(ExtractMethod)
 let g:WhichKeyDesc_ExtractMethod = "<leader>em 提取选中方法"
@@ -148,10 +162,13 @@ nmap <leader>dp <Action>(ToggleLineBreakpoint)
 let g:WhichKeyDesc_ToggleLineBreakpoint = "<leader>dp 设置断点"
 "调试
 nmap <leader>db <Action>(Debug)
-let g:WhichKeyDesc_Debug = "<leader>db 调试"
+let g:WhichKeyDesc_DebugProgram = "<leader>db 调试"
+let g:WhichKeyDesc_Search = "<leader><Space> easymotion查找相关"
 "查找
 nmap <leader><leader>f <Plug>(easymotion-bd-f)
 let g:WhichKeyDesc_Search = "<leader><leader>f easymotion查找"
+nmap <leader><leader>d <Plug>(easymotion-bd-f2)
+let g:WhichKeyDesc_SearchTwoChar = "<leader><leader>d easymotion查找两个字符"
 "let g:WhichKeyDesc_Format = "<leader>f Format相关"
 "重新格式化代码，使其符合预定义的代码样式和规范 \| 优化导入语句，删除未使用的导入，并将导入语句按字母顺序进行排列
 "nmap <leader>fm <action>(ReformatCode) \| <action>(OptimizeImports)
@@ -183,58 +200,59 @@ let g:WhichKeyDesc_NextWholeOccurrence = "<leader>i 跳转到下一个以 ( 开�
 "普通模式下在行尾一个分号，然后进入插入模式并在当前行的下方新建一行
 nmap <leader>j A;<ESC>o
 let g:WhichKeyDesc_JumpToNextLine = "<leader>j 在行尾一个分号，然后进入插入模式并在当前行的下方新建一行"
+let g:WhichKeyDesc_NerdTree = "<leader>n NerdTree相关和取消高亮"
 "在当前目录新建类
 nmap <leader>nc <action>(NewClass)
-let g:WhichKeyDesc_NERDTreeOrNew_NewClasd = "<leader>nc 在当前目录新建类";
+let g:WhichKeyDesc_NERDTreeOrNew_NewClasd = "<leader>nc 在当前目录新建类"
 "在当前目录新建文件夹
 nmap <leader>nd <action>(NewDir)
-let g:WhichKeyDesc_NERDTreeOrNew_NewDir = "<leader>nd 在当前目录新建文件夹";
+let g:WhichKeyDesc_NERDTreeOrNew_NewDir = "<leader>nd 在当前目录新建文件夹"
 "取消搜索高亮显示(No light)
 nmap <leader>nh :nohlsearch<CR>
 let g:WhichKeyDesc_NoHighlight = "<leader>nh 取消搜索高亮显示"
 "文件资源管理器中定位当前编辑文件所在的节
 map <leader>o :NERDTreeFind<CR>
 let g:WhichKeyDesc_NERDTreeFind = "<leader>o 定位当前编辑文件所在的节点"
-"使焦点转移到 NERDTree 窗口
-map <leader>ne :NERDTreeFocus<CR>
-let g:WhichKeyDesc_NERDTreeFocus = "<leader>ne 使焦点转移到 NERDTree 窗口"
+let g:WhichKeyDesc_RunRollBackAndRename = "<leader>r 运行、回滚和重命名"
 "运行当前编辑器中的文件或类(Shift + F10)
 nmap <leader>rc :action RunClass<CR>
-let g:WhichKeyDesc_RunClass = "<leader>rc 运行当前编辑器中的文件或类";
+let g:WhichKeyDesc_RunClass = "<leader>rc 运行当前编辑器中的文件或类"
 "回滚当前行
 nmap <leader>rb <action>(Vcs.RollbackChangedLines)
-let g:WhichKeyDesc_RollbackChangedLines = "<leader>rb 回滚当前行";
+let g:WhichKeyDesc_RollbackChangedLines = "<leader>rb 回滚当前行"
 "最近打开项目
 nmap <leader>rp <Action>(ManageRecentProjects)
-let g:WhichKeyDesc_ManageRecentProjects = "<leader>rp 最近打开项目";
+let g:WhichKeyDesc_ManageRecentProjects = "<leader>rp 最近打开项目"
 "重新运行最近一次运行的程序或测试(Ctrl+Shift + F10)
 nmap <leader>rr <action>(Rerun)
-let g:WhichKeyDesc_Rerun = "<leader>rr 重新运行最近一次运行的程序或测试";
+let g:WhichKeyDesc_Rerun = "<leader>rr 重新运行最近一次运行的程序或测试"
 "重新运行最近一次运行的测试（Unit Tests）(Ctrl + Shift + F10)
 nmap <leader>rt <action>(RerunTests)
-let g:WhichKeyDesc_RerunTests = "<leader>rt 重新运行最近一次运行的测试（Unit Tests）";
+let g:WhichKeyDesc_RerunTests = "<leader>rt 重新运行最近一次运行的测试（Unit Tests）"
 "在代码中快速更改一个标识符的名称，并自动处理所有相关的引用(Shift + F6)
 map <leader>rn <action>(RenameElement)
-let g:WhichKeyDesc_RenameElement = "<leader>rn 在代码中快速更改一个标识符的名称，并自动处理所有相关的引用";
+let g:WhichKeyDesc_RenameElement = "<leader>rn 在代码中快速更改一个标识符的名称，并自动处理所有相关的引用"
+let g:WhichKeyDesc_Split = "<leader>s 分屏相关"
 " 分屏 垂直/水平/关闭 (Pane vertically split/horizontally split/close)
 map <leader>sv <Action>(SplitVertically)
-let g:WhichKeyDesc_SplitVertically = "<leader>sv 分屏 垂直";
-map <leader>sh <Action>(SplitHorizontally);
-let g:WhichKeyDesc_SplitHorizontally = "<leader>sh 分屏 水平";
+let g:WhichKeyDesc_SplitVertically = "<leader>sv 分屏 垂直"
+map <leader>sh <Action>(SplitHorizontally)
+let g:WhichKeyDesc_SplitHorizontally = "<leader>sh 分屏 水平"
 " 打开终端并进入项目根目录 (ActivateTerminal with project root dir)
 map <leader>tt <Action>(ActivateTerminalToolWindow)
-let g:WhichKeyDesc_ActivateTerminalToolWindow = "<leader>tt 打开终端并进入项目根目录";
+let g:WhichKeyDesc_ActivateTerminalToolWindow = "<leader>tt 打开终端并进入项目根目录"
 "翻译选中文字
 map <leader>t <action>($EditorTranslateAction)
-let g:WhichKeyDesc_Translate = "<leader>t Translate"
+let g:WhichKeyDesc_Translate = "<leader>t 翻译选中文字"
+let g:WhichKeyDesc_Window = "<leader>w Window相关"
 " 分屏切换
 map <leader>wj <Action>(PrevSplitter)
-let g:WhichKeyDesc_NextSplitter = "<leader>wj 分屏切换";
+let g:WhichKeyDesc_NextSplitter = "<leader>wj 分屏切换"
 map <leader>wk <Action>(NextSplitter)
-let g:WhichKeyDesc_PrevSplitter = "<leader>wk 分屏切换";
+let g:WhichKeyDesc_PrevSplitter = "<leader>wk 分屏切换"
 " zen-mode
 nmap <leader>z <Action>(ToggleZenMode)
-let g:WhichKeyDesc_ToggleZenMode = "<leader>z zen-mode";
+let g:WhichKeyDesc_ToggleZenMode = "<leader>z 禅模式"
 
 
 "========================sethandler
@@ -271,4 +289,10 @@ sethandler <c-y> a:ide
 sethandler <c-\> a:ide
 sethandler <c-[> a:ide
 sethandler <c-]> a:ide
+sethandler <C-;> a:ide
+sethandler <A-P> a:ide
+sethandler <C-S-;> a:ide
+
+sethandler <A-S-j> a:vim
+sethandler <A-S-k> a:vim
 ```
