@@ -115,10 +115,16 @@ export const sidebar: Sidebar = {
       link: '/rust/rust相关书籍.md',
     },
   ],
-  '/article/': [ {
+  '/article/': [ 
+    {
       text: 'Zsh安装',
       link: '/article/Zsh安装.md'
+    },
+    {
+      text: 'MSYS2安装gcc、gmake',
+      link: '/article/MSYS2安装gcc、gmake.md'
     }
+
   ],
   '/utils/': [
     {
