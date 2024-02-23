@@ -212,6 +212,7 @@ explain结果：
 
 其中方式一和方式三，由于占位符出现在首部，导致无法走索引。这种情况不做索引的原因很容易理解，索引本身就相当于目录，从左到右逐个排序。而条件的左侧使用了占位符，导致无法按照正常的目录进行匹配，导致索引失效就很正常了。
 第五种索引失效情况：模糊查询时（like语句），模糊匹配的占位符位于条件的首部
+**like语句如果只查询当查询结果包含非索引字段时不会走索引，当查询结果只包含索引字段or主键时即覆盖索引时会走索引。**
 
 ## 6.类型隐式转换
 示例：
@@ -245,7 +246,7 @@ explain select * from t_user where id  > 1 or id  < 80;
 ```
 explain结果：
 ![img.png](img/img20.png)
-第七种索引失效情况：查询条件使用or关键字，其中一个字段没有创建索引，则会导致整个查询语句索引失效； or两边为“>”和“<”范围查询时，索引失效。
+第七种索引失效情况：**查询条件使用or关键字，其中一个字段没有创建索引**，则会导致整个查询语句索引失效； or两边为“>”和“<”范围查询时，索引失效。
 ## 8. 两列做比较
 如果两个列数据都有索引，但在查询条件中对两列数据进行了对比操作，则会导致索引失效。
 这里举个不恰当的示例，比如age小于id这样的两列（真实场景可能是两列同维度的数据比较，这里迁就现有表结构）：
@@ -274,14 +275,15 @@ explain select * from t_user where id != 2;
 ```
 explain结果：
 ![img.png](img/img23.png)
-## 10. is not null
+## 10. is (not) null
 示例：
 ```sql:no-line-numbers
 explain select * from t_user where id_no is not null;
 ```
 explain结果：
 ![img.png](img/img24.png)
-第十种索引失效情况：查询条件使用is null时正常走索引，使用is not null时，不走索引。
+第十种索引失效情况：查询条件使用is null/is not null时，
+MySQL中决定使不使用某个索引执行查询的依据就是成本够不够小，如果null值很多/少，还是会用到索引的
 ## 11. not in和not exists
 在日常中使用比较多的范围查询有in、exists、not in、not exists、between and等。
 ```sql:no-line-numbers

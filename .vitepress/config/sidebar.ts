@@ -14,6 +14,10 @@ export const sidebar: Sidebar = {
       text: 'MySQL索引失效',
       link: '/mysql/MySQL索引失效.md',
     },
+    {
+      text: 'MySQL优化',
+      link: '/mysql/MySQL优化.md',
+    }
   ],
   '/docker/': [
     {
@@ -125,6 +129,16 @@ export const sidebar: Sidebar = {
       link: '/article/MSYS2安装gcc、gmake.md'
     }
 
+  ],
+  '/java/': [ 
+    {
+      text: '线程池相关',
+      link: '/java/线程池相关.md',
+    },
+    {
+      text: '常用的JVM参数和命令',
+      link: '/java/常用的JVM参数和命令.md',
+    },
   ],
   '/utils/': [
     {

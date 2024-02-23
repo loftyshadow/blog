@@ -6,14 +6,14 @@ export const nav: NavItem[] = [
     link: '/',
   },
   {
+      text:'Java整理',
+      activeMatch: '^/java/',
+      link: '/java/线程池相关.md',
+  },
+  {
     text: '算法整理',
     activeMatch: '^/leetcode/',
     link: '/leetcode/目录.md',
-  },
-  {
-    text: 'Idea整理',
-    activeMatch: '^/idea/',
-    link: '/idea/Idea的liveTemplates整理.md',
   },
   {
     text: 'Rust整理',
@@ -49,6 +49,11 @@ export const nav: NavItem[] = [
       {
         text: '双拼输入法',
         link: '/snippets/设置双拼输入法.md',
+      },
+      {
+        text: 'Idea整理',
+        activeMatch: '^/idea/',
+        link: '/idea/Idea的liveTemplates整理.md',
       },
     ],
   },
