@@ -170,6 +170,10 @@ export const sidebar: Sidebar = {
                   text: 'Sping解决循环依赖',
                   link: '/java/Sping解决循环依赖.md',
               },
+              {
+                  text: 'Spring的事务及传播机制',
+                  link: '/java/Spring的事务及传播机制.md',
+              },
           ]
       },
       // {

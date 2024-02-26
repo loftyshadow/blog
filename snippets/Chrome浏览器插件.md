@@ -14,9 +14,9 @@
 
 [自定义新标签页插件](https://chrome.google.com/webstore/detail/nnnkddnnlpamobajfibfdgfnbcnkgngh)
 
-# YouTube 双字幕
+# Language Reactor
 
-[双字幕](https://chromewebstore.google.com/detail/youtube-%E5%8F%8C%E5%AD%97%E5%B9%95/hkbdddpiemdeibjoknnofflfgbgnebcm)
+[双字幕](https://chromewebstore.google.com/detail/language-reactor/hoombieeljmmljlkjmnheibnpciblicm)
 
 # Tampermonkey
 
