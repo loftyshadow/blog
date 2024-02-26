@@ -131,14 +131,57 @@ export const sidebar: Sidebar = {
 
   ],
   '/java/': [ 
-    {
-      text: '线程池相关',
-      link: '/java/线程池相关.md',
-    },
-    {
-      text: '常用的JVM参数和命令',
-      link: '/java/常用的JVM参数和命令.md',
-    },
+      {
+          text: 'Java',
+          collapsed: false,
+          items: [
+
+              {
+                  text: '线程池相关',
+                  link: '/java/线程池相关.md',
+              },
+              {
+                  text: '常用的JVM参数和命令',
+                  link: '/java/常用的JVM参数和命令.md',
+              },
+              {
+                  text: 'ThreadLocal整理',
+                  link: '/java/ThreadLocal整理.md',
+              },
+          ]
+      },
+      {
+          text: 'Redis',
+          collapsed: false,
+          items: [
+              {
+                  text: 'Redis内存淘汰策略',
+                  link: '/java/Redis内存淘汰策略.md',
+              },
+
+          ]
+      },
+      {
+          text: 'Spring',
+          collapsed: false,
+          items: [
+
+              {
+                  text: 'Sping解决循环依赖',
+                  link: '/java/Sping解决循环依赖.md',
+              },
+          ]
+      },
+      // {
+      //     text: 'RabbitMQ',
+      //     items: [
+      //
+      //         {
+      //             text: 'RabbitMQ防止消息丢失',
+      //             link: '/java/RabbitMQ防止消息丢失.md',
+      //         },
+      //     ]
+      // }
   ],
   '/utils/': [
     {
