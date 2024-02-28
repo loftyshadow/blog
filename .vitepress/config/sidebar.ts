@@ -162,6 +162,26 @@ export const sidebar: Sidebar = {
           ]
       },
       {
+          text: 'ElasticSearch',
+          collapsed: false,
+          items: [
+              {
+                  text: 'ES自定义ik分词配置',
+                  link: '/java/ES自定义ik分词配置.md',
+              },
+          ]
+      },
+      {
+          text: 'Nacos',
+          collapsed: false,
+          items: [
+              {
+                  text: 'Nacos做配置中心',
+                  link: '/java/Nacos做配置中心.md',
+              },
+          ]
+      },
+      {
           text: 'Spring',
           collapsed: false,
           items: [
