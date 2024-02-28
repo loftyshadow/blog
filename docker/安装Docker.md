@@ -14,7 +14,7 @@ sudo vim /lib/systemd/system/docker.service
 
 修改下面语句
 
-```text:no-line-numbers:no-line-numbers
+```text:no-line-numbers
 ExecStart=/usr/bin/dockerd -H unix://
 ```
 

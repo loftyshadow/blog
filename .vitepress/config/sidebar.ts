@@ -148,6 +148,10 @@ export const sidebar: Sidebar = {
                   text: 'ThreadLocal整理',
                   link: '/java/ThreadLocal整理.md',
               },
+              {
+                  text: 'OSI七层协议',
+                  link: '/java/OSI七层协议.md',
+              },,
           ]
       },
       {
@@ -172,12 +176,16 @@ export const sidebar: Sidebar = {
           ]
       },
       {
-          text: 'Nacos',
+          text: '微服务',
           collapsed: false,
           items: [
               {
                   text: 'Nacos做配置中心',
                   link: '/java/Nacos做配置中心.md',
+              },
+              {
+                  text: '微服务拆分整理',
+                  link: '/java/微服务拆分整理.md',
               },
           ]
       },
