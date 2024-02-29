@@ -151,7 +151,11 @@ export const sidebar: Sidebar = {
               {
                   text: 'OSI七层协议',
                   link: '/java/OSI七层协议.md',
-              },,
+              },
+              {
+                  text: '三次握手和四次挥手',
+                  link: '/java/三次握手和四次挥手.md',
+              },
           ]
       },
       {
@@ -162,7 +166,10 @@ export const sidebar: Sidebar = {
                   text: 'Redis内存淘汰策略',
                   link: '/java/Redis内存淘汰策略.md',
               },
-
+              {
+                  text: 'Redis常见缓存问题',
+                  link: '/java/Redis常见缓存问题.md',
+              }
           ]
       },
       {
@@ -216,72 +223,72 @@ export const sidebar: Sidebar = {
       // }
   ],
   '/utils/': [
-    {
-      text: '计算工具类ArithUtils',
-      link: '/utils/计算工具类ArithUtils.md',
-    },
-    {
-      text: '日期工具类DateUtils',
-      link: '/utils/日期工具类DateUtils.md',
-    },
-    {
-      text: '序列化工具类JacksonUtils',
-      link: '/utils/序列化工具类JacksonUtils.md',
-    },
-    {
-      text: 'SpringContextUtils',
-      link: '/utils/SpringContextUtils.md',
-    },
-    {
-      text: 'ThreadLocalUtils',
-      link: '/utils/ThreadLocalUtils.md',
-    },
+      {
+          text: '计算工具类ArithUtils',
+          link: '/utils/计算工具类ArithUtils.md',
+      },
+      {
+          text: '日期工具类DateUtils',
+          link: '/utils/日期工具类DateUtils.md',
+      },
+      {
+          text: '序列化工具类JacksonUtils',
+          link: '/utils/序列化工具类JacksonUtils.md',
+      },
+      {
+          text: 'SpringContextUtils',
+          link: '/utils/SpringContextUtils.md',
+      },
+      {
+          text: 'ThreadLocalUtils',
+          link: '/utils/ThreadLocalUtils.md',
+      },
   ],
   '/leetcode/': [
-    {
-      text: '一维动态规划',
-      collapsed: false,
-      activeMatch: '/leetcode/one-dimensionalDynamicProgramming/',
-      items: [
-        {
-          text: '爬楼梯',
-          link: '/leetcode/one-dimensionalDynamicProgramming/爬楼梯climbStairs.md',
-        },
-        {
-          text: '打家劫舍',
-          link: '/leetcode/one-dimensionalDynamicProgramming/打家劫舍rob.md',
-        },
-      ],
-    },
-    {
-      text: '二分查找',
-      collapsed: false,
-      activeMatch: '/leetcode/binarySearch/',
-      items: [
-        {
-          text: '搜索插入位置',
-          link: '/leetcode/binarySearch/搜索插入位置searchInsert.md',
-        },
-        {
-          text: '寻找峰值',
-          link: '/leetcode/binarySearch/寻找峰值findPeakElement.md',
-        },
-      ],
-    },
-    {
-      text: '双指针',
-      collapsed: false,
-      activeMatch: '/leetcode/dualPointers/',
-      items: [
-        {
-          text: '验证回文串',
-          link: '/leetcode/dualPointers/验证回文串isPalindrome.md',
-        },
-        {
-          text: '是否子序列',
-          link: '/leetcode/dualPointers/isSubsequence.md',
-        },
-      ],
-    },
+      {
+          text: '一维动态规划',
+          collapsed: false,
+          activeMatch: '/leetcode/one-dimensionalDynamicProgramming/',
+          items: [
+              {
+                  text: '爬楼梯',
+                  link: '/leetcode/one-dimensionalDynamicProgramming/爬楼梯climbStairs.md',
+              },
+              {
+                  text: '打家劫舍',
+                  link: '/leetcode/one-dimensionalDynamicProgramming/打家劫舍rob.md',
+              },
+          ],
+      },
+      {
+          text: '二分查找',
+          collapsed: false,
+          activeMatch: '/leetcode/binarySearch/',
+          items: [
+              {
+                  text: '搜索插入位置',
+                  link: '/leetcode/binarySearch/搜索插入位置searchInsert.md',
+              },
+              {
+                  text: '寻找峰值',
+                  link: '/leetcode/binarySearch/寻找峰值findPeakElement.md',
+              },
+          ],
+      },
+      {
+          text: '双指针',
+          collapsed: false,
+          activeMatch: '/leetcode/dualPointers/',
+          items: [
+              {
+                  text: '验证回文串',
+                  link: '/leetcode/dualPointers/验证回文串isPalindrome.md',
+              },
+              {
+                  text: '是否子序列',
+                  link: '/leetcode/dualPointers/isSubsequence.md',
+              },
+          ],
+      },
   ],
 }
