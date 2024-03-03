@@ -15,8 +15,8 @@ export const sidebar: Sidebar = {
       link: '/mysql/MySQL索引失效.md',
     },
     {
-      text: 'MySQL优化',
-      link: '/mysql/MySQL优化.md',
+      text: 'MySQL查询优化',
+      link: '/mysql/MySQL查询优化.md',
     }
   ],
   '/docker/': [

@@ -45,7 +45,7 @@ IKAnalyzer.cfg.xml：ext_dict，custom/mydict.dic 是在配置文件的默认文
 **想要词库生效，需要重启 es**
 
 ## 热更新 IK 分词使用方法
-目前该插件支持热更新 IK 分词，通过上文在 IK 配置文件中提到的如下配置
+        目前该插件支持热更新 IK 分词，通过上文在 IK 配置文件中提到的如下配置
 ```xml
 	<!--用户可以在这里配置远程扩展字典 -->
 	<entry key="remote_ext_dict">location</entry>
@@ -64,16 +64,16 @@ IKAnalyzer.cfg.xml：ext_dict，custom/mydict.dic 是在配置文件的默认文
 IKAnalyzer.cfg.xml配置文件中 location 配置为 ip:port/applicationName/es-dic 即可
 
 ```java
-	@GetMapping("/es-dic")
-    public String getIkAnalyzer(HttpServletResponse response) {
-        //获取数据库存储的词库
-        List<String> lists = service.searchAll();
-        StringBuffer stringBuffer = new StringBuffer();
-        lists.forEach(list->stringBuffer.append("\n"));
-        
-        response.setHeader("Etag",String.valueOf(lists.size()));
-        response.setHeader("Last-Modified",String.valueOf(lists.size()));
+@GetMapping("/es-dic")
+public String getIkAnalyzer(HttpServletResponse response) {
+    //获取数据库存储的词库
+    List<String> lists = service.searchAll();
+    StringBuffer stringBuffer = new StringBuffer();
+    lists.forEach(list->stringBuffer.append("\n"));
 
-        return stringBuffer.toString();
-    }
+    response.setHeader("Etag",String.valueOf(lists.size()));
+    response.setHeader("Last-Modified",String.valueOf(lists.size()));
+
+    return stringBuffer.toString();
+}
 ```
