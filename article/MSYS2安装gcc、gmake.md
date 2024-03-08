@@ -1,4 +1,4 @@
-# MSYS2安装gcc、gmake 
+# MSYS2安装gcc、gmake
 
 ## 下载msys2
 
@@ -8,6 +8,7 @@ msys2提供了四种环境以供使用：ucrt64, mingw64, clang64, msys。
 推荐打开 `ucrt64` 窗口，安装软件也选择 `ucrt64` 前缀的。
 
 ## 更新 msys2 pacman
+
 打开 msys2 ucrt64 窗口，首次更新 msys2 pacman，执行命令:
 
 ```shell
@@ -22,6 +23,7 @@ pacman -Syu --noconfirm
 ```
 
 ## 安装 gcc c++ 编译器
+
 如何用 pacman 搜索库和软件, 以搜索 gcc 为例
 
 ```shell
@@ -39,12 +41,14 @@ pacman -S --needed ucrt64/mingw-w64-ucrt-x86_64-gcc
 ```
 
 安装之后的 gcc 在哪
+
 ```shell
 which gcc
 which g++
 ```
 
 ## 添加到环境变量中
+
 添加MingGW
 并将MingGW添加到Path中
 

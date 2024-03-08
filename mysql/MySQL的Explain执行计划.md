@@ -14,23 +14,22 @@
 格式为：**explain \<SQL语句\>**：
 ![img.png](img/MySQL的Explain执行计划.png)
 
-| 字段             | 含义                                          |
-|----------------|---------------------------------------------|
-| id             | select查询的序列号，包含一组数字，表示查询中执行select子句或操作表的顺序  |
-| select_type	   | 查询类型 或者是 其他操作类型                             |
-| table	         | 正在访问哪个表                                     |
-| partitions	    | 匹配的分区信息                                     |
-| type	          | 访问方式                                        |
-| possible_keys	 | 显示可能应用在这张表中的索引，一个或多个，但不一定实际使用到              |
-| key	           | 实际使用到的索引，如果为NULL，则没有使用索引                    |
-| key_len	       | 表示索引中使用的字节数，可通过该列计算查询中使用的索引的长度              |
-| ref	           | 显示索引的哪一列被使用了，如果可能的话，是一个常数，哪些列或常量被用于查找索引列上的值 |
-| rows	          | 根据表统计信息及索引选用情况，大致估算出找到所需的记录所需读取的行数          |
-| filtered	      | 表示符合查询条件的数据百分比                              |
-| Extra	         | 附加信息                                        |
+| 字段          | 含义                                                                                   |
+| ------------- | -------------------------------------------------------------------------------------- |
+| id            | select查询的序列号，包含一组数字，表示查询中执行select子句或操作表的顺序               |
+| select_type   | 查询类型 或者是 其他操作类型                                                           |
+| table         | 正在访问哪个表                                                                         |
+| partitions    | 匹配的分区信息                                                                         |
+| type          | 访问方式                                                                               |
+| possible_keys | 显示可能应用在这张表中的索引，一个或多个，但不一定实际使用到                           |
+| key           | 实际使用到的索引，如果为NULL，则没有使用索引                                           |
+| key_len       | 表示索引中使用的字节数，可通过该列计算查询中使用的索引的长度                           |
+| ref           | 显示索引的哪一列被使用了，如果可能的话，是一个常数，哪些列或常量被用于查找索引列上的值 |
+| rows          | 根据表统计信息及索引选用情况，大致估算出找到所需的记录所需读取的行数                   |
+| filtered      | 表示符合查询条件的数据百分比                                                           |
+| Extra         | 附加信息                                                                               |
 
-
-## id :star:
+## id :star:(select唯一标识)
 
 select查询的序列号，包含一组数字，表示查询中执行select子句或操作表的顺序。
 根据id是否相同可以分为下列三种情况：
@@ -44,7 +43,7 @@ select查询的序列号，包含一组数字，表示查询中执行select子�
   最后**t1.id=t2.id**读表**t2**。解析顺序如下：
 
 ```sql:no-line-numbers
-from 
+from
 	t1,t2,t3
 where
 	t1.other_column='', t1.id=t3.id, t1.id=t2.id
@@ -58,7 +57,7 @@ select
   对于多层嵌套的查询，执行顺序由内而外。解析顺序：
 
 ```sql:no-line-numbers
-from 
+from
 	t2
 where
 	t2.id=
@@ -66,15 +65,15 @@ where
 		t1
 	where
 		t1.id=
-		from 
+		from
 			t3
 		where
 			t3.other_column=''
 		select
 		 	t3.id
-	select 
+	select
 		t1.id
-select 
+select
 	t2.*
 ```
 
@@ -100,37 +99,37 @@ select
 	t2.*
 ```
 
-## select_type
+## select_type(select类型)
 
 该列常出现的值如下：
 
-| 查询类型   | 作用                                                                                                     | 
-|--------|--------------------------------------------------------------------------------------------------------|
-| SIMPLE | 简单查询（未使用UNION或子查询）                                                                                     |
-| UNION | 在UNION中的第二个和随后的SELECT被标记为UNION。如果UNION被FROM子句中的子查询包含，那么它的第一个SELECT会被标记为DERIVED。 **union**右侧的**select** |
-| PRIMARY | 查询中若包含任何复杂的子部分，最外层查询被标记为**PRIMARY**。                                                                   |
-| DEPENDENT UNION | UNION中的第二个或后面的查询，依赖了外面的查询                                                                              |
-| UNION RESULT | UNION的结果                                                                                               |
-| SUBQUERY | 子查询中的第一个 SELECT,在**select**或**where**列表中包含的子查询                                                         |
-| DEPENDENT SUBQUERY | 子查询中的第一个 SELECT，依赖了外面的查询                                                                               |
-| DERIVED | 用来表示包含在FROM子句的子查询中的SELECT，MySQL会递归执行并将结果放到一个临时表中。MySQL内部将其称为是Derived table（派生表），因为该临时表是从子查询派生出来的       |
-| DEPENDENT DERIVED | 派生表，依赖了其他的表                                                                                            |
-| MATERIALIZED | 	物化子查询                                                                                                 |
-| UNCACHEABLE SUBQUERY | 	子查询，结果无法缓存，必须针对外部查询的每一行重新评估                                                                           |
-| UNCACHEABLE UNION | 	UNION属于UNCACHEABLE SUBQUERY的第二个或后面的查询                                                                 |
+| 查询类型             | 作用                                                                                                                                                            |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SIMPLE               | 简单查询（未使用UNION或子查询）                                                                                                                                 |
+| UNION                | 在UNION中的第二个和随后的SELECT被标记为UNION。如果UNION被FROM子句中的子查询包含，那么它的第一个SELECT会被标记为DERIVED。 **union**右侧的**select**              |
+| UNION RESULT         | UNION的结果                                                                                                                                                     |
+| PRIMARY              | 查询中若包含任何复杂的子部分，最外层查询被标记为**PRIMARY**。                                                                                                   |
+| DEPENDENT UNION      | UNION中的第二个或后面的查询，依赖了外面的查询                                                                                                                   |
+| SUBQUERY             | 子查询中的第一个 SELECT,在**select**或**where**列表中包含的子查询                                                                                               |
+| DEPENDENT SUBQUERY   | 子查询中的第一个 SELECT，依赖了外面的查询                                                                                                                       |
+| DERIVED              | 用来表示包含在FROM子句的子查询中的SELECT，MySQL会递归执行并将结果放到一个临时表中。MySQL内部将其称为是Derived table（派生表），因为该临时表是从子查询派生出来的 |
+| DEPENDENT DERIVED    | 派生表，依赖了其他的表                                                                                                                                          |
+| MATERIALIZED         | 物化子查询                                                                                                                                                      |
+| UNCACHEABLE SUBQUERY | 子查询，结果无法缓存，必须针对外部查询的每一行重新评估                                                                                                          |
+| UNCACHEABLE UNION    | UNION属于UNCACHEABLE SUBQUERY的第二个或后面的查询                                                                                                               |
 
-## table
+## table(表名称)
 
 表名，表示该表项是关于哪张表的，也可以是如形式：
 
 - **\<derived,N\>**，表示该表是表项**id**为**N**的衍生表
 - **\<unionM,N\>**，表示该表是表项**id**为**M**和**N**两者**union**之后的结果
 
-## partition
+## partition(匹配的分区)
 
 如果启用了表分区策略，则该字段显示可能匹配查询的记录所在的分区
 
-## type :star2:
+## type :star2:(连接类型)
 
 type显示的是访问类型，是较为重要的一个指标，结果值从最好到最坏依次是：
 system > const > eq_ref > ref > fulltext >
@@ -201,15 +200,15 @@ mysql> create table `person` (
 
 > 备注：一般来说，得保证查询至少达到**range**级别，最好能达到**ref**。
 
-## possible_keys
+## possible_keys(可能的索引选择)
 
 MySQL可以利用以快速检索行的索引。
 
-## key :star:
+## key :star:(实际用到的索引)
 
 MySQL执行时实际使用的索引。
 
-## key_len
+## key_len(实际索引长度)
 
 - 表示索引中每个元素最大字节数，可通过该列计算查询中使用的索引的长度（如何计算稍后详细结束）。
 
@@ -217,16 +216,18 @@ MySQL执行时实际使用的索引。
 
 - key_len显示的值为索引字段的最大可能长度，并非实际使用长度，即key_len是根据表定义计算而得，不是通过表内检索出的。
 
-## ref
+## ref(实际索引长度)
 
 显示哪一列或常量被拿来与索引列进行比较以从表中检索行。
 
-## rows :star:
+## rows :star:(预计要检查的行数)
 
 根据表统计信息及索引选用情况，大致估算出找到所需的记录所需要读取的行数,值越小越好。
 
-## Extra :star2:
+## Extra :star2:(附加信息)
+
 - **Using index**：表示相应的**select**操作中使用了**覆盖索引**(Covering Index)，避免访问了表的数据行（需要读磁盘），效率不错！
+
 ```sql:no-line-numbers
 mysql> explain select * from person order by firstName,lastName\G
 *************************** 1. row ***************************
@@ -243,12 +244,14 @@ possible_keys: NULL
      filtered: 100.00
         Extra: Using index
 ```
+
 > 使用\G代替;结尾可以使执行计划垂直显示。
 
 - **Using temporary**：使用了临时表保存中间结果。**MySQL在对查询结果聚合时使用临时表**。常见于排序 **order by** 和分组查询
   **group by**。
 - **Using filesort**：MySQL中无法利用索引完成的排序操作，只能在内存或者磁盘中进行排序，叫做Using filesort，使用了文件排序。
-**MySQL在对查询结果排序时使用文件排序**。
+  **MySQL在对查询结果排序时使用文件排序**。
+
 ```sql:no-line-numbers
 mysql> insert into person(firstName,lastName) values('张','三');
 
@@ -281,20 +284,22 @@ possible_keys: idx_name
      filtered: 100.00
         Extra: Using index; Using temporary; Using filesort
 ```
+
 > 使用filesort的方式进行排序的记录非常多，那么这个过程是很耗费性能的，我们最好想办法将使用文件排序的执行方式改为索引进行排序。
 
 - 出现**Using where**，表明索引被用来执行索引键值的查找；如果没有同时出现**Using where**，表明索引用来读取数据而非执行查找动作。注意并不是不是所有带where语句的查询都会显示Using where。
 
 > 索引覆盖：就是select的数据列只用从索引中就能够取得，不必读取数据行，MySQL可以利用索引返回select列表中的字段，而不必根据索引再次读取数据文件，换句话说查询列要被所建的索引覆盖。
-> 如果要使用覆盖索引，一定要注意select列表中只取出需要的列，不可select *，因为如果将所有字段一起做索引会导致索引文件过大，查询性能下降。
+> 如果要使用覆盖索引，一定要注意select列表中只取出需要的列，不可select \*，因为如果将所有字段一起做索引会导致索引文件过大，查询性能下降。
 
 - **Using where**：查询使用到了where语句
 - **Using index condition**: 有些搜索条件中虽然出现了索引列，但却不能使用到索引，会显示**Using index condition**。
-![img.png](img/img4.png)
-> 因为**key1 like '%b'**不满足最左匹配原则，无法用到索引，显示**Using index condition**。
+  ![img.png](img/img4.png)
+  > 因为**key1 like '%b'**不满足最左匹配原则，无法用到索引，显示**Using index condition**。
 - **Using join buffer**：使用了连接缓存,在连接查询执行过程中，当被驱动表不能有效的利用索引加快访问速度，MySQL一般会为其分配一块名叫join buffer的内存块来加快查询速度，也就是我们所讲的基于块的嵌套循环算法。
 - **Impossible where**：where子句的值总是**false**，如
 
 ```sql:no-line-numbers
 select * from person where id=1 and id=2;
 ```
+
