@@ -128,6 +128,10 @@ export const sidebar: Sidebar = {
       text: "MSYS2安装gcc、gmake",
       link: "/article/MSYS2安装gcc、gmake.md",
     },
+    {
+      text: "termux整理",
+      link: "/article/termux整理.md",
+    },
   ],
   "/java/": [
     {
