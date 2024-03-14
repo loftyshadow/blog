@@ -61,6 +61,7 @@ source ~/.zshrc
 ```
 
 ![zsh插件](./img/zsh插件.png)
+
 个人 zsh 配置
 
 ```text
@@ -137,9 +138,9 @@ ZSH_THEME="eastwood"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git
+plugins=(git 
 	z
-  npm
+  	npm
 	copypath
 	copyfile
 	copybuffer
@@ -185,9 +186,28 @@ function yz() {
 	rm -f -- "$tmp"
 }
 
-function n(){
-  nvim "$1"
+function yarnr(){
+	yarn run serve
 }
 
+function lg(){
+	lazygit
+}
+
+function wsls(){
+	wsl --shutdown
+}
+
+function n(){
+	nvim "$1"
+}
+
+function nb(){
+	cd /d/vue/vue-project/blog && n
+}
+
+function nn(){
+	cd ~/AppData/Local/nvim && n
+}
 ```
 

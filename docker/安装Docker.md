@@ -45,4 +45,12 @@ sudo systemctl restart docker.service
 }
 ```
 
+## idea连接docker
+
+![](img/2024-03-08-11-47-15.png)
+tcpurl:
+```text
+tcp://192.168.3.44:2375
+```
+
 docker update --restart=always 容器名称(或者容器 ID)

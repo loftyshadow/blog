@@ -74,5 +74,10 @@ if (Objects.isNull($EXPR$)) {
 ## fdebug
 
 ```text:no-line-numbers
-.forEach(item -> log.debug("{}", item));
+$EXPR$.forEach(item -> log.debug("{}", item));
+```
+## finfo
+
+```text:no-line-numbers
+$EXPR$.forEach(item -> log.info("{}", item));
 ```
