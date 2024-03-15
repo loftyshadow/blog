@@ -129,6 +129,14 @@ export const sidebar: Sidebar = {
       link: "/article/MSYS2安装gcc、gmake.md",
     },
     {
+      text: "Apifox自动更新请求token",
+      link: "/article/Apifox自动更新请求token.md",
+    },
+    {
+      text: "Github使用ssh连接",
+      link: "/article/Github使用ssh连接.md",
+    },
+    {
       text: "termux整理",
       link: "/article/termux整理.md",
     },
