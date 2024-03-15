@@ -1,15 +1,17 @@
 # Apifox自动更新请求token
 ## 配置环境变量
 
-![](img/2024-03-14-18-29-29.png)
 
-```text
-LOGIN_USERNAME 登录用户名
-LOGIN_PASSWORD 登录密码
-LOGIN_ADDRESS 登录请求地址
-ACCESS_TOKEN 获取到的token
-ACCESS_TOKEN_EXPIRES token过期时间
-```
+![](img/2024-03-15-18-07-04.png)
+
+| 变量名 | 说明 |
+| -- | -- |
+| LOGIN_USERNAME | 登录用户名|
+| LOGIN_PASSWORD | 登录密码 |
+| LOGIN_ADDRESS | 登录请求地址 |
+| ACCESS_TOKEN | 获取到的token |
+| ACCESS_TOKEN_GET_TIME | token获取时的时间戳 |
+| ACCESS_TOKEN_EXPIRE_HOUR | 过期小时获取时的时间戳 |
 
 可以设置浏览器离线查看具体登录请求
 
@@ -34,11 +36,9 @@ function sendLoginRequest() {
   const username = pm.environment.get("LOGIN_USERNAME");
   // 登录密码，这里从环境变量 LOGIN_PASSWORD 获取，也可以写死（但是不建议）  
   const password = pm.environment.get("LOGIN_PASSWORD");
-  // 构造一个 POST x-www-form-urlencoded 格式请求。这里需要改成你们实际登录接口的请求参数。  
   const loginRequest = {
     url: loginAddress,
     method: "POST",
-
     // body 为 json 格式
     header: {
       "Content-Type": "application/json", // 注意：header 需要加上 Content-Type
@@ -60,10 +60,10 @@ function sendLoginRequest() {
       const jsonData = res.json();
       // 将 accessToken 写入环境变量 ACCESS_TOKEN      
       pm.environment.set("ACCESS_TOKEN", jsonData.data);
-      // 将 accessTokenExpires 过期时间写入环境变量 ACCESS_TOKEN_EXPIRES  
+      // 将获取token的时间戳写入环境变量 ACCESS_TOKEN_GET_TIME  
       pm.environment.set(
-        "ACCESS_TOKEN_EXPIRES",
-        jsonData.data.accessTokenExpires
+        "ACCESS_TOKEN_GET_TIME",
+        new Date().getTime()
       );
     }
   });
@@ -72,12 +72,13 @@ function sendLoginRequest() {
 // 获取环境变量里的 ACCESS_TOKEN
 const accessToken = pm.environment.get("ACCESS_TOKEN");
 
-// 获取环境变量里的 ACCESS_TOKEN_EXPIRES
-const accessTokenExpires = pm.environment.get("ACCESS_TOKEN_EXPIRES");
+// 获取环境变量里的 ACCESS_TOKEN_GET_TIME
+const accessTokenGetTime = pm.environment.get("ACCESS_TOKEN_GET_TIME");
+const accessTokenExpireHour = pm.environment.get("ACCESS_TOKEN_EXPIRE_HOUR");
 
-// 如 ACCESS_TOKEN 没有值，或 ACCESS_TOKEN_EXPIRES 已过期，则执行发送登录接口请求
+// 如 ACCESS_TOKEN 没有值，或离 ACCESS_TOKEN_GET_TIME 过了一小时，则执行发送登录接口请求
 if (
-  !accessToken || (accessTokenExpires && new Date(accessTokenExpires) <= new Date())
+  !accessToken || (new Date().setHours(new Date(accessTokenGetTime).getHours() + accessTokenExpireHour) <= new Date())
 ) {
   sendLoginRequest();
 }
@@ -88,3 +89,4 @@ if (
 ![](img/2024-03-15-09-17-06.png)
 
 ![](img/2024-03-15-09-17-40.png)
+
