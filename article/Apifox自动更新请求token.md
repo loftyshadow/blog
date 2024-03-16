@@ -78,7 +78,7 @@ const accessTokenExpireHour = pm.environment.get("ACCESS_TOKEN_EXPIRE_HOUR");
 
 // 如 ACCESS_TOKEN 没有值，或离 ACCESS_TOKEN_GET_TIME 过了一小时，则执行发送登录接口请求
 if (
-  !accessToken || (new Date().setHours(new Date(accessTokenGetTime).getHours() + accessTokenExpireHour) <= new Date())
+  !accessToken || (new Date().setHours(new Date(accessTokenGetTime).getHours() + Number(accessTokenExpireHour)) <= new Date())
 ) {
   sendLoginRequest();
 }
