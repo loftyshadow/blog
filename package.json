@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "markdown-it-mathjax3": "^4.3.2",
-    "vitepress": "1.0.0-rc.39"
+    "vitepress": "1.0.0-rc.45"
   },
   "scripts": {
     "docs:dev": "vitepress dev --port 6947",
@@ -9,3 +9,4 @@
     "docs:preview": "vitepress preview"
   }
 }
+
