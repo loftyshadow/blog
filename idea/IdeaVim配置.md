@@ -9,19 +9,13 @@ Plug 'preservim/nerdtree'
 Plug 'machakann/vim-highlightedyank'
 " 支持[surround](https://github.com/tpope/vim-surround) vi'/ci'/di'/cs'" 快速选择范围内内容
 Plug 'tpope/vim-surround'
-set multiple-cursors
+"set multiple-cursors
 " 支持[commentary](https://github.com/tpope/vim-commentary) gcc/gci{/gcw 生成注释
 Plug 'tpope/vim-commentary'
 " 支持[argtextobj](https://www.vim.org/scripts/script.php?script_id=2699)  cia/dia/caa/daa 快捷修改参数
 Plug 'vim-scripts/argtextobj.vim'
-" 支持[easymotion](https://github.com/easymotion/vim-easymotion)
+" 支持[easymotion](https://plugins.jetbrains.com/plugin/13360-ideavim-easymotion/)
 Plug 'easymotion/vim-easymotion'
-" 支持[textobj-entire](https://github.com/kana/vim-textobj-entire) vae/vie 快速选择全部内容，替代ggvG
-Plug 'kana/vim-textobj-entire'
-" 支持[ReplaceWithRegiste](https://www.vim.org/scripts/script.php?script_id=2703) griw(go replace inner word) 用寄存器内容替换操作
-Plug 'vim-scripts/ReplaceWithRegister'
-" 支持[exchange](https://github.com/tommcdo/vim-exchange) cx进行替换
-Plug 'tommcdo/vim-exchange'
 
 "===============================================
 let g:argtextobj_pairs="[:],(:),<:>"
@@ -56,8 +50,6 @@ set smarttab
 "-----------
 "设置相对行号 和 当前行的绝对行号
 set number relativenumber
-"设置返回normal模式时回到英文输入法
-set keep-english-in-normal-and-restore-in-insert
 "显示光标所在位置的行号和列号
 set ruler
 "自动折行
@@ -77,13 +69,8 @@ set fdm=marker
 "======================map映射==========
 "将 jk 映射为 <Esc>
 imap jk <Esc>
-imap <A-a> <Esc>A
-nmap J 5j
-nmap K 5k
-"格式化（规范化）文本，即对选定的文本进行换行或重排，适应指定的文本宽度。全文规范化：Ctrl+Alt+l
-map Q gq<CR>
-nmap [i <action>(Back)
-nmap ]i <action>(Forward)
+nmap <c-o> <action>(Back)
+nmap <c-i> <action>(Forward)
 " Goto
 "跳转到下一个错误或警告
 nmap ]e <action>(GotoNextError)
@@ -94,30 +81,34 @@ let g:WhichKeyDesc_GotoPrevError = "[e 跳转到上一个错误或警告"
 "在源代码和测试代码之间快速切换
 nmap gt <action>(GotoTest)
 "将光标移动到上一个方法的声明处
-nmap gm <action>(MethodUp)
+nmap [m <action>(MethodUp)
+"将光标移动到下一个方法的声明处
+nmap ]m <action>(MethodUp)
 "跳转到当前接口或抽象类的实现处
 nmap gi <action>(GotoImplementation)
 "跳转到声明
 map gd <Action>(GotoDeclaration)
+"hover
+map gh <Action>(QuickJavaDoc)
 "跳转到父方法
 map gs <Action>(GotoSuperMethod)
 "跳转到使用
-map gu <Action>(ShowUsages)
+map gr <Action>(ShowUsages)
 
 "跳转到下一个改变
 map ]g <action>(VcsShowNextChangeMarker)
 map [g <action>(VcsShowPrevChangeMarker)
 " 切换标签页
-nmap [b <action>(PreviousTab)
-nmap ]b <action>(NextTab)
+nmap H <action>(PreviousTab)
+nmap L <action>(NextTab)
 " 代码折叠/展开 (Code fold/expand)
 map zc <Action>(CollapseRegion)
 map ze <Action>(ExpandRegion)
 map zC <Action>(CollapseAllRegions)
 map zE <Action>(ExpandAllRegions)
 
-map <A-S-j> <action>(MoveLineDown)
-map <A-S-k> <action>(MoveLineUp)
+vmap J :move '>+1<CR>gv=gv
+vmap K :move '<-2<CR>gv=gv
 "==================leader映射============
 " 启用whichkey
 set which-key
@@ -134,8 +125,8 @@ let g:WhichKey_KeyColor = "blue"
 
 let g:WhichKeyDesc_Buffer = "<leader>b 标签页相关"
 "关闭当前标签页
-nmap <leader>bc :action CloseEditor<CR>
-let g:WhichKeyDesc_CloseEditors = "<leader>bc 关闭当前标签"
+nmap <leader>bd :action CloseEditor<CR>
+let g:WhichKeyDesc_CloseEditors = "<leader>bd 关闭当前标签"
 "关闭除当前标签外的所有标签
 nmap <leader>bo <action>(CloseAllEditorsButActive)
 let g:WhichKeyDesc_CloseAllEditorsButActive = "<leader>bo 关闭除当前标签外的所有标签"
@@ -143,6 +134,8 @@ let g:WhichKeyDesc_Extract = "<leader>e 提取相关"
 "使焦点转移到 NERDTree 窗口
 map <leader>e :NERDTreeFocus<CR>
 let g:WhichKeyDesc_NERDTreeFocus = "<leader>e 提取相关"
+map <leader>o <action>(SelectInProjectView)
+let g:WhichKeyDesc_SelectInProjectView = "<leader>o 打开当前文件"
 "extract method/function 将选中的代码片段提取为一个独立的方法(Ctrl + Alt + M)
 vmap <leader>em <action>(ExtractMethod)
 let g:WhichKeyDesc_ExtractMethod = "<leader>em 提取选中方法"
@@ -163,37 +156,25 @@ let g:WhichKeyDesc_ToggleLineBreakpoint = "<leader>dp 设置断点"
 "调试
 nmap <leader>db <Action>(Debug)
 let g:WhichKeyDesc_DebugProgram = "<leader>db 调试"
-let g:WhichKeyDesc_Search = "<leader><Space> easymotion查找相关"
+"查看指定变量值
+nmap <leader>de <Action>(QuickEvaluateExpression)
+let g:WhichKeyDesc_DebugQuickEvaluateExpression = "<leader>de 查看指定变量值"
+"运行到光标处
+nmap <leader>dr <Action>(RunToCursor)
+let g:WhichKeyDesc_DebugRunToCursor = "<leader>dr 运行到光标处"
 "查找
-nmap <leader><leader>f <Plug>(easymotion-bd-f)
-let g:WhichKeyDesc_Search = "<leader><leader>f easymotion查找"
-nmap <leader><leader>d <Plug>(easymotion-bd-f2)
-let g:WhichKeyDesc_SearchTwoChar = "<leader><leader>d easymotion查找两个字符"
+nmap <leader>sd <Plug>(easymotion-bd-f2)
+let g:WhichKeyDesc_SearchTwoChar = "sd easymotion查找两个字符"
 "let g:WhichKeyDesc_Format = "<leader>f Format相关"
 "重新格式化代码，使其符合预定义的代码样式和规范 \| 优化导入语句，删除未使用的导入，并将导入语句按字母顺序进行排列
-"nmap <leader>fm <action>(ReformatCode) \| <action>(OptimizeImports)
+nmap <leader>fm <action>(ReformatCode)
 let g:WhichKeyDesc_GitAndGenerate = "<leader>g Git版本控制和代码生成"
+"生成
+nmap <leader>ga :action Generate<CR>
+let g:WhichKeyDesc_Generate = "<leader>ga 生成"
 "执行版本控制（VCS）的回滚操作，将修改的代码还原到之前的版本
 nmap <leader>gr :action Vcs.RollbackChangedLines<CR>
 let g:WhichKeyDesc_VcsRollbackChangedLines = "<leader>gr 回滚修改"
-"生成构造器
-nmap <leader>gc :action GenerateConstructor<CR>
-let g:WhichKeyDesc_GenerateConstructor = "<leader>gc 生成构造器"
-"生成getter
-nmap <leader>gg :action GenerateGetter<CR>
-let g:WhichKeyDesc_GenerateGetter = "<leader>gg 生成getter"
-"生成setter
-nmap <leader>gs :action GenerateSetter<CR>
-let g:WhichKeyDesc_GenerateSetter = "<leader>gs 生成setter"
-"生成setter和getter
-nmap <leader>ga <action>(GenerateGetterAndSetter)
-let g:WhichKeyDesc_GenerateGetterAndSetter = "<leader>ga 生成getter和setter"
-"生成 equals() 和 hashcode() 的重写方法
-nmap <leader>ge <action>(GenerateEquals)
-let g:WhichKeyDesc_GenerateEquals = "<leader>ge 生成 equals() 和 hashcode() 的重写方法"
-"生成toString
-nmap <leader>gt <action>(Actions.ActionsPlugin.GenerateToString)
-let g:WhichKeyDesc_GenerateToString = "<leader>gt 生成toString"
 "快速查找并跳转到下一个以 ( 开始的函数或方法调用的位置️
 nmap <leader>i f(a
 let g:WhichKeyDesc_NextWholeOccurrence = "<leader>i 跳转到下一个以 ( 开始的函数或方法调用的位置️"
@@ -217,9 +198,6 @@ let g:WhichKeyDesc_RunRollBackAndRename = "<leader>r 运行、回滚和重命名
 "运行当前编辑器中的文件或类(Shift + F10)
 nmap <leader>rc :action RunClass<CR>
 let g:WhichKeyDesc_RunClass = "<leader>rc 运行当前编辑器中的文件或类"
-"回滚当前行
-nmap <leader>rb <action>(Vcs.RollbackChangedLines)
-let g:WhichKeyDesc_RollbackChangedLines = "<leader>rb 回滚当前行"
 "最近打开项目
 nmap <leader>rp <Action>(ManageRecentProjects)
 let g:WhichKeyDesc_ManageRecentProjects = "<leader>rp 最近打开项目"
@@ -242,47 +220,40 @@ let g:WhichKeyDesc_SplitHorizontally = "<leader>sh 分屏 水平"
 map <leader>tt <Action>(ActivateTerminalToolWindow)
 let g:WhichKeyDesc_ActivateTerminalToolWindow = "<leader>tt 打开终端并进入项目根目录"
 "翻译选中文字
-map <leader>t <action>($EditorTranslateAction)
-let g:WhichKeyDesc_Translate = "<leader>t 翻译选中文字"
+map <leader>ts <action>($EditorTranslateAction)
+let g:WhichKeyDesc_Translate = "<leader>ts 翻译选中文字"
 let g:WhichKeyDesc_Window = "<leader>w Window相关"
 " 分屏切换
-map <leader>wj <Action>(PrevSplitter)
-let g:WhichKeyDesc_NextSplitter = "<leader>wj 分屏切换"
-map <leader>wk <Action>(NextSplitter)
-let g:WhichKeyDesc_PrevSplitter = "<leader>wk 分屏切换"
+map <a-h> <Action>(PrevSplitter)
+let g:WhichKeyDesc_NextSplitter = "<a-h> 分屏切换"
+map <a-l> <Action>(NextSplitter)
+let g:WhichKeyDesc_PrevSplitter = "<a-l> 分屏切换"
 " zen-mode
 nmap <leader>z <Action>(ToggleZenMode)
 let g:WhichKeyDesc_ToggleZenMode = "<leader>z 禅模式"
 
 
 "========================sethandler
-" Use ctrl-c as an ide shortcut in normal and visual modes
 sethandler <C-2> a:ide
 sethandler <c-s-2> a:ide
 sethandler <c-6> a:ide
 sethandler <c-s-6> a:ide
 sethandler <c-a> a:ide
 sethandler <c-b> a:ide
-sethandler <c-c> a:ide
-sethandler <c-d> a:ide
 sethandler <c-e> a:ide
 sethandler <c-f> a:ide
 sethandler <c-g> a:ide
 sethandler <c-h> a:ide
-sethandler <c-i> a:ide
 sethandler <c-j> a:ide
 sethandler <c-k> a:ide
 sethandler <c-l> a:ide
 sethandler <c-m> a:ide
 sethandler <c-n> a:ide
-sethandler <c-o> a:ide
 sethandler <c-p> a:ide
 sethandler <c-q> a:ide
 sethandler <c-r> a:ide
 sethandler <c-s> a:ide
 sethandler <c-t> a:ide
-sethandler <c-u> a:ide
-sethandler <c-v> a:ide
 sethandler <c-w> a:ide
 sethandler <c-x> a:ide
 sethandler <c-y> a:ide
@@ -292,7 +263,11 @@ sethandler <c-]> a:ide
 sethandler <C-;> a:ide
 sethandler <A-P> a:ide
 sethandler <C-S-;> a:ide
+sethandler <c-v> a:ide
+sethandler <c-c> a:ide
 
-sethandler <A-S-j> a:vim
-sethandler <A-S-k> a:vim
+sethandler <c-d> a:vim
+sethandler <c-u> a:vim
+sethandler <c-o> a:vim
+sethandler <c-i> a:vim
 ```
