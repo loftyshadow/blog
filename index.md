@@ -40,9 +40,9 @@ features:
   - icon: 
       dark: /svg/LeetCode.svg
       light: /svg/LeetCode.svg
-    title: LeetCode
+    title: LeetCode Wiki
     details: 算法题网站
-    link : https://leetcode.cn/problemset/
+    link : https://doocs.github.io/leetcode/index.html
     linkText: 力扣
 footer: MIT Licensed | Copyright © 2023-present LoftyShadow
 ---
