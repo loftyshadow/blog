@@ -4,14 +4,14 @@
 
 ![](img/2024-03-15-18-07-04.png)
 
-| 变量名 | 说明 |
-| -- | -- |
-| LOGIN_USERNAME | 登录用户名|
-| LOGIN_PASSWORD | 登录密码 |
-| LOGIN_ADDRESS | 登录请求地址 |
-| ACCESS_TOKEN | 获取到的token |
-| ACCESS_TOKEN_GET_TIME | token获取时的时间戳 |
-| ACCESS_TOKEN_EXPIRE_HOUR | 过期小时 |
+| 变量名                   | 说明                |
+| ------------------------ | ------------------- |
+| LOGIN_USERNAME           | 登录用户名          |
+| LOGIN_PASSWORD           | 登录密码            |
+| LOGIN_ADDRESS            | 登录请求地址        |
+| ACCESS_TOKEN             | 获取到的token       |
+| ACCESS_TOKEN_GET_TIME    | token获取时的时间戳 |
+| ACCESS_TOKEN_EXPIRE_HOUR | 过期小时            |
 
 可以设置浏览器离线查看具体登录请求
 

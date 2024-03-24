@@ -75,3 +75,10 @@
 # Ace Jump
 
 [单词快速跳转](https://plugins.jetbrains.com/plugin/7086-acejump)
+
+# Catppuccin Theme
+[主题](https://plugins.jetbrains.com/plugin/18682-catppuccin-theme)
+
+# Catppuccin Icons
+
+[icon](https://plugins.jetbrains.com/plugin/23029-catppuccin-icons)
