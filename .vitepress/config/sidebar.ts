@@ -137,6 +137,10 @@ export const sidebar: Sidebar = {
       link: "/article/Github使用ssh连接.md",
     },
     {
+      text: "xxl-job整理",
+      link: "/article/xxl-job整理.md",
+    },
+    {
       text: "termux整理",
       link: "/article/termux整理.md",
     },

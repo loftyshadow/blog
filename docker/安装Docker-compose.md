@@ -11,7 +11,7 @@ docker-compose --version
 ```
 
 ```shell:no-line-numbers
- # 1. 基于docker-compose.yml启动管理的容器
+# 1. 基于docker-compose.yml启动管理的容器
 docker-compose up -d
 # 2. 关闭并删除容器
 docker-compose down
