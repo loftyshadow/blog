@@ -214,7 +214,7 @@ xxl.job.logretentiondays=30
 
 如果已经正确进行上述配置，可将项目编译打包部署。
 
-调度中心访问地址：http://localhost:8080/xxl-job-admin (该地址执行器将会使用到，作为回调地址)
+调度中心访问地址：`http://localhost:8080/xxl-job-admin` (该地址执行器将会使用到，作为回调地址)
 
 默认登录账号 “admin/123456”, 登录后运行界面如下图所示。
 

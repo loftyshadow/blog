@@ -96,16 +96,16 @@ map gs <Action>(GotoSuperMethod)
 map gr <Action>(ShowUsages)
 
 "跳转到下一个改变
-map ]g <action>(VcsShowNextChangeMarker)
-map [g <action>(VcsShowPrevChangeMarker)
+map ]c <action>(VcsShowNextChangeMarker)
+map [c <action>(VcsShowPrevChangeMarker)
 " 切换标签页
 nmap H <action>(PreviousTab)
 nmap L <action>(NextTab)
 " 代码折叠/展开 (Code fold/expand)
 map zc <Action>(CollapseRegion)
-map ze <Action>(ExpandRegion)
+map zo <Action>(ExpandRegion)
 map zC <Action>(CollapseAllRegions)
-map zE <Action>(ExpandAllRegions)
+map zO <Action>(ExpandAllRegions)
 
 vmap J :move '>+1<CR>gv=gv
 vmap K :move '<-2<CR>gv=gv
@@ -131,11 +131,14 @@ let g:WhichKeyDesc_CloseEditors = "<leader>bd 关闭当前标签"
 nmap <leader>bo <action>(CloseAllEditorsButActive)
 let g:WhichKeyDesc_CloseAllEditorsButActive = "<leader>bo 关闭除当前标签外的所有标签"
 let g:WhichKeyDesc_Extract = "<leader>e 提取相关"
+"固定当前标签页
+nmap <leader>bp <action>(PinActiveEditorTab)
+let g:WhichKeyDesc_PinEditors = "<leader>bp 固定当前标签"
 "使焦点转移到 NERDTree 窗口
 map <leader>e :NERDTreeFocus<CR>
 let g:WhichKeyDesc_NERDTreeFocus = "<leader>e 提取相关"
-map <leader>o <action>(SelectInProjectView)
-let g:WhichKeyDesc_SelectInProjectView = "<leader>o 打开当前文件"
+map <leader>oc <action>(SelectInProjectView)
+let g:WhichKeyDesc_SelectInProjectView = "<leader>oc 打开当前文件"
 "extract method/function 将选中的代码片段提取为一个独立的方法(Ctrl + Alt + M)
 vmap <leader>em <action>(ExtractMethod)
 let g:WhichKeyDesc_ExtractMethod = "<leader>em 提取选中方法"
@@ -168,10 +171,13 @@ let g:WhichKeyDesc_SearchTwoChar = "sd easymotion查找两个字符"
 "let g:WhichKeyDesc_Format = "<leader>f Format相关"
 "重新格式化代码，使其符合预定义的代码样式和规范 \| 优化导入语句，删除未使用的导入，并将导入语句按字母顺序进行排列
 nmap <leader>fm <action>(ReformatCode)
-let g:WhichKeyDesc_GitAndGenerate = "<leader>g Git版本控制和代码生成"
-"生成
-nmap <leader>ga :action Generate<CR>
-let g:WhichKeyDesc_Generate = "<leader>ga 生成"
+let g:WhichKeyDesc_GitAndGenerate = "<leader>g Git版本控制"
+"寻找文件
+nmap <leader>ff <action>(SearchEverywhere)
+let g:WhichKeyDesc_GitAndGenerate = "<leader>ff 寻找文件"
+"在文件中查找
+nmap <leader>fw <action>(FindInPath)
+let g:WhichKeyDesc_GitAndGenerate = "<leader>fw 在文件中查找"
 "执行版本控制（VCS）的回滚操作，将修改的代码还原到之前的版本
 nmap <leader>gr :action Vcs.RollbackChangedLines<CR>
 let g:WhichKeyDesc_VcsRollbackChangedLines = "<leader>gr 回滚修改"
@@ -194,6 +200,9 @@ let g:WhichKeyDesc_NoHighlight = "<leader>nh 取消搜索高亮显示"
 "文件资源管理器中定位当前编辑文件所在的节
 map <leader>o :NERDTreeFind<CR>
 let g:WhichKeyDesc_NERDTreeFind = "<leader>o 定位当前编辑文件所在的节点"
+"浮动显示目录结构
+map <leader>ol <action>(FileStructurePopup)
+let g:WhichKeyDesc_FileStructurePopup = "<leader>ol 浮动显示目录结构"
 let g:WhichKeyDesc_RunRollBackAndRename = "<leader>r 运行、回滚和重命名"
 "运行当前编辑器中的文件或类(Shift + F10)
 nmap <leader>rc :action RunClass<CR>
@@ -224,10 +233,10 @@ map <leader>ts <action>($EditorTranslateAction)
 let g:WhichKeyDesc_Translate = "<leader>ts 翻译选中文字"
 let g:WhichKeyDesc_Window = "<leader>w Window相关"
 " 分屏切换
-map <a-h> <Action>(PrevSplitter)
-let g:WhichKeyDesc_NextSplitter = "<a-h> 分屏切换"
-map <a-l> <Action>(NextSplitter)
-let g:WhichKeyDesc_PrevSplitter = "<a-l> 分屏切换"
+map <leader>wj <Action>(PrevSplitter)
+let g:WhichKeyDesc_NextSplitter = "<leader>wj 分屏切换"
+map <leader>wk <Action>(NextSplitter)
+let g:WhichKeyDesc_PrevSplitter = "<leader>wk 分屏切换"
 " zen-mode
 nmap <leader>z <Action>(ToggleZenMode)
 let g:WhichKeyDesc_ToggleZenMode = "<leader>z 禅模式"
