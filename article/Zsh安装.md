@@ -177,6 +177,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
+
 function yz() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
 	yazi "$@" --cwd-file="$tmp"
@@ -209,5 +212,6 @@ function nb(){
 function nn(){
 	cd ~/AppData/Local/nvim && n
 }
+
 ```
 

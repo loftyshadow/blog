@@ -22,8 +22,8 @@ implementation group: 'com.xuxueli', name: 'xxl-job-core', version: '2.4.0'
 ## 2. 下载
 | 源码仓库地址	| Release Download |
 |-- | -- |
-| https://github.com/xuxueli/xxl-job |	Download |
-| http://gitee.com/xuxueli0323/xxl-job |	Download |
+| https://github.com/xuxueli/xxl-job |	[Download](https://github.com/xuxueli/xxl-job/releases) |
+| http://gitee.com/xuxueli0323/xxl-job |	[Download](http://gitee.com/xuxueli0323/xxl-job/releases) |
 
 ## 3. 初始化调度数据库
 请下载项目源码并解压，获取 “调度数据库初始化SQL脚本” 并执行即可。
@@ -173,8 +173,10 @@ commit;
 > xxl-job-core：公共依赖
 >
 > xxl-job-executor-samples：执行器Sample示例（选择合适的版本执行器，可直接使用，也可以参考其并将现有项目改造成执行器）
->     ：xxl-job-executor-sample-springboot：Springboot版本，通过Springboot管理执行器，推荐这种方式；
->     ：xxl-job-executor-sample-frameless：无框架版本；
+>     
+>   - ：xxl-job-executor-sample-springboot：Springboot版本，通过Springboot管理执行器，**推荐这种方式**；
+>
+>   - ：xxl-job-executor-sample-frameless：无框架版本；
 
 ## 5. 配置部署“调度中心”
 调度中心项目：`xxl-job-admin`
