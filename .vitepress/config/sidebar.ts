@@ -155,6 +155,10 @@ export const sidebar: Sidebar = {
       collapsed: false,
       items: [
         {
+          text: "Synchronized和lock区别",
+          link: "/java/Synchronized和lock区别.md",
+        },
+        {
           text: "线程池相关",
           link: "/java/线程池相关.md",
         },

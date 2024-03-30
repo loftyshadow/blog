@@ -33,6 +33,8 @@ public class C {
 5. 实例化 C，此时 C 还未完成属性填充和初始化方法（@PostConstruct）的执行。
 6. C 对象发现需要注入 A 对象，但是容器中并没有 A 对象。
 7. 重复步骤 1。
+
+**属性注入可以解决，构造器注入没办法解决**
 ## 三级缓存
 Spring 解决循环依赖的核心就是提前暴露对象，而提前暴露的对象就是放置于第二级缓存中。下表是三级缓存的说明：
 
@@ -65,7 +67,7 @@ Spring 是如何通过上面介绍的三级缓存来解决循环依赖的呢？�
 10. 对象 A 完成属性填充，执行初始化方法，并放入到一级缓存中，同时删除二级缓存中的对象 A。
 我们从源码中来分析整个过程：
 创建 Bean 的方法在 `AbstractAutowireCapableBeanFactory::doCreateBean()`
-
+```java
 protected Object doCreateBean(final String beanName, final RootBeanDefinition mbd, Object[] args) throws BeanCreationException {
     BeanWrapper instanceWrapper = null;
 	

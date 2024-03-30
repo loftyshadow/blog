@@ -31,7 +31,7 @@ RUN echo "JAVA_HOME"
 CMD ["java -version"]
 ```
 
-执行`docker build .`来构建镜像
+执行`docker build -t .`来构建镜像
 
 ## 1. FROM
 指定基础镜像或父级镜像
@@ -274,6 +274,11 @@ ENTRYPOINT ["/bin/sh", "-c", "java -jar demo-0.0.1-SNAPSHOT.jar"]
 - 使用容器作为可执行文件时，应定义ENTRYPOINT。
 - CMD应该用作为ENTRYPOINT命令定义默认参数或在容器中执行ad-hoc命令的方法。
 - 使用备用参数运行容器时，将覆盖CMD。
+
+**RUN&CMD&ENTERPOINT区别**
+RUN 执行命令并创建新的镜像层，RUN 经常用于安装软件包。
+CMD 设置容器启动后默认执行的命令及其参数，但 CMD 能够被 `docker run` 后面跟的命令行参数替换。
+ENTRYPOINT 配置容器启动时运行的命令。
 
 ## VOLUME
 ```
