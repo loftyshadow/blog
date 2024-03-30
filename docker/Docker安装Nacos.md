@@ -39,6 +39,9 @@ nacos.naming.expireInstance=true
 
 ## mysql新建nacos的数据库，并执行脚本：
 
+<details>
+<summary>nacos.sql</summary>
+
 ```sql
 /*
  * Copyright 1999-2018 Alibaba Group Holding Ltd.
@@ -262,6 +265,9 @@ INSERT INTO users (username, password, enabled) VALUES ('nacos', '$2a$10$EuWPZHz
 
 INSERT INTO roles (username, role) VALUES ('nacos', 'ROLE_ADMIN');
 ```
+</details>
+
+
 
 ## 单机启动
 

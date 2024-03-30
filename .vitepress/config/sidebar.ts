@@ -68,6 +68,10 @@ export const sidebar: Sidebar = {
       text: "Docker安装ExcaliDraw",
       link: "/docker/Docker安装ExcaliDraw.md",
     },
+    {
+      text: "Docker制作镜像Dockerfile编写",
+      link: "/docker/Docker制作镜像Dockerfile编写.md",
+    },
   ],
   "/idea/": [
     {

@@ -17,6 +17,8 @@ chmod 777 -R /mydata/canal/logs
 ```shell:no-line-numbers
 vim /mydata/canal/conf/canal.properties
 ```
+<details>
+<summary>canal.properties</summary>
 
 ```text:no-line-numbers
 #################################################
@@ -194,10 +196,15 @@ rabbitmq.username = root
 rabbitmq.password = 123456
 rabbitmq.deliveryMode =
 ```
+</details>
+
 
 ```shell:no-line-numbers
 vim /mydata/canal/conf/example/instance.properties
 ```
+
+<details>
+<summary>instance.properties</summary>
 
 ```text:no-line-numbers
 #################################################
@@ -259,6 +266,9 @@ canal.mq.partition=0
 #canal.mq.dynamicTopicPartitionNum=test.*:4,mycanal:6
 #################################################
 ```
+</details>
+
+
 
 ## 启动Canal
 ```shell:no-line-numbers
