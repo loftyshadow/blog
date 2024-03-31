@@ -1,3 +1,4 @@
+# Redis内存淘汰策略
 ## Redis的数据过期清除策略
 1. expire数据结构
 Redis中可以使用expire命令设置一个键的存活时间(ttl: time to live)，过了这段时间，该键就会自动被删除。

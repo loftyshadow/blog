@@ -155,20 +155,8 @@ export const sidebar: Sidebar = {
       collapsed: false,
       items: [
         {
-          text: "Synchronized和lock区别",
-          link: "/java/Synchronized和lock区别.md",
-        },
-        {
-          text: "线程池相关",
-          link: "/java/线程池相关.md",
-        },
-        {
           text: "常用的JVM参数和命令",
           link: "/java/常用的JVM参数和命令.md",
-        },
-        {
-          text: "ThreadLocal整理",
-          link: "/java/ThreadLocal整理.md",
         },
         {
           text: "OSI七层协议",
@@ -181,6 +169,28 @@ export const sidebar: Sidebar = {
         {
           text: "订单超时自动取消方案",
           link: "/java/订单超时自动取消方案.md",
+        },
+      ],
+    },
+    {
+      text: "多线程相关",
+      collapsed: false,
+      items: [
+        {
+          text: "线程池相关",
+          link: "/java/线程池相关.md",
+        },
+        {
+          text: "线程的五种状态",
+          link: "/java/线程的五种状态.md",
+        },
+        {
+          text: "Synchronized和lock区别",
+          link: "/java/Synchronized和lock区别.md",
+        },
+        {
+          text: "ThreadLocal整理",
+          link: "/java/ThreadLocal整理.md",
         },
       ],
     },
@@ -229,6 +239,10 @@ export const sidebar: Sidebar = {
         {
           text: "Sping解决循环依赖",
           link: "/java/Sping解决循环依赖.md",
+        },
+        {
+          text: "Spring的IOC和Bean的生命周期",
+          link: "/java/Spring的IOC和Bean的生命周期.md",
         },
         {
           text: "Spring的事务及传播机制",
