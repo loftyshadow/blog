@@ -1,5 +1,7 @@
 # Spring的IOC和Bean的生命周期
 
+[原文链接](https://juejin.cn/post/6966158157202587662?searchId=20240330233004507459C4A7BBF647CEA7)
+
 ## SpringIOC
 ioc叫做控制反转,使用对象时候由主动new对象转换成由外部提供对象,此过程中对象的创建权由程序转移到外部，这种思想叫做控制反转
 Spring技术对此提供的实现
@@ -60,29 +62,29 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 
     // 实例化前置
     @Override
-        public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
+    public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
 
-            System.out.println("postProcessBeforeInstantiation被调用了----在对象实例化之前调用-----beanName:" + beanName);
-            // 默认什么都不做，返回null
-            return null;
-        }
+        System.out.println("postProcessBeforeInstantiation被调用了----在对象实例化之前调用-----beanName:" + beanName);
+        // 默认什么都不做，返回null
+        return null;
+    }
 
     // 实例化后置
     @Override
-        public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
-            System.out.println("postProcessAfterInstantiation被调用了---------beanName:" + beanName);
-            //默认返回true，什么也不做，继续下一步
-            return true;
-        }
+    public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+        System.out.println("postProcessAfterInstantiation被调用了---------beanName:" + beanName);
+        //默认返回true，什么也不做，继续下一步
+        return true;
+    }
 
     // 属性修改
     @Override
-        public PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeansException {
-            System.out.println("postProcessPropertyValues被调用了---------beanName:"+beanName);
-            // 此方法可对bean中的属性值进行、添加、修改、删除操作；
-            // 对属性值进行修改，如果postProcessAfterInstantiation方法返回false，该方法可能不会被调用，
-            return pvs;
-        }
+    public PropertyValues postProcessPropertyValues(PropertyValues pvs, PropertyDescriptor[] pds, Object bean, String beanName) throws BeansException {
+        System.out.println("postProcessPropertyValues被调用了---------beanName:"+beanName);
+        // 此方法可对bean中的属性值进行、添加、修改、删除操作；
+        // 对属性值进行修改，如果postProcessAfterInstantiation方法返回false，该方法可能不会被调用，
+        return pvs;
+    }
 }
 ```
 ## 1. 实例化前置
@@ -138,61 +140,61 @@ public class AllAwareInterface  implements BeanNameAware, BeanClassLoaderAware,
        ResourceLoaderAware, ApplicationEventPublisherAware, MessageSourceAware,
        ApplicationContextAware, ServletContextAware, LoadTimeWeaverAware, ImportAware {
 
-           @Override
-               public void setBeanName(String name) {
-                   // BeanNameAware作用：让Bean对Name有知觉
-                   //这个方法只是简单的返回我们当前的beanName,听官方的意思是这个接口更多的使用在spring的框架代码中，实际开发环境应该不建议使用
-                   System.out.println("1 我是 BeanNameAware 的 setBeanName 方法  ---参数：name，内容："+ name);
-               }
-           @Override
-               public void setBeanClassLoader(ClassLoader classLoader) {
-                   System.out.println("2 我是 BeanClassLoaderAware 的 setBeanClassLoader 方法");
-               }
-           @Override
-               public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-                   // 注意： 如果使用 @Configuration 注解的话，setBeanFactory方法会执行2次，
-                   System.out.println("3 我是 BeanFactoryAware 的 setBeanFactory 方法");
-               }
-           @Override
-               public void setEnvironment(Environment environment) {
-                   System.out.println("4 我是 EnvironmentAware 的 setEnvironment 方法");
-               }
-           @Override
-               public void setEmbeddedValueResolver(StringValueResolver stringValueResolver) {
-                   System.out.println("5 我是 EmbeddedValueResolverAware 的 setEmbeddedValueResolver 方法");
-               }
-           @Override
-               public void setResourceLoader(ResourceLoader resourceLoader) {
-                   System.out.println("6 我是 ResourceLoaderAware 的 setResourceLoader 方法");
-               }
-           @Override
-               public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-                   System.out.println("7 我是 ApplicationEventPublisherAware 的 setApplicationEventPublisher 方法");
-               }
-           @Override
-               public void setMessageSource(MessageSource messageSource) {
-                   System.out.println("8 我是 MessageSourceAware 的 setMessageSource 方法");
-               }
-           @Override
-               public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-                   System.out.println("9 我是 ApplicationContextAware 的 setApplicationContext 方法");
-               }
-           @Override
-               public void setServletContext(ServletContext servletContext) {
-                   System.out.println("10 我是 ServletContextAware 的 setServletContext 方法");
-               }
-           @Override
-               public void setLoadTimeWeaver(LoadTimeWeaver loadTimeWeaver) {
-                   //LoadTimeWeaver 简称LTW，LTW是AOP的一种实现方式，此方法是为了获取Aop织入的对象，使用的织入方式是：类加载期织入，
-                   // 一般的aop都是运行期织入，就是在运行的时候才进行织入切面方法，但是LTW是在类加载前就被织入了，也就是class文件在jvm加载之前进行织入切面方法
-                   // 只有在使用 @EnableLoadTimeWeaving 或者存在 LoadTimeWeaver 实现的 Bean 时才会调用，顺序也很靠后
-                   System.out.println("11 我是 LoadTimeWeaverAware 的 setLoadTimeWeaver 方法");
-               }
-           @Override
-               public void setImportMetadata(AnnotationMetadata annotationMetadata) {
-                   //只有被其他配置类 @Import(XX.class) 时才会调用，这个调用对 XX.class 中的所有 @Bean 来说顺序是第 1 的。
-                   System.out.println("12 我是 ImportAware 的 setImportMetadata 方法");
-               }
+       @Override
+       public void setBeanName(String name) {
+           // BeanNameAware作用：让Bean对Name有知觉
+           //这个方法只是简单的返回我们当前的beanName,听官方的意思是这个接口更多的使用在spring的框架代码中，实际开发环境应该不建议使用
+           System.out.println("1 我是 BeanNameAware 的 setBeanName 方法  ---参数：name，内容："+ name);
+       }
+       @Override
+       public void setBeanClassLoader(ClassLoader classLoader) {
+           System.out.println("2 我是 BeanClassLoaderAware 的 setBeanClassLoader 方法");
+       }
+       @Override
+           public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+               // 注意： 如果使用 @Configuration 注解的话，setBeanFactory方法会执行2次，
+               System.out.println("3 我是 BeanFactoryAware 的 setBeanFactory 方法");
+           }
+       @Override
+       public void setEnvironment(Environment environment) {
+           System.out.println("4 我是 EnvironmentAware 的 setEnvironment 方法");
+       }
+       @Override
+       public void setEmbeddedValueResolver(StringValueResolver stringValueResolver) {
+           System.out.println("5 我是 EmbeddedValueResolverAware 的 setEmbeddedValueResolver 方法");
+       }
+       @Override
+       public void setResourceLoader(ResourceLoader resourceLoader) {
+           System.out.println("6 我是 ResourceLoaderAware 的 setResourceLoader 方法");
+       }
+       @Override
+       public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+           System.out.println("7 我是 ApplicationEventPublisherAware 的 setApplicationEventPublisher 方法");
+       }
+       @Override
+       public void setMessageSource(MessageSource messageSource) {
+           System.out.println("8 我是 MessageSourceAware 的 setMessageSource 方法");
+       }
+       @Override
+       public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+           System.out.println("9 我是 ApplicationContextAware 的 setApplicationContext 方法");
+       }
+       @Override
+       public void setServletContext(ServletContext servletContext) {
+           System.out.println("10 我是 ServletContextAware 的 setServletContext 方法");
+       }
+       @Override
+       public void setLoadTimeWeaver(LoadTimeWeaver loadTimeWeaver) {
+           //LoadTimeWeaver 简称LTW，LTW是AOP的一种实现方式，此方法是为了获取Aop织入的对象，使用的织入方式是：类加载期织入，
+           // 一般的aop都是运行期织入，就是在运行的时候才进行织入切面方法，但是LTW是在类加载前就被织入了，也就是class文件在jvm加载之前进行织入切面方法
+           // 只有在使用 @EnableLoadTimeWeaving 或者存在 LoadTimeWeaver 实现的 Bean 时才会调用，顺序也很靠后
+           System.out.println("11 我是 LoadTimeWeaverAware 的 setLoadTimeWeaver 方法");
+       }
+       @Override
+       public void setImportMetadata(AnnotationMetadata annotationMetadata) {
+           //只有被其他配置类 @Import(XX.class) 时才会调用，这个调用对 XX.class 中的所有 @Bean 来说顺序是第 1 的。
+           System.out.println("12 我是 ImportAware 的 setImportMetadata 方法");
+       }
        }
 ```
 启动spring后的控制台打印的部分结果如下：
@@ -218,9 +220,9 @@ public class AllAwareInterface  implements BeanNameAware, BeanClassLoaderAware,
 public class PropertiesUtil implements EmbeddedValueResolverAware {
 
     @Override
-        public void setEmbeddedValueResolver(StringValueResolver stringValueResolver) {   
-            System.out.println(stringValueResolver.resolveStringValue("${logging.file}"));
-        }
+    public void setEmbeddedValueResolver(StringValueResolver stringValueResolver) {   
+        System.out.println(stringValueResolver.resolveStringValue("${logging.file}"));
+    }
 }
 ```
 ### 6.6 ResourceLoaderAware.setResourceLoader()
@@ -308,9 +310,9 @@ import org.springframework.stereotype.Component;
 public class EventListener implements ApplicationListener<StringEvent> {
 
     @Override
-        public void onApplicationEvent(StringEvent o) {
-            System.out.println("监听到事件，内容："+o.getStr());
-        }
+    public void onApplicationEvent(StringEvent o) {
+        System.out.println("监听到事件，内容："+o.getStr());
+    }
 }
 ```
 
@@ -337,18 +339,17 @@ public class ExtApplicationContextAware implements ApplicationContextAware {
      * Spring容器会在加载完Spring容器后调用ApplicationContextAware.setApplicationContext方法
      * ApplicationContextAware 主要用来全局获取 ApplicationContext 上下文，
      */
-
     private static ApplicationContext applicationContext;
 
     @Override
-        public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-            if (ExtApplicationContextAware.applicationContext == null) {
-                ExtApplicationContextAware.applicationContext = applicationContext;
-            }
-            System.out.println("========ApplicationContext配置成功========");
-            System.out.println("========在普通类可以通过调用SpringBootBeanUtil.getApplicationContext()获取applicationContext对象========");
-            System.out.println("========applicationContext="+ ExtApplicationContextAware.applicationContext +"========");
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        if (ExtApplicationContextAware.applicationContext == null) {
+            ExtApplicationContextAware.applicationContext = applicationContext;
         }
+        System.out.println("========ApplicationContext配置成功========");
+        System.out.println("========在普通类可以通过调用SpringBootBeanUtil.getApplicationContext()获取applicationContext对象========");
+        System.out.println("========applicationContext="+ ExtApplicationContextAware.applicationContext +"========");
+    }
 
     /**
      * 获取applicationContext
@@ -405,13 +406,12 @@ private ApplicationContext applicationContext;
 ## 7. 初始化前置
 方法名称： BeanPostProcessor.postProcessBeforeInitialization()
 在每一个 Bean 初始化之前执行的方法（有多少 Bean 调用多少次）
-注意 ： 启用该方法后，标注了@PostConstruct注解的方法会失效
 ## 8. 初始化后置
 方法名称： BeanPostProcessor.postProcessAfterInitialization()
 在每一个 Bean 初始化之后执行的方法（有多少 Bean 调用多少次）
 初始化前置和初始化后置的实现代码如下
 
-```
+```java
 package com.Spring.Boot.init;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -420,20 +420,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExtBeanPostProcessor implements BeanPostProcessor {
     @Override
-        public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-            // 在每一个 Bean 初始化之前执行的方法（有多少 Bean 调用多少次）
-            // 注意 ： 启用该方法后，标注了@PostConstruct注解的方法会失效
-            System.out.println("初始化前置方法");
-            return null;
-        }
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        // 在每一个 Bean 初始化之前执行的方法（有多少 Bean 调用多少次）
+        System.out.println("初始化前置方法");
+        return null;
+    }
     @Override
-        public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-            在每一个 Bean 初始化之后执行的方法（有多少 Bean 调用多少次）
-                System.out.println("初始化后置方法");
-            return null;
-        }
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        // 在每一个 Bean 初始化之后执行的方法（有多少 Bean 调用多少次）
+        System.out.println("初始化后置方法");
+        return null;
+    }
 }
 ```
+在预处理阶段是通过`BeanPostProcessor#postProcessBeforeInstantiation`方法来生成对应的代理对象。经过进一步的Debug，我们会发现这一阶段实际上是通过`AbstractAutoProxyCreator`来生成代理对象的。不过在实际的项目启动过程中，不存在需要在预处理阶段生成代理对象的场景而我们日常开发使用的AOP处理方式其所需的代理对象都是通过Bean初始化阶段`BeanPostPorcessor#postProcessAfterInitialization`方法创建的，这里也是由相同的`BeanPostProcessor`实现类`AbstracAutoProxyCreator`来进行代理对象生成的
+
 
 ## 9. 执行初始化方法
 初始化方法有三个，分别是 添加了@PostConstruct 注解的方法、实现InitializingBean接口、在@bean注解上添加 initMethod属性；我们一个个讲
@@ -454,15 +455,15 @@ public class ExtPostConstruct {
      * 注意： 如果spring 实现了 BeanPostProcessor接口的postProcessBeforeInitialization方法，该@PostConstruct注解会失效
      */
     @PostConstruct
-        public void init() {
-            System.out.println("第一个init...");
-        }
+    public void init() {
+        System.out.println("第一个init...");
+    }
 
     // 有多个会执行多次
     @PostConstruct
-        public void init1() {
-            System.out.println("第二个init1...");
-        }
+    public void init1() {
+        System.out.println("第二个init1...");
+    }
 
 }
 ```
@@ -478,12 +479,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExtInitializingBean implements InitializingBean {
     @Override
-        public void afterPropertiesSet() throws Exception {
-            // 一个 InitializingBean 执行一次
-            // spring 初始化方法，作用是在BeanFactory完成属性设置之后,执行自定义的  初始化行为.
-            // 执行顺序：在initMethod之前执行，在@PostConstruct之后执行
-            System.out.println("InitializingBean");
-        }
+    public void afterPropertiesSet() throws Exception {
+        // 一个 InitializingBean 执行一次
+        // spring 初始化方法，作用是在BeanFactory完成属性设置之后,执行自定义的  初始化行为.
+        // 执行顺序：在initMethod之前执行，在@PostConstruct之后执行
+        System.out.println("InitializingBean");
+    }
 }
 ```
 ## 12. init-method
@@ -503,7 +504,9 @@ public class BeanTest {
 ```
 xml 配置方式
 
-`<bean id="beanTest" class="com.BeanTest" init-method="init"></bean>`注解配置方式
+`<bean id="beanTest" class="com.BeanTest" init-method="init"></bean>`
+
+注解配置方式
 ```java
 package com.Spring.Boot.init;
 import com.Spring.Boot.init.bean.BeanTest;
@@ -533,7 +536,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
     @Component()
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
+    @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
     // @Scope(value = "singleton")  // 也可以这样写
     public class InitMethod  {
 
@@ -585,9 +588,9 @@ import org.springframework.stereotype.Component;
         // 在@Bean注解上添加initMethod属性，指向类中的 initMethod_1 执行初始化方法
         // 在@Bean注解上添加destroyMethod属性，指向类中的 destroyMethod_1 执行销毁方法
         @Bean(initMethod = "initMethod_1",destroyMethod = "destroyMethod_1")
-            public BeanTest getBeanTest(){
-                return new BeanTest();
-            }
+        public BeanTest getBeanTest(){
+            return new BeanTest();
+        }
     }
 BeanTest.java
 

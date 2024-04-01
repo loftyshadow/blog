@@ -189,6 +189,10 @@ export const sidebar: Sidebar = {
           link: "/java/Synchronized和lock区别.md",
         },
         {
+          text: "线程间通信方式",
+          link: "/java/线程间通信方式.md",
+        },
+        {
           text: "ThreadLocal整理",
           link: "/java/ThreadLocal整理.md",
         },
