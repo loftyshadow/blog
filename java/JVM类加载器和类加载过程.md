@@ -467,7 +467,7 @@ Java 中使用 SPI 的步骤如下图所示，主要包括 3 步
 
 下面给出一个具体的例子，展示 SPI 的使用。项目结构如下图所示。
 
-![](img/2024-04-02-21-51-26.png)
+![](img/2024-04-02-23-37-15.png)
 
 - 创建 ICustomSvc接口，作为服务提供接口（SPI）
 ```java
@@ -479,15 +479,15 @@ public interface ICustomSvc {
 - 创建接口的实现者 CustomSvcOne、CustomSvcTwo。实际应用中，接口实现者为第三方厂商提供。开发者可通过 jar 包导入或 maven 依赖方式集成到自己的工程。
 
 ```java
-public class CustomSvcOne {
-    @Obverride
+public class CustomSvcOne implements ICustomSvc {
+    @Override
     public String getName(){
         return "CustomSvcOne";
     }
 }
 
-public class CustomSvcTwo {
-    @Obverride
+public class CustomSvcTwo implements ICustomSvc {
+    @Override
     public String getName(){
         return "CustomSvcTwo";
     }
@@ -499,14 +499,22 @@ public class CustomSvcTwo {
 ```java
 public class CustomTest {
     public static void main(String[] args){
-        ServiceLoader<ICustomSvc> svcs = Service.load(ICustomSvc.class);
+        ServiceLoader<ICustomSvc> svcs = ServiceLoader.load(ICustomSvc.class);
         svcs.forEach(s -> System.out.println(s.getName()));
     }
+}
+```
+
+在resources下新建META-INF/services自定义的文件,名称为自己的接口，具体内容为实现类
+`com.nmz.spi.service.ICustomSvc`
+```
+com.nmz.spi.service.impl.CustomSvcOne
+com.nmz.spi.service.impl.CustomSvcTwo
 ```
 
 - 程序输出如下。
 
-![](img/2024-04-02-21-52-54.png)
+![](img/2024-04-02-23-39-35.png)
 
 **SPI 机制的实现原理**
 
