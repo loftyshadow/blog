@@ -35,14 +35,28 @@ public class C {
 7. 重复步骤 1。
 
 **属性注入可以解决，构造器注入没办法解决**
+**单例可以解决，多例没办法解决**
+**多例和构造器为什么无法解决循环依赖**
+
+为什么多例Bean不能解决循环依赖？
+我们自己手写了解决循环依赖的代码，可以看到，核心是利用一个map，来解决这个问题的，这个map就相当于缓存。
+为什么可以这么做，因为我们的bean是单例的，而且是字段注入（setter注入）的，单例意味着只需要创建一次对象，后面就可以从缓存中取出来，字段注入，意味着我们无需调用构造方法进行注入。
+如果是原型bean，那么就意味着每次都要去创建对象，无法利用缓存；
+如果是构造方法注入，那么就意味着需要调用构造方法注入，也无法利用缓存。
+
+**为什么Spring不能解决构造器的循环依赖**？
+
+因为构造器是在实例化时调用的，此时bean还没有实例化完成，如果此时出现了循环依赖，一二三级缓存并没有Bean实例的任何相关信息，在实例化之后才放入三级缓存中，因此当getBean的时候缓存并没有命中，这样就抛出了循环依赖的异常了。
 ## 三级缓存
-Spring 解决循环依赖的核心就是提前暴露对象，而提前暴露的对象就是放置于第二级缓存中。下表是三级缓存的说明：
+Spring 解决循环依赖的核心就是提前暴露对象,三级缓存在`DefaultSingletonBeanRegistry`中，而提前暴露的对象就是放置于第二级缓存中。下表是三级缓存的说明：
 
 | 名称 | 描述 |
 | ---- | ---- |
 | singletonObjects |	一级缓存，存放完整的 Bean。|
 |earlySingletonObjects |	二级缓存，存放提前暴露的Bean，Bean 是不完整的，未完成属性注入和执行 init 方法。|
 |singletonFactories |	三级缓存，存放的是 Bean 工厂，主要是生产 Bean，存放到二级缓存中。|
+
+![](img/2024-04-02-15-05-39.png)
 
 所有被 Spring 管理的 Bean，最终都会存放在 singletonObjects 中，这里面存放的 Bean 是经历了所有生命周期的（除了销毁的生命周期），完整的，可以给用户使用的。
 
@@ -51,6 +65,10 @@ earlySingletonObjects 存放的是已经被实例化，但是还没有注入属�
 singletonFactories 存放的是生产 Bean 的工厂。
 
 Bean 都已经实例化了，为什么还需要一个生产 Bean 的工厂呢？这里实际上是跟 AOP 有关，如果项目中不需要为 Bean 进行代理，那么这个 Bean 工厂就会直接返回一开始实例化的对象，如果需要使用 AOP 进行代理，那么这个工厂就会发挥重要的作用了，这也是本文需要重点关注的问题之一。
+
+SPRING在创建BEAN的时候，在哪里创建的动态代理？
+①：如果没有循环依赖的话，在bean初始化完成后创建动态代理
+②：如果有循环依赖，在bean实例化之后创建！
 
 ## 解决循环依赖
 Spring 是如何通过上面介绍的三级缓存来解决循环依赖的呢？这里只用 A，B 形成的循环依赖来举例：
@@ -161,22 +179,34 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 他是通过一个 `getSingleton()` 方法去获取所需要的 Bean 的。
 
 ```java
+/**
+ * Return the (raw) singleton object registered under the given name.
+ * <p>Checks already instantiated singletons and also allows for an early
+ * reference to a currently created singleton (resolving a circular reference).
+ * @param beanName the name of the bean to look for
+ * @param allowEarlyReference whether early references should be created or not
+ * @return the registered singleton object, or {@code null} if none found
+ */
+@Nullable
 protected Object getSingleton(String beanName, boolean allowEarlyReference) {
-    // 一级缓存
+    // Quick check for existing instance without full singleton lock
     Object singletonObject = this.singletonObjects.get(beanName);
     if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
-        synchronized (this.singletonObjects) {
-            // 二级缓存
-            singletonObject = this.earlySingletonObjects.get(beanName);
-            if (singletonObject == null && allowEarlyReference) {
-                // 三级缓存
-                ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
-                if (singletonFactory != null) {
-                    // Bean 工厂中获取 Bean
-                    singletonObject = singletonFactory.getObject();
-                    // 放入到二级缓存中
-                    this.earlySingletonObjects.put(beanName, singletonObject);
-                    this.singletonFactories.remove(beanName);
+        singletonObject = this.earlySingletonObjects.get(beanName);
+        if (singletonObject == null && allowEarlyReference) {
+            synchronized (this.singletonObjects) {
+                // Consistent creation of early reference within full singleton lock
+                singletonObject = this.singletonObjects.get(beanName);
+                if (singletonObject == null) {
+                    singletonObject = this.earlySingletonObjects.get(beanName);
+                    if (singletonObject == null) {
+                        ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
+                        if (singletonFactory != null) {
+                            singletonObject = singletonFactory.getObject();
+                            this.earlySingletonObjects.put(beanName, singletonObject);
+                            this.singletonFactories.remove(beanName);
+                        }
+                    }
                 }
             }
         }

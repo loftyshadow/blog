@@ -167,6 +167,10 @@ export const sidebar: Sidebar = {
           link: "/java/三次握手和四次挥手.md",
         },
         {
+          text: "JVM类加载器和类加载过程",
+          link: "/java/JVM类加载器和类加载过程.md",
+        },
+        {
           text: "订单超时自动取消方案",
           link: "/java/订单超时自动取消方案.md",
         },

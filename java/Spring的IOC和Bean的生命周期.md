@@ -15,6 +15,7 @@ ioc的整个加载过程如下图，先看看大致的流程，然后再慢慢�
 
 ![](img/2024-03-31-20-54-42.png)
 
+
 1. 首先，通过BeanDefinitionReader 读取指定的配置文件生成bean的定义信息，然后到完整的bean定义信息(BeanDefinition对象)，注意这里只是存储bean的定义信息，还没有实例化bean对象；就像工厂里面一样，原材料已经准备好了，但是还没有进行生产，原材料就是beanDefinition，生产就是实例化
 2. 在 BeanDefinition 和 完整BeanDefinition 中间通过一个后置增强器，可以对bean的定义信息进行统一修改，只需要实现 BeanFactoryPostProcessor 接口即可，这个后置增强器是可以有多个的，你只要在不同的类实现多个 BeanFactoryPostProcessor 接口就会执行多次，就像这样：
 
@@ -47,6 +48,8 @@ public class ExtBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 但其实，它的内部蕴含了很多东西，让我们看看细化后的流程图；
 
 ![](img/2024-03-31-21-00-32.png)
+
+![](img/2024-04-01-14-23-33.png)
 
 接下来我们要将1、3、4 放到一起讲，是因为它们是在同一个接口里面的，实现InstantiationAwareBeanPostProcessor接口即可
 
