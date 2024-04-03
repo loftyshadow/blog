@@ -3,7 +3,7 @@
 ## 1. 依赖地址
 
 ::: code-group
-```maven
+```xml [maven]
 <!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-job-core -->
 <dependency>
     <groupId>com.xuxueli</groupId>
@@ -12,7 +12,7 @@
 </dependency>
 ```
 
-```gradle
+```text [gradle]
 // https://mvnrepository.com/artifact/com.xuxueli/xxl-job-core
 implementation group: 'com.xuxueli', name: 'xxl-job-core', version: '2.4.0'
 ```
@@ -38,7 +38,7 @@ implementation group: 'com.xuxueli', name: 'xxl-job-core', version: '2.4.0'
 <details>
 <summary>tables_xxl_job.sql</summary>
 
-```mysql
+```sql
 #
 # XXL-JOB v2.4.0
 # Copyright (c) 2015-present, xuxueli.
