@@ -16,7 +16,190 @@
 ![zsh-init](./img/zsh-init.png)
 初始化直到生成对应的.zshrc 文件,输入`zsh`即可进入
 
-## 安装 Oh My Zsh
+## 安装starship(推荐)
+```shell
+winget install --id Starship.Starship
+```
+
+为 Starship 创建配置文件 `~/.config/starship.toml`。
+
+```shell
+mkdir -p ~/.config && touch ~/.config/starship.toml
+```
+
+<details>
+<summary>个人配置</summary>
+
+```text
+
+# 根据 schema 提供自动补全
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# 在提示符之间插入空行
+add_newline = false
+
+# A continuation prompt that displays two filled in arrows
+continuation_prompt = '▶▶ '
+
+format = """
+[░▒▓](#a3aed2)\
+[  ](bg:#a3aed2 fg:#090c0c)\
+[](bg:#769ff0 fg:#a3aed2)\
+$directory\
+[](fg:#769ff0 bg:#394260)\
+$git_branch\
+$git_status\
+[](fg:#394260 bg:#212736)\
+$nodejs\
+$rust\
+$golang\
+$php\
+[](fg:#212736 bg:#1d2230)\
+$time\
+[ ](fg:#1d2230)\
+\n$character"""
+
+[directory]
+style = "fg:#e3e5e5 bg:#769ff0"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "bg:#394260"
+format = '[[ $symbol $branch ](fg:#769ff0 bg:#394260)]($style)'
+
+[git_status]
+style = "bg:#394260"
+format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
+
+[nodejs]
+symbol = ""
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+
+[rust]
+symbol = ""
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+
+[golang]
+symbol = ""
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+
+[php]
+symbol = ""
+style = "bg:#212736"
+format = '[[ $symbol ($version) ](fg:#769ff0 bg:#212736)]($style)'
+
+[time]
+disabled = false
+time_format = "%R"                                      # Hour:Minute Format
+style = "bg:#1d2230"
+format = '[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)'
+```
+</details>
+<br>
+
+在`~/.zshrc`最后增加
+```text
+eval "$(starship init zsh)"
+```
+安装插件
+
+```shell
+mkdir ~/zsh-plugins
+cd ~/zsh-plugins
+
+git clone https://github.com/MichaelAquilina/zsh-you-should-use.git
+git clone https://github.com/hlissner/zsh-autopair.git
+git clone https://github.com/zsh-users/zsh-autosuggestions.git
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+git clone https://github.com/Aloxaf/fzf-tab.git
+```
+
+在`~/.zshrc`中添加
+```text
+source ~/zsh-plugins/zsh-you-should-use/you-should-use.plugin.zsh
+source ~/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/zsh-plugins/zsh-autopair/autopair.plugin.zsh
+source ~/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/zsh-plugins/fzf-tab/fzf-tab.zsh
+```
+
+安装fzf
+```
+winget install fzf
+```
+
+<details>
+<summary>个人配置</summary>
+
+```
+# The following lines were added by compinstall
+zstyle :compinstall filename '/c/Users/10942/.zshrc'
+
+autoload -Uz compinit
+compinit
+
+source ~/zsh-plugins/zsh-you-should-use/you-should-use.plugin.zsh
+source ~/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/zsh-plugins/zsh-autopair/autopair.plugin.zsh
+source ~/zsh-plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/zsh-plugins/fzf-tab/fzf-tab.zsh
+
+function ll(){
+	ls -al
+}
+
+function yz() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+function yarnr(){
+	yarn run serve
+}
+
+function lg(){
+	lazygit
+}
+
+function wsls(){
+	wsl --shutdown
+}
+
+function n(){
+	nvim "$1"
+}
+
+function nb(){
+	cd /d/vue/vue-project/blog && n
+}
+
+function nn(){
+	cd ~/AppData/Local/nvim && n
+}
+
+# End of lines added by compinstall
+eval "$(starship init zsh)"
+
+```
+</details>
+
+## 安装 Oh My Zsh(不推荐)
 
 进入[官网](https://ohmyz.sh/#install)，复制首页命令进行安装
 
@@ -47,6 +230,7 @@ git clone https://github.com/MichaelAquilina/zsh-you-should-use.git
 git clone https://github.com/hlissner/zsh-autopair.git
 git clone https://github.com/zsh-users/zsh-autosuggestions.git
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+git clone https://github.com/Aloxaf/fzf-tab.git
 
 ```
 
@@ -60,9 +244,8 @@ vi ~/.zshrc
 source ~/.zshrc
 ```
 
-![zsh插件](./img/zsh插件.png)
-
-个人 zsh 配置
+<details>
+<summary>个人 zsh 配置</summary>
 
 ```text
 #
@@ -141,6 +324,7 @@ ZSH_THEME="eastwood"
 plugins=(git 
 	z
   	npm
+    fzf-tab
 	copypath
 	copyfile
 	copybuffer
@@ -214,4 +398,4 @@ function nn(){
 }
 
 ```
-
+</details>

@@ -262,6 +262,29 @@ protected void addSingletonFactory(String beanName, ObjectFactory<?> singletonFa
 这样的话，每次实例化完 Bean 之后就直接去创建代理对象，并添加到二级缓存中。**测试结果是完全正常的，Spring 的初始化时间应该也是不会有太大的影响，因为如果 Bean 本身不需要代理的话，是直接返回原始 Bean 的，并不需要走复杂的创建代理 Bean 的流程。**
 
 ## 结论
-测试证明，二级缓存也是可以解决循环依赖的。为什么 Spring 不选择二级缓存，而要额外多添加一层缓存呢？
+
+![](img/2024-04-06-23-52-03.png)
+
+1.doCreateBean方法会调用createBeanInstance方法来对beanA进行实例化。
+
+2.addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));会将生成代理对象的工厂放入到三级缓存。
+
+3.beanA调用populateBean方法，注入beanB实例。
+
+在注入beanB实例的过程中，发现beanB依赖了beanA，需要将beanA加载出来。
+
+会再次对beanA调用doGetBean方法。这时候，getSingleton方法就真正派上用场了。
+
+4.在getSingleton方法中，会将beanA的bean工厂从三级缓存中取出来，调用getObject方法，也就是getEarlyBeanReference方法，将返回结果放入二级缓存，同时从三级缓存移除掉。
+
+5.把不完整的beanA注入到beanB中
+
+6.beanB执行addSingleton(beanName, singletonObject)方法，这个方法将beanB放入到一级缓存，且从二级缓存中移除掉。
+
+7.beanA注入beanB实例。
+
+8.beanA完成属性填充和初始化，执行addSingleton(beanName, singletonObject)方法，将BeanA放入到一级缓存。
+
+从上面注入的流程，可以看出，如果没有存放半成品的二级缓存，那么循环依赖是无法解决的。如果我们在实例化完beanA，立刻创建出代理对象放到二级缓存，再填充beanA的属性以及初始化，这样也可以正常完成BeanA，BeanB的注入。这样就省掉了第三级缓存。那第三级缓存存在的原因是什么呢？
 
 如果 Spring 选择二级缓存来解决循环依赖的话，那么就意味着所有 Bean 都需要在实例化完成之后就立马为其创建代理，而 Spring 的设计原则是在 Bean 初始化完成之后才为其创建代理。所以，Spring 选择了三级缓存。但是因为循环依赖的出现，导致了 Spring 不得不提前去创建代理，因为如果不提前创建代理对象，那么注入的就是原始对象，这样就会产生错误。
