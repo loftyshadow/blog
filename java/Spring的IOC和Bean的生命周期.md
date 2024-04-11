@@ -51,6 +51,9 @@ public class ExtBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
 ![](img/2024-04-01-14-23-33.png)
 
+
+![](img/2024-04-10-12-35-35.png)
+
 接下来我们要将1、3、4 放到一起讲，是因为它们是在同一个接口里面的，实现InstantiationAwareBeanPostProcessor接口即可
 
 ```java

@@ -16,6 +16,16 @@
 ![zsh-init](./img/zsh-init.png)
 初始化直到生成对应的.zshrc 文件,输入`zsh`即可进入
 
+配置默认启动 zsh
+在`../Git/etc/bash.bashrc`文件末尾追加以下内容：
+
+```shell
+# 运行 Zsh
+if [ -t 1 ]; then
+exec zsh
+fi
+```
+
 ## 安装starship(推荐)
 ```shell
 winget install --id Starship.Starship
@@ -140,6 +150,16 @@ source ~/zsh-plugins/fzf-tab/fzf-tab.zsh
 winget install fzf
 ```
 
+安装rg
+```
+winget install BurntSushi.ripgrep.MSVC
+```
+
+安装fd
+```
+winget install sharkdp.fd
+```
+
 <details>
 <summary>个人配置</summary>
 
@@ -209,17 +229,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 提示可忽略
 ![安装Oh My Zsh](./img/安装Oh%20My%20Zsh.png)
-配置默认启动 zsh
-在`../Git/etc/bash.bashrc`文件末尾追加以下内容：
 
-```shell
-# 运行 Zsh
-if [ -t 1 ]; then
-exec zsh
-fi
-```
-
-## 安装插件
+### 安装插件
 
 ### 下载
 
