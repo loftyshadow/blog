@@ -4,7 +4,7 @@
     "vitepress": "1.0.1"
   },
   "scripts": {
-    "docs:dev": "vitepress dev --port 6947",
+    "dev": "vitepress dev --port 6947",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview"
   }

@@ -370,3 +370,17 @@ ONBUILD 是一个特殊的指令，它的功能时添加一个将来执行的触
 1. ONBUILD指令中不能包含 ONBUILD指令，并且不会触发FROM指令；
 2. 使用ONBUILD指令的Dockerfile构建的镜像应该有特殊的标签，例如：demo:1.1.0-onbuild，这样做的好处是提示开发人员要在使用时注意；
 3. 在ONBUILD指令中添加ADD和COPY指令时要特别注意，假如新构建过程的被添加的资源缺失了，会导致构建失败；
+
+## BUILD
+```
+docker build -t imageName .
+```
+```
+docker run -d --name imageName imageName:latest
+```
+
+设置docker容器空转，方便进入终端测试
+```
+# 设置了entrypoint的镜像启动姿势，重写entrypoint
+docker run -dt --entrypoint sh imageName:latest
+```

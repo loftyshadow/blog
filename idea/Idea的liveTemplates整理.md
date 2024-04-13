@@ -38,3 +38,15 @@ new Thread(() -> {
 @NoArgsConstructor
 @AllArgsConstructor
 ```
+
+## getEnum
+```
+public static Optional<$CLASS_NAME$> getEnumByCode(Integer code) {
+    return Arrays.stream(values())
+                .filter(e -> e.code.equals(code))
+                .findFirst();
+}
+```
+枚举类`$CLASS_NAME$`会失效获取不到ClassName需要自己配置
+
+![](img/2024-04-12-16-01-46.png)
