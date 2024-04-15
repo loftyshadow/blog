@@ -8,7 +8,7 @@ export const nav: NavItem[] = [
   {
     text: "Java整理",
     activeMatch: "^/java/",
-    link: "/java/线程池相关.md",
+    link: "/java/常用的JVM参数和命令.md",
   },
   {
     text: "算法整理",

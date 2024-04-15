@@ -149,6 +149,10 @@ export const sidebar: Sidebar = {
       link: "/article/Github使用ssh连接.md",
     },
     {
+      text: "Winodws添加neovide到右键",
+      link: "/article/Winodws添加neovide到右键.md",
+    },
+    {
       text: "xxl-job整理",
       link: "/article/xxl-job整理.md",
     },
@@ -165,6 +169,10 @@ export const sidebar: Sidebar = {
         {
           text: "常用的JVM参数和命令",
           link: "/java/常用的JVM参数和命令.md",
+        },
+        {
+          text: "Java阻塞队列整理",
+          link: "/java/Java阻塞队列整理.md",
         },
         {
           text: "OSI七层协议",

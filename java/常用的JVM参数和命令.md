@@ -8,22 +8,22 @@ JVM参数可以分为三种类型，分别是以-、-X、-XX开头的参数
 | ---------------------------------------- | --------------------------------- | ------------------------------------------------------------------------------- |
 | -XX:CICompiler=3 | 最大并行编译数 | 如果设置大于1，虽然编译速度会提高，但同样影响系统稳定性，会增加JVM奔溃的可能 |
 | -XX:InitialHeapSize=100M | 初始堆内存大小 | 简写-Xms100M |
-| -XX:MaxHeapSize=100M | 最大堆大小 | 简写-Xmx100M |
-| -XX:NewSize=20M | 新生代大小 | |
-| -XX:MaxNewSize=50M | 新生代最大大小 |
+| -XX:MaxHeapSize=100M | 最大堆大小 | 简写-Xmx100M(一般-Xms、-Xmx两个参数会配置相同的值,优点是能够在Java垃圾回收机制清理完堆区后不需要重新分隔计算堆区的大小而浪费资源） |
+| -XX:NewSize=20M | 新生代大小 | (注意：该值需要小于-Xms的值)|
+| -XX:MaxNewSize=50M | |新生代最大大小(可用-Xmn: 堆中新生代初始及最大大小,注意：该值需要小于-Xmx的值) 
 | -XX:OldSize=50M | 老年代大小 |
 | -XX:MetaspaceSize=50M | 方法区大小 |
 | -XX:MaxMetaspaceSize=50M | 方法区最大大小 |
 | -XX:+/-UseParallelGC | 是否使用ParallelGC | 新生代垃圾收集器，吞吐量优先|
-| -XX:CICompiler=3 | 最大并行编译数 | 如果设置大于1，虽然编译速度会提高，但同样影响系统稳定性，会增加JVM奔溃的可能 |
 | -XX:+/-UseParallelOldGC | 是否使用ParallelOldGC | 老年代代垃圾收集器，吞吐量优先 |
 | -XX:+/-UseConcMarkSweepGC | 是否使用CMS | 老年代垃圾收集器，停顿时间优先 |
 | -XX:+/-UseG1GC | 是否使用G1GC | 新生代/老年代代垃圾收集器，吞吐量优先 |
+| -XX:CICompiler=3 | 最大并行编译数 | 如果设置大于1，虽然编译速度会提高，但同样影响系统稳定性，会增加JVM奔溃的可能 |
 | -XX:NewRation | 新生代和老年代的比值 | 如-XX:NewRatio=4，表示新生代：老年代=1:4 |
 | -XX:+/-HeapDumpOnOutOfMemoryError | 是否开启堆内存溢出时打印 | 当堆OOM时，会自动生成dump文件 |
 | -XX:HeapDumpPath=heap.hprof | 指定堆内存溢出时打印目录 | 表示在当前目录生成一个heap.hprof |
 | -XX:+/-PrintGCDetails <br> -XX:+/-PrintGCTimeStamps <br> -XX:+/-PrintGCDateStamps <br> -Xloggc:logs/gc.log | 打印GC日志 | 可以使用不同的垃圾收集器，对比查看GC情况 |
-| -Xss128k | 设置每个线程的堆栈大小 | |
+| -Xss128k | 设置每个线程的堆栈大小 |-Xss 设置每个线程可使用的内存大小，即栈的大小。在相同物理内存下，减小这个值能生成更多的线程，当然操作系统对一个进程内的线程数还是有限制的，不能无限生成。线程栈的大小是个双刃剑，如果设置过小，可能会出现栈溢出，特别是在该线程内有递归、大的循环时出现溢出的可能性更大，如果该值设置过大，就有影响到创建栈的数量，如果是多线程的应用，就会出现内存溢出的错误。|
 | -XX:MaxTenuringThreshold=6 | 对象进入老年代的年龄阈值 | 默认值为15 |
 | -XX:InitiatingHeapOccupancyPercent | 当整个堆占用超过某个百分比时，就会触发并发GC周期 | 基于整个堆的占用率，默认值为45 |
 | -XX:G1HeapWastePercent | 允许整个堆内存中被浪费的空间的百分比 | 默认值为5%。如果并发标记可回收的空间小于5%,则不会触发MixedGC |
