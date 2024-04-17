@@ -62,13 +62,27 @@ Spring 解决循环依赖的核心就是提前暴露对象,三级缓存在`Defau
 
 earlySingletonObjects 存放的是已经被实例化，但是还没有注入属性和执行 init 方法的 Bean。
 
-singletonFactories 存放的是生产 Bean 的工厂。
+singletonFactories 存放的是生产 Bean 的工厂(一个lambda表达式)。
+```java
+addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
 
+protected void addSingletonFactory(String beanName, ObjectFactory<?> singletonFactory) {
+    Assert.notNull(singletonFactory, "Singleton factory must not be null");
+    synchronized (this.singletonObjects) {
+        if (!this.singletonObjects.containsKey(beanName)) {
+            this.singletonFactories.put(beanName, singletonFactory);
+            this.earlySingletonObjects.remove(beanName);
+            this.registeredSingletons.add(beanName);
+        }
+    }
+}
+```
 Bean 都已经实例化了，为什么还需要一个生产 Bean 的工厂呢？这里实际上是跟 AOP 有关，如果项目中不需要为 Bean 进行代理，那么这个 Bean 工厂就会直接返回一开始实例化的对象，如果需要使用 AOP 进行代理，那么这个工厂就会发挥重要的作用了，这也是本文需要重点关注的问题之一。
 
 SPRING在创建BEAN的时候，在哪里创建的动态代理？
 ①：如果没有循环依赖的话，在bean初始化完成后创建动态代理
 ②：如果有循环依赖，在bean实例化之后创建！
+
 
 ## 解决循环依赖
 Spring 是如何通过上面介绍的三级缓存来解决循环依赖的呢？这里只用 A，B 形成的循环依赖来举例：

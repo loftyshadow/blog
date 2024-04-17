@@ -189,10 +189,6 @@ function yz() {
 	rm -f -- "$tmp"
 }
 
-function yarnr(){
-	yarn run serve
-}
-
 function lg(){
 	lazygit
 }
@@ -205,14 +201,33 @@ function n(){
 	nvim "$1"
 }
 
+function v(){
+	neovide "$1"
+}
+
 function nb(){
-	cd /d/vue/vue-project/blog && n
+	cd /d/vue/vue-project/blog && n ./
+}
+
+function vb(){
+	cd /d/vue/vue-project/blog && neovide ./
 }
 
 function nn(){
-	cd ~/AppData/Local/nvim && n
+	cd ~/AppData/Local/nvim && n ./
 }
 
+function vn(){
+	cd ~/AppData/Local/nvim && neovide ./
+}
+
+function na(){
+    cd /d/vue/vue-project/accounting-web && n ./
+}
+
+function va(){
+    cd /d/vue/vue-project/accounting-web && neovide ./
+}
 # End of lines added by compinstall
 eval "$(starship init zsh)"
 

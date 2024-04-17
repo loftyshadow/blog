@@ -44,8 +44,6 @@ select * from information_schema.innodb_trx where TIME_TO_SEC(timediff(now(),trx
 在表 `INNODB_TRX` 中保存的是还没有提交的事务，会有一些关于事务的信息字段
 ![MySQL事务表.png](img/MySQL事务表.png)
 
-# 脏读幻读不可重复读
-
 ## 脏读
 
 ![MySQL脏读.png](img/MySQL脏读.png)
@@ -103,7 +101,13 @@ SHOW GLOBAL VARIABLES LIKE '%isolation%';
 SHOW SESSION VARIABLES LIKE '%isolation%';
 ```
 
-![隔离级别解决问题.png](img/隔离级别解决问题.png)
+| 事务隔离级别 | 脏读 | 不可重复读 | 幻读 |
+| ------------ | ----- | --------- | ---- |
+| 未提交读（Read Uncommitted ） | 可能 | 可能 | 可能 |
+| 已提交读（Read Committed）| 不可能 | 可能 | 可能 |
+| 可重复读（Repeatable Read） | 不可能 | 不可能 | InnoDB不可能 |
+| 串行化（Serializable） | 不可能 | 不可能 | 不可能 |
+
 
 # MVCC
 

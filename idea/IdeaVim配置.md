@@ -20,7 +20,7 @@ Plug 'easymotion/vim-easymotion'
 "===============================================
 let g:argtextobj_pairs="[:],(:),<:>"
 
-" =============Base settings============
+" =============Base settings===========
 "设置在光标距离窗口顶部或底部一定行数时，开始滚动屏幕内容的行为
 set scrolloff=10
 
@@ -137,8 +137,8 @@ let g:WhichKeyDesc_PinEditors = "<leader>bp 固定当前标签"
 "使焦点转移到 NERDTree 窗口
 map <leader>e :NERDTreeFocus<CR>
 let g:WhichKeyDesc_NERDTreeFocus = "<leader>e 提取相关"
-map <leader>oc <action>(SelectInProjectView)
-let g:WhichKeyDesc_SelectInProjectView = "<leader>oc 打开当前文件"
+map <leader>E <action>(SelectInProjectView)
+let g:WhichKeyDesc_SelectInProjectView = "<leader>E 打开当前文件"
 "extract method/function 将选中的代码片段提取为一个独立的方法(Ctrl + Alt + M)
 vmap <leader>em <action>(ExtractMethod)
 let g:WhichKeyDesc_ExtractMethod = "<leader>em 提取选中方法"
@@ -165,6 +165,9 @@ let g:WhichKeyDesc_DebugQuickEvaluateExpression = "<leader>de 查看指定变量
 "运行到光标处
 nmap <leader>dr <Action>(RunToCursor)
 let g:WhichKeyDesc_DebugRunToCursor = "<leader>dr 运行到光标处"
+"停止
+nmap <leader>sc <Action>(Stop)
+let g:WhichKeyDesc_StopClass = "sc停止运行类"
 "查找
 nmap <leader>sd <Plug>(easymotion-bd-f2)
 let g:WhichKeyDesc_SearchTwoChar = "sd easymotion查找两个字符"

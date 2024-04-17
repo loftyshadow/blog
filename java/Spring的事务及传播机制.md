@@ -95,7 +95,40 @@ public class UserController {
     }
 }
 ```
-但是这种方式太繁琐了，还有更为简单的方法👇。
+
+`TransactionTemplate`实现
+
+```java
+public void testTransactionTemplateWithoutResult() {
+    transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+        @Override
+        protected void doInTransactionWithoutResult(TransactionStatus transactionStatus) {
+            try {
+                //业务代码
+            } catch (Exception e) {
+                //回滚
+                transactionStatus.setRollbackOnly();
+            }
+        }
+    });
+}
+
+
+public void testTransactionTemplateWithResult() {
+    Object execute = transactionTemplate.execute(transactionStatus -> {
+        try {
+            //业务代码
+            return new Object();
+        } catch (Exception e) {
+            //回滚
+            transactionStatus.setRollbackOnly();
+            return null;
+        }
+    });
+    log.debug("execute为: {}", execute);
+}
+```
+
 ### 声明式事务（注解）
 使用 `@Transactional` 注解：
 
@@ -315,6 +348,110 @@ public void myMethod() {
 
 
 ![](img/2024-02-26-12-52-08.png)
+
+## @Transactional注解实现场景
+1. 如果Transactional注解应用在非public 修饰的方法上，Transactional将会失效。
+
+2. `@Transactional` 注解属性 propagation 设置错误
+这种失效是由于配置错误，若是错误的配置以下三种 propagation，事务将不会发生回滚。
+
+TransactionDefinition.PROPAGATION_SUPPORTS：如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。 
+
+TransactionDefinition.PROPAGATION_NOT_SUPPORTED：以非事务方式运行，如果当前存在事务，则把当前事务挂起。
+
+TransactionDefinition.PROPAGATION_NEVER：以非事务方式运行，如果当前存在事务，则抛出异常。
+
+
+3. @Transactional 注解属性 rollbackFor 设置错误
+
+rollbackFor 可以指定能够触发事务回滚的异常类型。Spring默认抛出了未检查unchecked异常（继承自 RuntimeException 的异常）或者 Error才回滚事务；其他异常不会触发回滚事务。如果在事务中抛出其他类型的异常，但却期望 Spring 能够回滚事务，就需要指定 rollbackFor属性。若在目标方法中抛出的异常是 rollbackFor 指定的异常的子类，事务同样会回滚。
+
+
+4. 同一个类中方法调用，导致@Transactional失效
+开发中避免不了会对同一个类里面的方法调用，比如有一个类Test，它的一个方法A，A再调用本类的方法B（不论方法B是用public还是private修饰），但方法A没有声明注解事务，而B方法有。则外部调用方法A之后，方法B的事务是不会起作用的。这也是经常犯错误的一个地方。
+
+那为啥会出现这种情况？其实这还是由于使用Spring AOP代理造成的，因为只有当事务方法被当前类以外的代码调用时，才会由Spring生成的代理对象来管理。
+
+```java
+//@Transactional
+@GetMapping("/test")
+private Integer A() throws Exception {
+    CityInfoDict cityInfoDict = new CityInfoDict();
+    cityInfoDict.setCityName("2");
+    /**
+     * B 插入字段为 3的数据
+     */
+    this.insertB();
+    /**
+     * A 插入字段为 2的数据
+     */
+    int insert = cityInfoDictMapper.insert(cityInfoDict);
+
+    return insert;
+}
+
+@Transactional()
+public Integer insertB() throws Exception {
+    CityInfoDict cityInfoDict = new CityInfoDict();
+    cityInfoDict.setCityName("3");
+    cityInfoDict.setParentCityId(3);
+
+    return cityInfoDictMapper.insert(cityInfoDict);
+}
+```
+可以用`AopContext.currentProxy()`获取当前代理调用
+```java
+public class MyService {
+
+    public void method1() {
+        // 调用method2方法
+        method2();
+    }
+
+    public void method2() {
+        // 获取当前对象的AOP代理
+        MyService proxy = (MyService) AopContext.currentProxy();
+
+        // 在method2方法中调用另一个方法，确保AOP增强生效
+        proxy.method3();
+    }
+
+    public void method3() {
+        // 这里是实际的业务逻辑
+        // AOP增强会在这里生效
+    }
+}
+```
+其实AopContext.currentProxy()的本质是使用的ThreadLocal生成本地代理，这样的做法可能影响性能
+
+5. 异常被你的 catch“吃了”导致@Transactional失效
+这种情况是最常见的一种@Transactional注解失效场景，
+
+```java
+@Transactional
+private Integer A() throws Exception {
+    int insert = 0;
+    try {
+        CityInfoDict cityInfoDict = new CityInfoDict();
+        cityInfoDict.setCityName("2");
+        cityInfoDict.setParentCityId(2);
+        /**
+         * A 插入字段为 2的数据
+         */
+        insert = cityInfoDictMapper.insert(cityInfoDict);
+        /**
+         * B 插入字段为 3的数据
+         */
+        b.insertB();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+```
+
+6. 数据库引擎不支持事务
+这种情况出现的概率并不高，事务能否生效数据库引擎是否支持事务是关键。常用的MySQL数据库默认使用支持事务的innodb引擎。一旦数据库引擎切换成不支持事务的myisam，那事务就从根本上失效了。
+
 
 ## Spring 事务传播机制
 ### 什么是事务的传播机制？
