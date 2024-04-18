@@ -175,6 +175,10 @@ export const sidebar: Sidebar = {
           link: "/java/Java阻塞队列整理.md",
         },
         {
+          text: "垃圾回收算法整理",
+          link: "/java/垃圾回收算法整理.md",
+        },
+        {
           text: "经典垃圾收集器",
           link: "/java/经典垃圾收集器.md",
         },
