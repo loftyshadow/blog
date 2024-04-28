@@ -111,107 +111,72 @@ SHOW SESSION VARIABLES LIKE '%isolation%';
 
 # MVCC
 
-**同一条记录在系统中可以存在多个版本，就是数据库的多版本并发控制（MVCC）**。InnoDB在实现 MVCC 时
-用到的一致性读视图，即 consistent read view，用于支持RC（Read Committed，读提交）和RR
-（Repeatable Read，可重复读）隔离级别的实现。
-一致性读取意味着InnoDB使用多版本来向查询提供数据库在某个时间点的**快照**。该查询查看在该时间点之前
-提交的事务所做的更改，而不查看后来或未提交的事务所做的更改。所以关键在于快照，就是在某些时间点，我
-创建一个快照，这个快照创建了之后，后续同一个事务的所有读取都是读取的这个快照内容。
-**在RC隔离级别下，则每次一致性读都会创建一个新的快照。
-在RR隔离级别下，则在第一次一致性读的时候，创建快照。如果不在第一个select创建快照，也可以用 start transaction with consistent
-snapshot，
-这个在事务开启的时候就会创建一个read view。**
-这里的快照其实不是真正意义的将数据存储了一份，而是一个readView的数据结构保存了某些信息，然后
-通过对这些信息的判断来达到不会读到最新数据的目的。
-![readView.png](img/readView.png)
-对于 read-view A，要得到 1，就必须将当前值依次执行图中所有的回滚操作得到。
+MVCC（Multi-Version Concurrency Control）是一种并发控制机制，用于解决数据库并发访问中，数据一致性问题。它通过在读写操作期间保存多个数据版本，以提供并发事务间的隔离性，从而避免了传统的锁机制所带来的资源争用和阻塞问题。
 
-# Read View
+> 所谓的一致性问题，就是在并发事务执行时，应该看到那些数据和不应该看到那些数据。
 
-下面我们来看下什么是Read View，源码在 \storage\innobase\include\read0types.h
+在 MVCC 机制中，每个事务的读操作都能看到事务开始之前的一致性数据快照，而不受其他并发事务的修改的影响。核心思想是通过**创建多个数据版本，保持事务的一致性和隔离性。**
 
-```c++
-class ReadView {
+MVCC机制在MySQL中，仅有InnoDB引擎支持，而在该引擎中，MVCC机制只对RC、RR两个隔离级别下的事务生效。当然，RC、RR两个不同的隔离级别中，MVCC的实现也存在些许差异
 
-//省略
+使用 MVCC 机制解决了 RR 隔离级别中，部分幻读问题，但又没把全部幻读问题都解决。
 
-..................
+- MVCC 解决了 RR 隔离级别中，快照读的幻读问题。多次查询快照读时，因为 RR 级别是复用 Read View（读视图），所以没有幻读问题。
+- 但 MVCC 解决不了 RR 隔离级别中，如果遇到快照读和当前读（读取当前最新的数据）中间发生过添加操作，那么 Read View 不能复用，就出现了幻读的问题。
 
-/** The read should not see any transaction with trx id >= this value. In other words, this is the "high water mark". */
+## 快照读和当前读
 
-trx_id_t m_low_limit_id; //如果大于等于这个值的事务不可见，也称高水位线
+快照读：是指在一个事务中，读取的数据版本是在事务开始时已经存在的数据版本，而不是最新的数据版本。这种读取方式提供了事务在执行期间看到的数据视图的一致性，**select 查询就是快照读。** 
 
+当前读：是指在事务中读取最新的数据版本，以下几种操作都是快照读：
 
+- select ... for update;
+- select ... lock in share mode;
+- insert ...
+- update ...
+- delete ...
 
-/** The read should see all trx ids which are strictly smaller (<) than this value. In other words, this is the low water mark". */
+## MVCC 实现原理
 
-trx_id_t m_up_limit_id; // 所有小于这个值的事务的值都可见，也称低水位线，其实是m_ids里面的最小值
+MVCC 主要是依靠以下两部分实现的：
 
+1. Undo Log 链
+2. Read View（读视图或者叫一致性视图）
 
-/** trx id of creating transaction, set to TRX_ID_MAX for free views. */
+### Undo Log 链
 
-trx_id_t m_creator_trx_id; // 当前的事务ID
+我们知道 Undo Log 主要是用于数据库中事务回滚的，但在 MVCC 机制中也发挥着重要的作用，那什么是 Undo Log 链呢？
 
+Undo Log 链是指在每个数据对象上维护的 Undo Log 记录链表。每张表都会有与之相对应的 Undo Log 链，用于记录修改前的数据信息（以方便数据进行回滚）。
 
-/** Set of RW transactions that was active when this snapshot was taken */
+![](img/2024-04-21-23-16-28.png)
 
-ids_t m_ids; //存活的事务ID，就是在创建readView 没有提交的事务的ID集合
+### Read View
 
-}
-```
+Read View（读视图）用于管理事务之间数据可见性的一种机制。Read View 在特定时刻为事务创建的一个快照，该快照包含了在该时刻所有未提交事务的事务标识符，以及其他一些辅助信息。
 
-```text
-m_low_limit_id： 当前系统里面已经创建过的事务 ID 的最大值加 1，记为高水位
-m_up_limit_id： 所有存活的（没有提交的）事务ID中最小值，即低水位
-m_creator_trx_id：创建这个readView的事务ID
-m_ids： 创建readView时，所有存活的事务ID列表，活跃的意思是启动了还没有提交
-```
+在 Read View 中包含了以下 4 个主要的字段：
 
-一个ReadView还不能够判断可见与不可见，可见与不可见跟行数据相关，所以还跟每行数据的一些隐藏字段有关：
+1. m_ids：当前活跃的事务编号集合。
+2. min_trx_id：最小活跃事务编号。
+3. max_trx_id：预分配事务编号，当前最大事务编号+1。
+4. creator_trx_id：ReadView 创建者的事务编号。
 
-```text
-DB_ROW_ID： 隐藏的字段ID，当没有主键或者非空唯一索引时，我们的主键所以基于这个递增字段建立。
+RC 级别中，每次快照读都会生成一个全新的 Read View，而 RR 级别中同一个事务会复用一个 Read View。
 
-DB_TRX_ID： 更新这行数据的事务ID
+有了 Read View 和 Undo Log 链之后，并发事务在查询时就知道要读取那些数据了。
 
-DB_ROLL_PTR ： 回滚指针，被改动前的undolog日志指针。
-```
+### 判断方法
 
-每行数据也都是有多个版本的。每次事务更新数据的时候，都会生成一个新的数据版本，并且把transaction id赋值给这个数据版本的事务ID，记为row
-trx_id。同时，旧的数据版本要保留，并且在新的数据版本中，能够有信息可以直接拿到它。也就是说，数据表中的一行记录，其实可能有多个版本 (
-row)，每个版本有自己的 row trx_id。
-下图就是一个数据版本：
-![数据版本.png](img/数据版本.png)
+判断方法是根据 Read View 中的 4 个重要字段，先去 Undo Log 中最新的数据行进行比对，如果满足下面 Read View 的判断条件，则返回当前行的数据，如果不满足则继续查找 Undo Log 的下一行数据，直到找到满足的条件的数据为止，如果查询完没有满足条件的数据，则返回 NULL。
 
-那么ReadView怎么跟我的行数据的DB_TRX_ID来配合做到解决我的不可重复读或者幻读问题呢？
-判断规则：
+### 判断规则
 
-1. 如果数据的DB_TRX_ID < m_up_limit_id, 都小于存活的事务ID了，那么肯定不存活了，说明在创建ReadView的时候已经提交了，可见。
-2. 如果数据的DB_TRX_ID >=m_low_limit_id, 大于等于我即将分配的事务ID， 那么表明修改这条数据的事务是在创建了ReadView之后开启的，不可见。
-3. 如果 m_up_limit_id<= DB_TRX_ID< m_low_limit_id, 表明修改这条数据的事务在第一次快照之前就创建好了，但是不确定提没提交，判断有没有提交，直接可以根据活跃的事务列表
-   m_ids判断
+1. `trx_id==creator_trx_id`：先将 Undo Log 最新数据行中的 trx_id 和 ReadView 中的 creator_trx_id 进行对比，如果他们两个值相同，则说明是在同一个事务中执行，那么直接返回当前 Undo Log 的数据行即可，如果不相等，则继续下面流程。
+2. `trx_id<min_trx_id`：如果 trx_id 小于 min_trx_id，则说明在执行查询时，其他事务已经提交此行数据了，那么直接返回此行数据即可，如果大于等于，则继续下面流程。
+3. `trx_id>max_trx_id`：如果 trx_id 如果大于等于 max_trx_id，则说明该行数据比当前操作执行的晚，当前行数据不可见，继续执行后续流程。
+4. `min_trx_id<=trx_id<max_trx_id`：trx_id 在 min_trx_id 和 max_trx_id 之间还分为以下两种情况：
+    1. `trx_id 在 m_ids 中`：说明事务尚未执行完，该行数据不可被访问。
+    2. `trx_id 未在 m_ids 中`：说明事务已经执行完，可以返回该行数据。
 
-- DB_TRX_ID如果在m_ids中，表面在创建ReadView之时还没提交，不可见
-- DB_TRX_ID如果不在m_ids，表面在创建ReadView之时已经提交，可见
-
-## 案例分析
-
-RR级别，这个是每次查询read view都是一样的
-![PR级别快照.png](img/PR级别快照.png)
-
-我们看B事务第一条查询语句，对于id为8的数据DB_TRX_ID=100，符合3.1的条件，DB_TRX_ID如果在m_ids中，表面在创建ReadView之时还没提交，不可见。那么在第二次查询的时候其实也是不可见的，所以
-**解决了幻读的问题**。
-我们看B事务第一条查询语句，对于id为2的数据DB_TRX_ID=102，符合2的条件，表明修改这条数据的事务是在创建了ReadView之后开启的，不可见。那么在第二次查询的时候其实也是不可见的，所以
-**解决了不可重复读的问题**。
-**而RC级别下每次select都会生成新的read view。**
-
-![RC级别快照.png](img/RC级别快照.png)
-
-我们看B事务第一条查询语句，对于id为8的数据DB_TRX_ID=100，符合3.1的条件，DB_TRX_ID如果在m_ids中，表面在创建ReadView之时还没提交，不可见。那么在第二次查询的时候100<
-101，满足DB_TRX_ID < m_up_limit_id，此时数据是可见的，**造成了幻读。**
-我们看B事务第一条查询语句，对于id为2的数据DB_TRX_ID=102，符合2的条件，表明修改这条数据的事务是在创建了ReadView之后开启的，不可见。那么在第二次查询的时候101<
-=102<103，符合3.2的条件，DB_TRX_ID如果不在m_ids，表面在创建ReadView之时已经提交，**可见，造成了不可重复读。**
-**所以MVCC在RC跟RR的区别就在于是不是每次快照读是否都会生成新的read view，这也是为什么RC没有解决幻读跟可重复读。**
-
-但是也有个例外：更新数据都是先读后写的，而这个读，只能读当前的值，称为“当前读”（current
-read）。因为如果我在改动数据的时候，拿到的不是最新数据，那么就会导致数据丢失。
+以上判断规则从 Undo Log 最新的行数据，逐行对比，直到找到匹配的数据，否则查询完未匹配上，则返回 NULL。
