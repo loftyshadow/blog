@@ -10,6 +10,8 @@ docker-compose --version
 #若有docker-compose version 1.29.2, build 5becea4c，则安装成功
 ```
 
+[windows下载](https://github.com/docker/compose)
+
 ```shell:no-line-numbers
 # 1. 基于docker-compose.yml启动管理的容器
 docker-compose up -d
