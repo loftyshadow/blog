@@ -27,9 +27,9 @@ fi
 ```
 
 ## 安装starship(推荐)
-```shell
-winget install --id Starship.Starship
-```
+[StarShip](https://github.com/starship/starship/releases)
+
+下载压缩包配置到环境变量中
 
 为 Starship 创建配置文件 `~/.config/starship.toml`。
 
