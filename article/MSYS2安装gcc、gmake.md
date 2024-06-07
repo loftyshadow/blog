@@ -49,7 +49,4 @@ which g++
 
 ## 添加到环境变量中
 
-添加MingGW
-并将MingGW添加到Path中
-
 ![环境变量](./img/环境变量.png)
