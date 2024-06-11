@@ -14,6 +14,10 @@
 
 [生成类的所有属性 set 方法](https://plugins.jetbrains.com/plugin/9360-generateallsetter)
 
+# GitToolBox
+
+[Git工具](https://plugins.jetbrains.com/plugin/7499-gittoolbox)
+
 # Grep Console
 
 [控制台美化和增强](https://plugins.jetbrains.com/plugin/7125-grep-console)
