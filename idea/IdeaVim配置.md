@@ -35,6 +35,8 @@ set smartcase
 set infercase
 "将搜索匹配的文本高亮显示
 set hlsearch
+"重构保持模式
+set idearefactormode=keep
 "------------
 
 "--------ident
@@ -66,6 +68,8 @@ set mouse=a
 set cursorline
 set fdm=marker
 
+:set keep-english-in-normal
+:set keep-english-in-normal-and-restore-in-insert
 "======================map映射==========
 "将 jk 映射为 <Esc>
 imap jk <Esc>
@@ -123,6 +127,15 @@ let g:WhichKey_ProcessUnknownMappings = "false"
 " which-key颜色
 let g:WhichKey_KeyColor = "blue"
 
+nmap <leader>1 <Action>(GoToTab1)
+nmap <leader>2 <Action>(GoToTab2)
+nmap <leader>3 <Action>(GoToTab3)
+nmap <leader>4 <Action>(GoToTab4)
+nmap <leader>5 <Action>(GoToTab5)
+nmap <leader>6 <Action>(GoToTab6)
+nmap <leader>7 <Action>(GoToTab7)
+nmap <leader>8 <Action>(GoToTab8)
+nmap <leader>9 <Action>(GoToTab9)
 let g:WhichKeyDesc_Buffer = "<leader>b 标签页相关"
 "关闭当前标签页
 nmap <leader>bd :action CloseEditor<CR>
@@ -181,8 +194,17 @@ let g:WhichKeyDesc_GitAndGenerate = "<leader>ff 寻找文件"
 "在文件中查找
 nmap <leader>fw <action>(FindInPath)
 let g:WhichKeyDesc_GitAndGenerate = "<leader>fw 在文件中查找"
+"生成Code
+nmap <leader>gc <action>(Generate)
+let g:WhichKeyDesc_GenerateCode = "<leader>gc 生成Code"
 "执行版本控制（VCS）的回滚操作，将修改的代码还原到之前的版本
-nmap <leader>gr :action Vcs.RollbackChangedLines<CR>
+nmap <leader>gh <action>(Vcs.ShowTabbedFileHistory)
+let g:WhichKeyDesc_ShowTabbedFileHistory = "<leader>gh 展示历史"
+"版本控制（VCS）
+nmap <leader>gg <action>(Git.Branches)
+let g:WhichKeyDesc_ShowGitBranches = "<leader>gg 展示Git"
+"执行版本控制（VCS）的回滚操作，将修改的代码还原到之前的版本
+nmap <leader>gr <action>(Vcs.RollbackChangedLines)
 let g:WhichKeyDesc_VcsRollbackChangedLines = "<leader>gr 回滚修改"
 "快速查找并跳转到下一个以 ( 开始的函数或方法调用的位置️
 nmap <leader>i f(a
