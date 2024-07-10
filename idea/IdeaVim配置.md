@@ -147,6 +147,9 @@ let g:WhichKeyDesc_Extract = "<leader>e 提取相关"
 "固定当前标签页
 nmap <leader>bp <action>(PinActiveEditorTab)
 let g:WhichKeyDesc_PinEditors = "<leader>bp 固定当前标签"
+"清空服务日志
+nmap <leader>cl <action>(ConsoleView.ClearAll)
+let g:WhichKeyDesc_ConsoleClear = "<leader>cl 清空服务日志"
 "使焦点转移到 NERDTree 窗口
 map <leader>e :NERDTreeFocus<CR>
 let g:WhichKeyDesc_NERDTreeFocus = "<leader>e 提取相关"
@@ -188,6 +191,9 @@ let g:WhichKeyDesc_SearchTwoChar = "sd easymotion查找两个字符"
 "重新格式化代码，使其符合预定义的代码样式和规范 \| 优化导入语句，删除未使用的导入，并将导入语句按字母顺序进行排列
 nmap <leader>fm <action>(ReformatCode)
 let g:WhichKeyDesc_GitAndGenerate = "<leader>g Git版本控制"
+"寻找EndPoint
+nmap <leader>fe <action>(GotoUrlAction)
+let g:WhichKeyDesc_GotoUrlAction = "<leader>fe 寻找EndPoints"
 "寻找文件
 nmap <leader>ff <action>(SearchEverywhere)
 let g:WhichKeyDesc_GitAndGenerate = "<leader>ff 寻找文件"
