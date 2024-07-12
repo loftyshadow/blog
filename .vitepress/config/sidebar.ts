@@ -157,6 +157,10 @@ export const sidebar: Sidebar = {
       link: "/article/xxl-job整理.md",
     },
     {
+      text: "Window设置应用开机自启",
+      link: "/article/Window设置应用开机自启.md",
+    },
+    {
       text: "termux整理",
       link: "/article/termux整理.md",
     },
