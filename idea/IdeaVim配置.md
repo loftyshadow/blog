@@ -98,6 +98,8 @@ map gh <Action>(QuickJavaDoc)
 map gs <Action>(GotoSuperMethod)
 "跳转到使用
 map gr <Action>(ShowUsages)
+"查找所以引用
+map gR <Action>(FindUsages)
 
 "跳转到下一个改变
 map ]c <action>(VcsShowNextChangeMarker)
@@ -209,6 +211,9 @@ let g:WhichKeyDesc_ShowTabbedFileHistory = "<leader>gh 展示历史"
 "版本控制（VCS）
 nmap <leader>gg <action>(Git.Branches)
 let g:WhichKeyDesc_ShowGitBranches = "<leader>gg 展示Git"
+"Git Blame
+nmap <leader>gb <action>(Annotate)
+let g:WhichKeyDesc_ShowGitBlame = "<leader>gb Git Blame"
 "执行版本控制（VCS）的回滚操作，将修改的代码还原到之前的版本
 nmap <leader>gr <action>(Vcs.RollbackChangedLines)
 let g:WhichKeyDesc_VcsRollbackChangedLines = "<leader>gr 回滚修改"
