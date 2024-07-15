@@ -7,3 +7,7 @@ https://rust-book.junmajinlong.com/
 ## Rust 语言圣经
 
 https://course.rs/
+
+## 100个练习题学习Rust
+
+https://colobu.com/rust100
