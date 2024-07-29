@@ -22,7 +22,7 @@ let g:argtextobj_pairs="[:],(:),<:>"
 
 " =============Base settings===========
 "设置在光标距离窗口顶部或底部一定行数时，开始滚动屏幕内容的行为
-set scrolloff=10
+set scrolloff=6
 
 "--------search
 "递增搜索功能：在执行搜索（使用 / 或 ? 命令）时，Vim 会在您输入搜索模式的过程中逐步匹配并高亮显示匹配的文本。
@@ -151,6 +151,9 @@ nmap <leader>bp <action>(PinActiveEditorTab)
 let g:WhichKeyDesc_PinEditors = "<leader>bp 固定当前标签"
 "清空服务日志
 nmap <leader>cl <action>(ConsoleView.ClearAll)
+let g:WhichKeyDesc_ConsoleClear = "<leader>cl 清空服务日志"
+"选择运行/debug
+nmap <leader>cr <action>(RunConfiguration)
 let g:WhichKeyDesc_ConsoleClear = "<leader>cl 清空服务日志"
 "使焦点转移到 NERDTree 窗口
 map <leader>e :NERDTreeFocus<CR>
