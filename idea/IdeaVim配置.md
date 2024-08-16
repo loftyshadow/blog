@@ -115,6 +115,9 @@ map zO <Action>(ExpandAllRegions)
 
 vmap J :move '>+1<CR>gv=gv
 vmap K :move '<-2<CR>gv=gv
+
+nmap J 5j
+nmap K 5k
 "==================leader映射============
 " 启用whichkey
 set which-key
@@ -144,6 +147,8 @@ nmap <leader>bd :action CloseEditor<CR>
 let g:WhichKeyDesc_CloseEditors = "<leader>bd 关闭当前标签"
 "关闭除当前标签外的所有标签
 nmap <leader>bo <action>(CloseAllEditorsButActive)
+"关闭所有标签
+nmap <leader>ba <action>(CloseAllEditors)
 let g:WhichKeyDesc_CloseAllEditorsButActive = "<leader>bo 关闭除当前标签外的所有标签"
 let g:WhichKeyDesc_Extract = "<leader>e 提取相关"
 "固定当前标签页
