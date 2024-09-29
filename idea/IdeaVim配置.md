@@ -23,6 +23,10 @@ let g:argtextobj_pairs="[:],(:),<:>"
 " =============Base settings===========
 "设置在光标距离窗口顶部或底部一定行数时，开始滚动屏幕内容的行为
 set scrolloff=6
+" Press `f` to activate AceJump
+map f <Action>(AceAction)
+" Press `F` to activate Target Mode
+map F <Action>(AceTargetAction)
 
 "--------search
 "递增搜索功能：在执行搜索（使用 / 或 ? 命令）时，Vim 会在您输入搜索模式的过程中逐步匹配并高亮显示匹配的文本。
@@ -194,9 +198,6 @@ let g:WhichKeyDesc_DebugRunToCursor = "<leader>dr 运行到光标处"
 "停止
 nmap <leader>sc <Action>(Stop)
 let g:WhichKeyDesc_StopClass = "sc停止运行类"
-"查找
-nmap <leader>sd <Plug>(easymotion-bd-f2)
-let g:WhichKeyDesc_SearchTwoChar = "sd easymotion查找两个字符"
 "let g:WhichKeyDesc_Format = "<leader>f Format相关"
 "重新格式化代码，使其符合预定义的代码样式和规范 \| 优化导入语句，删除未使用的导入，并将导入语句按字母顺序进行排列
 nmap <leader>fm <action>(ReformatCode)

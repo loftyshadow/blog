@@ -71,6 +71,19 @@ if (Objects.isNull($EXPR$)) {
 }
 ```
 
+## nonNull
+
+```text:no-line-numbers
+if (Objects.nonNull()($EXPR$)) {
+    $END$
+}
+```
+
+## eq
+
+```text:no-line-numbers
+Objects.equals($EXPR$, $END$)
+```
 ## fdebug
 
 ```text:no-line-numbers
