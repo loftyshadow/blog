@@ -74,7 +74,7 @@ if (Objects.isNull($EXPR$)) {
 ## nonNull
 
 ```text:no-line-numbers
-if (Objects.nonNull()($EXPR$)) {
+if (Objects.nonNull($EXPR$)) {
     $END$
 }
 ```
