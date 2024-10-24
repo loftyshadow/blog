@@ -11,3 +11,7 @@ https://course.rs/
 ## 100个练习题学习Rust
 
 https://colobu.com/rust100
+
+## The Rust Programming Language
+
+https://doc.rust-lang.org/book/title-page.html
