@@ -25,6 +25,6 @@ ssh -T git@github.com
 设置Git提交name 和 email
 
 ```shell
-git config --global user.name "niemingzhi"
-git config --global user.email "1094290505@qq.com"
+git config user.name "niemingzhi"
+git config user.email "1094290505@qq.com"
 ```
