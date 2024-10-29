@@ -153,6 +153,10 @@ export const sidebar: Sidebar = {
       link: "/article/Winodws添加neovide到右键.md",
     },
     {
+      text: "解决windows自动安装英语(英文)输入法",
+      link: "/article/解决windows自动安装英语(英文)输入法.md",
+    },
+    {
       text: "xxl-job整理",
       link: "/article/xxl-job整理.md",
     },
