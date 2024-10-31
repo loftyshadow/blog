@@ -22,6 +22,10 @@ export const sidebar: Sidebar = {
       text: "MySQL日志整理",
       link: "/mysql/MySQL日志整理.md",
     },
+    {
+      text: "Mysql常用函数整理",
+      link: "/mysql/Mysql常用函数整理.md",
+    },
   ],
   "/docker/": [
     {
