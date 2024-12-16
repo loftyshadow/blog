@@ -123,7 +123,7 @@ nmap K 5k
 set which-key
 set notimeout
 "leader映射
-let mapleader=" "
+let mapleader = " "
 let g:WhichKeyDesc_LeaderKeymap= "<leader> 🦝LeaderKeymap🦝"
 " 显示延迟
 let g:WhichKey_DefaultDelay = 500
@@ -196,10 +196,16 @@ nmap <leader>sc <Action>(Stop)
 let g:WhichKeyDesc_StopClass = "sc停止运行类"
 "查找
 nmap <leader>sd <Plug>(easymotion-bd-f2)
-let g:WhichKeyDesc_SearchTwoChar = "sd easymotion查找两个字符"
-"let g:WhichKeyDesc_Format = "<leader>f Format相关"
+let g:WhichKeyDesc_SearchTwoChar = "<leader>sd easymotion查找两个字符"
+"在。。。中选择
+nmap <leader>si <Action>(SelectIn)
+let g:WhichKeyDesc_SelectIn = "<leader>si 在。。。中选择"
+"显示所有书签
+nmap <leader>sm <Action>(ShowBookmarks)
+et g:WhichKeyDesc_ShowBookmarks = "显示所有书签"
 "重新格式化代码，使其符合预定义的代码样式和规范 \| 优化导入语句，删除未使用的导入，并将导入语句按字母顺序进行排列
 nmap <leader>fm <action>(ReformatCode)
+"let g:WhichKeyDesc_Format = "<leader>f Format相关"
 let g:WhichKeyDesc_GitAndGenerate = "<leader>g Git版本控制"
 "寻找EndPoint
 nmap <leader>fe <action>(GotoUrlAction)
