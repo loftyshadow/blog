@@ -27,7 +27,13 @@ FIND_IN_SET 的第一个参数是你要查找的值，第二个参数是目标�
 如果你的数据存储结构是这种以逗号分隔的字符串列表，这种查询方法非常方便。但如果数据结构是更复杂的类型（比如 JSON 或数组），可能需要更复杂的处理。
 
 ```sql
+-- 字段保存的是Set
 SELECT *
 FROM book
 WHERE FIND_IN_SET('悬疑', book_tag);
+
+-- 字段保存的是Set中的单个数据
+SELECT *
+FROM book
+WHERE FIND_IN_SET(author, '施耐庵,罗贯中');
 ```
