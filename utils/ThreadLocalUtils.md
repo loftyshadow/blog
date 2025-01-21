@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-@SuppressWarnings("ALL")
+@SuppressWarnings("unchecked")
 public class ThreadLocalUtils {
 
     private ThreadLocalUtils() {
