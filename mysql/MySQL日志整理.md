@@ -17,7 +17,7 @@ redo log又叫“重做日志”,是存储引擎层 (innoDB) 生成的日志，�
 
 事务在写入到数据库中涉及到redo log的整体流程如下图所示：
 
-![](img/2024-04-13-23-30-26.png)
+![](img/waitToSort/2024-04-13-23-30-26.png)
 
 性能不够，缓存来凑。由于CPU的性能远远大于磁盘，为了消除这个鸿沟，引入了两个缓存，`Buffer Pool`和`redo log buffer`。`Buffer Pool`用来存放各种操作，比如写入数据时，先写到内存中，然后由后台线程再刷写到磁盘。`redo log buffer`用来存放重做日志，后续刷到磁盘中。
 
@@ -36,7 +36,7 @@ redo log又叫“重做日志”,是存储引擎层 (innoDB) 生成的日志，�
 InnoDB引擎提供了 `innodb_flush_log_at_trx_commit` 参数，该参数控制 commit提交事务时，如何将 `redo log buffer` 中的日志刷新到 `redo log file` 的3种策略。
 1. `innodb_flush_log_at_trx_commit`=1
 
-![](img/2024-04-13-23-46-16.png)
+![](img/waitToSort/2024-04-13-23-46-16.png)
 
 每次事务提交时都将进行同步, 执行主动刷盘操作，如上图的红线位置，所以只要事务提交成功，redo log记录就一定在硬盘里，不会有田可数据丢失。
 该种方式是MySQL innoDB存储引擎默认的刷盘机制。
@@ -45,7 +45,7 @@ InnoDB引擎提供了 `innodb_flush_log_at_trx_commit` 参数，该参数控制 
 
 2. innodb_flush_log_at_trx_commit=2
 
-![](img/2024-04-13-23-47-16.png)
+![](img/waitToSort/2024-04-13-23-47-16.png)
 
 
 - 为2时，只要事务提交成功，redo log buffer中的内容只写入文件系统缓存（pagecache）
@@ -54,7 +54,7 @@ InnoDB引擎提供了 `innodb_flush_log_at_trx_commit` 参数，该参数控制 
 
 3. innodb_flush_log_at_trx_commit=0
 
-![](img/2024-04-13-23-48-17.png)
+![](img/waitToSort/2024-04-13-23-48-17.png)
 
 - 为0时，后台线程每隔1秒进行一次重做日志的刷盘操作，因此MySQL挂了最多丢失1秒钟内的事务。
 - 这种方式效率是最高的，这种策略也有丢失数据的风险，也无法保证持久性。
@@ -79,14 +79,14 @@ InnoDB引擎提供了 `innodb_flush_log_at_trx_commit` 参数，该参数控制 
 - `write pos`是当前记录的位置，一边写一边后移
 - `checkpoint`是当前要擦除的位置，也是往后推移
 
-![](img/2024-04-13-23-51-59.png)
+![](img/waitToSort/2024-04-13-23-51-59.png)
 
 
 - 每次刷盘 redo log 记录到日志文件组中，write pos 位置就会后移更新。
 - 每次MySQL加载日志文件组恢复数据时，会清空加载过的 redo log 记录，并把checkpoint后移更新。
 - 如果write pos 追上 checkpoint ，表示日志文件组满了，这时候不能再写入新的 redo log记录，MySQL 得停下来，清空一些记录，把 checkpoint 推进一下，如下图：
 
-![](img/2024-04-13-23-52-30.png)
+![](img/waitToSort/2024-04-13-23-52-30.png)
 
 这就是整个`redo log file`中的日志恢复到数据页中的过程。
 
@@ -107,7 +107,7 @@ InnoDB引擎提供了 `innodb_flush_log_at_trx_commit` 参数，该参数控制 
 - 数据复制，利用一定的机制将主节点MySQL的日志数据传递给从节点，实现数据的一致性，实现架构的高可用和高性能。
 所以`bin log`对于数据备份、主从、主主等都都起到了关键作用。
 
-![](img/2024-04-13-23-55-28.png)
+![](img/waitToSort/2024-04-13-23-55-28.png)
 
 ### bin log和redo log区别？
 
@@ -138,7 +138,7 @@ InnoDB引擎提供了 `innodb_flush_log_at_trx_commit` 参数，该参数控制 
 那bin log是什么时候写的，写入的机制又是怎么样的呢？
 bin log写入的整体流程如下图所示：
 
-![](img/2024-04-14-00-00-14.png)
+![](img/waitToSort/2024-04-14-00-00-14.png)
 
 - 为了保证写的效率，会将事务的bin log先写到binlog cache中，注意，这个cache位于事务线程的内存中，主要是一个事务的bin log不能被拆开，是一个整体
 - 在提交事务的时候，将binlog cache中的数据统一写道文件系统缓存page cache中，这个过程速度也很快
@@ -150,30 +150,30 @@ bin log写入的整体流程如下图所示：
 
 1. sync_binlog = 0
 
-![](img/2024-04-14-00-01-23.png)
+![](img/waitToSort/2024-04-14-00-01-23.png)
 
 
 为0的时候，表示每次提交事务都只 write，由系统自行判断什么时候执行fsync。虽然性能得到提升，但是机器宕机，page cache里面的 binglog 会丢失。
 
 2. sync_binlog = 1
 
-![](img/2024-04-14-00-02-02.png)
+![](img/waitToSort/2024-04-14-00-02-02.png)
 
 表示每次提交事务都会执行fsync,更加安全
 3. sync_binlog = N
 
-![](img/2024-04-14-00-02-36.png)
+![](img/waitToSort/2024-04-14-00-02-36.png)
 
 可以设置为N(N>1)，表示每次提交事务都write，但累积N个事务后才fsync
 我们已经知道，事务执行时会同时记录redo log和bin log两种日志，那会有日志出错不一致问题吗？
 
-![](img/2024-04-14-00-03-07.png)
+![](img/waitToSort/2024-04-14-00-03-07.png)
 
 - `redo log`在事务执行过程中可以不断写入
 - `bin log`只有在提交事务时才写入
 假如事务执行sql`update T set c = 1 where id = 2`,在写完`redo log`日志后，`bin log`日志写期间发生了异常，会出现什么情况呢？
 
-![](img/2024-04-14-00-03-57.png)
+![](img/waitToSort/2024-04-14-00-03-57.png)
 
 
 由于`bin log`没写完就异常，这时候`bin log`里面没有对应的修改记录。因此，之后用`bin log`日志恢复数据时，就会少这一次更新，恢复出来的这一行c值为0，而原库因为`redo log`日志恢复，这一行c的值是1，最终数据不一致。
@@ -182,7 +182,7 @@ bin log写入的整体流程如下图所示：
 
 为了解决两份日志之间的一致性问题，InnoDB存储引擎使用两阶段提交方案。将`redo log`的写入拆成了两个步骤prepare和commit。
 
-![](img/2024-04-14-00-05-20.png)
+![](img/waitToSort/2024-04-14-00-05-20.png)
 
 假如现在写入bin log时MySQL发生异常，这时候的redo log还处于prepare阶段，重启MySQL后，根据redo log记录中的事务ID，发现没有对应的bin log日志，回滚前面已写入的数据。
 如果redo log 在commit阶段发生移除，但是能通过事务id找到对应的bin log日志，所以MySQL认为是完整的，就会提交事务恢复数据。
@@ -192,13 +192,13 @@ bin log写入的整体流程如下图所示：
 1. 查看bin log位置
 可以通过命令`show variables like '%log_bin%';`查看`bin log`最终输出的位置。
 
-![](img/2024-04-14-00-06-35.png)
+![](img/waitToSort/2024-04-14-00-06-35.png)
 
 - `log_bin_basename`: 是bin log日志的基本文件名，后面会追加标识来表示每一个文件
 - `log_bin_index`: 是binlog文件的索引文件，这个文件管理了所有的binlog文件的目录
 通过 `SHOW BINARY LOGS`;查看当前的二进制日志文件列表及大小，如下图：
 
-![](img/2024-04-14-00-07-19.png)
+![](img/waitToSort/2024-04-14-00-07-19.png)
 2. 修改 bin log位置
 
 修改MySQL的my.cfg或my.ini配置
@@ -224,14 +224,14 @@ show binlog events [IN 'log_name'] [FROM pos] [LIMIT [offset,] row_count];
 - LIMIT [offset] ：偏移量(不指定就是0)
 - row_count :查询总条数（不指定就是所有行）
 
-![](img/2024-04-14-00-09-24.png)
+![](img/waitToSort/2024-04-14-00-09-24.png)
 
 
 #### bin log 格式
 
 实际上bin log输出的格式类型有3种，默认是ROW类型，就是上面例子中的格式。
 
-![](img/2024-04-14-00-10-05.png)
+![](img/waitToSort/2024-04-14-00-10-05.png)
 
 1. Statement格式：每一条会修改数据的sql都会记录在bin log中
 **优点**：不需要记录每一行的变化，减少了bin log日志量，节约了IO，提高性能。
@@ -279,12 +279,12 @@ InnoDB对`undo log`的管理采用段的方式，也就是回滚段（`rollback 
 1. `insert undo log`格式
 记录的是insert 语句对应的`undo log`，它生成的`undo log`记录格式如下图：
 
-![](img/2024-04-14-00-18-15.png)
+![](img/waitToSort/2024-04-14-00-18-15.png)
 
 2. `update undo log`格式
 记录的是update、delete 语句对应的`undo log`，它生成的`undo log`记录格式如下图：
 
-![](img/2024-04-14-00-18-50.png)
+![](img/waitToSort/2024-04-14-00-18-50.png)
 
 
 ### 那么上面这些生成undo log日志文件最终是存储在哪的呢？
@@ -308,7 +308,7 @@ insert into user (name, sex) values('旭阳', '女')
 
 插入的数据都会生成一条`insert undo log`，并且数据的回滚指针会指向它。`undo log`会记录`undo log`的序号、插入主键的列和值...，那么在进行rollback的时候，通过主键直接把对应的数据删除即可。
 
-![](img/2024-04-14-00-21-36.png)
+![](img/waitToSort/2024-04-14-00-21-36.png)
 
 2. update数据
 ```sql
@@ -319,7 +319,7 @@ update user set name = 'alvin' where id = 1;
 
 这时会把老的记录写入新的`undo log`，让回滚指针指向新的`undo log`，它的`undo no`是1，并且新的`undo log`会指向老的`undo log`（`undo no`=0），最终形成`undo log`版本链，如下图所示：
 
-![](img/2024-04-14-00-22-48.png)
+![](img/waitToSort/2024-04-14-00-22-48.png)
 
 可以发现每次对数据的变更都会产生一个`undo log`，当一条记录被变更多次时，那么就会产生多条`undo log`，`undo log`记录的是变更前的日志，并且每个`undo log`的序号是递增的，那么当要回滚的时候，按照序号依次向前推，就可以找到我们的原始数据了。
 
@@ -335,7 +335,7 @@ update user set name = 'alvin' where id = 1;
 #### 生成过程
 
 
-![](img/2024-04-14-00-23-37.png)
+![](img/waitToSort/2024-04-14-00-23-37.png)
 
 MySQL处于性能考虑，数据会优先从磁盘加载到`Buffer Pool`中，在更新`Buffer Pool`中数据之前，会优先将数据记录到`undo log`中。
 记录`undo log`日志，MySQL不会直接去往磁盘中的xx.ibdata文件写数据，而是会写在`undo_log_buffer`缓冲区中，因为工作线程直接去写磁盘太影响效率了，写进缓冲区后会由后台线程去刷写磁盘。
@@ -360,7 +360,7 @@ MySQL处于性能考虑，数据会优先从磁盘加载到`Buffer Pool`中，�
 ## 日志写入流程
 以一次事务执行为例，使用流程图画一下日志写入流程：
 
-![](img/2024-04-13-23-26-21.png)
+![](img/waitToSort/2024-04-13-23-26-21.png)
 
 在这个流程图中，我们描述了以下步骤：
 

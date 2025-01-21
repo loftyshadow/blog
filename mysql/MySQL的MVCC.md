@@ -29,7 +29,7 @@ ROLLBACK;
 一条或者多条sql语句都属于事务，那为什么我们平时在写update语句的时候没有手动开启start
 transaction呢，因为我们有一个属性叫做autocommit自动提交，这个属性平时就是开着的。会话
 和全局都是开着的
-![MySQL事务属性.png](img/MySQL事务属性.png)
+![MySQL事务属性.png](img/waitToSort/MySQL事务属性.png)
 
 set SESSION autocommit=0, 关闭自动提交，关闭以后单条语句也必须进行commit或者ROLLBACK。
 有些客户端连接框架会默认连接成功后先执行一个set autocommit=0命令。这就导致接下来的查询都在事务中，
@@ -42,21 +42,21 @@ select * from information_schema.innodb_trx where TIME_TO_SEC(timediff(now(),trx
 ```
 
 在表 `INNODB_TRX` 中保存的是还没有提交的事务，会有一些关于事务的信息字段
-![MySQL事务表.png](img/MySQL事务表.png)
+![MySQL事务表.png](img/waitToSort/MySQL事务表.png)
 
 ## 脏读
 
-![MySQL脏读.png](img/MySQL脏读.png)
+![MySQL脏读.png](img/waitToSort/MySQL脏读.png)
 能读取到其他线程还没有提交的数据，但是这些数据可能是会回滚的
 
 ## 不可重复读
 
-![MySQL不可重复读.png](img/MySQL不可重复读.png)
+![MySQL不可重复读.png](img/waitToSort/MySQL不可重复读.png)
 在开启事务之后，读取到其他事务进行修改或者删除提交的的数据
 
 ## 幻读
 
-![MySQL幻读.png](img/MySQL幻读.png)
+![MySQL幻读.png](img/waitToSort/MySQL幻读.png)
 在开启事务之后，读到了其他事务新添加的新数据
 
 # 隔离级别
@@ -149,7 +149,7 @@ MVCC 主要是依靠以下两部分实现的：
 
 Undo Log 链是指在每个数据对象上维护的 Undo Log 记录链表。每张表都会有与之相对应的 Undo Log 链，用于记录修改前的数据信息（以方便数据进行回滚）。
 
-![](img/2024-04-21-23-16-28.png)
+![](img/waitToSort/2024-04-21-23-16-28.png)
 
 ### Read View
 

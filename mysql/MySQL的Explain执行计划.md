@@ -12,7 +12,7 @@
 - 每张表有多少行被优化器查询
 
 格式为：**explain \<SQL语句\>**：
-![img.png](img/MySQL的Explain执行计划.png)
+![img.png](img/waitToSort/MySQL的Explain执行计划.png)
 
 | 字段          | 含义                                                                                   |
 | ------------- | -------------------------------------------------------------------------------------- |
@@ -35,7 +35,7 @@ select查询的序列号，包含一组数字，表示查询中执行select子�
 根据id是否相同可以分为下列三种情况：
 
 - 所有表项的id相同，如：
-  ![img.png](img/img.png)
+  ![img.png](img/waitToSort/img.png)
   则上表中的3个表项按照从上到下的顺序执行，如读表顺序为**t1,t3,t2**。
   由第一节提到的SQL解析顺序也可验证，首先**from t1,t2,t3**表明此次查询设计到的表，
   由于没有**join**，接着解析**where**时开始读表，值得注意的是并不是按照**where**书写的顺序，
@@ -53,7 +53,7 @@ select
 
 - 所有表项的id不同，嵌套查询，id的序号会递增，id值越大优先级越高，越先被执行。类似子查询，有执行依赖关系的,
   id的序号会递增，id值越大优先级越高，越先被执行如：
-  ![img.png](img/img2.png)
+  ![img.png](img/waitToSort/img2.png)
   对于多层嵌套的查询，执行顺序由内而外。解析顺序：
 
 ```sql:no-line-numbers
@@ -80,7 +80,7 @@ select
 由第**12,8,4**行可知查表顺序为**t3,t1,t2**。
 
 - 有的表项id相同，有的则不同。id相同的表项遵循结论1，不同的则遵循结论2
-  ![img.png](img/img3.png)
+  ![img.png](img/waitToSort/img3.png)
   解析顺序：
 
 ```sql:no-line-numbers
@@ -169,11 +169,11 @@ mysql> select * from student;
 +----+-----------+------+
 ```
 
-![img.png](img/img7.png)
+![img.png](img/waitToSort/img7.png)
 
 - **eq_ref**，**唯一性索引扫描**，对于每个索引键，表中只有一条记录与之匹配。
   **常见于主键或唯一索引扫描**
-  ![img.png](img/img8.png)
+  ![img.png](img/waitToSort/img8.png)
   对于b中的每一条数据，从a的主键索引中查找id和其相等的
 - **ref**,**非唯一性索引扫描，返回匹配某个单独值的所有行**。本质上也是一种索引访问，
   它返回所有匹配某个单独值的行，然而，它可能会找到多个
@@ -190,10 +190,10 @@ mysql> create table `person` (
 ```
 
 查询姓张的人：
-![img.png](img/img9.png)
+![img.png](img/waitToSort/img9.png)
 
 - **range**，根据索引的有序性检索特定范围内的行，通常出现在**between、<、>、in**等范围检索中
-  ![img.png](img/img10.png)
+  ![img.png](img/waitToSort/img10.png)
 - **index**，在索引中扫描，只需读取索引数据。
   由于复合索引idx_name是基于（firstName，lastName）的，这种索引只能保证在整体上是按定义时的第一列（即firstName）有序的，当firstName相同时，再按lastName排序，如果不只两列则以此类推。也就是说在根据lastName查找时是无法利用二分的，只能做全索引扫描。
 - **all**，全表扫描，需要从磁盘上读取表数据
@@ -294,7 +294,7 @@ possible_keys: idx_name
 
 - **Using where**：查询使用到了where语句
 - **Using index condition**: 有些搜索条件中虽然出现了索引列，但却不能使用到索引，会显示**Using index condition**。
-  ![img.png](img/img4.png)
+  ![img.png](img/waitToSort/img4.png)
   > 因为**key1 like '%b'**不满足最左匹配原则，无法用到索引，显示**Using index condition**。
 - **Using join buffer**：使用了连接缓存,在连接查询执行过程中，当被驱动表不能有效的利用索引加快访问速度，MySQL一般会为其分配一块名叫join buffer的内存块来加快查询速度，也就是我们所讲的基于块的嵌套循环算法。
 - **Impossible where**：where子句的值总是**false**，如
