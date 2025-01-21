@@ -83,7 +83,7 @@ FROM parent_table
               ON `parent_table`.id = `child_table`.parent_id
 WHERE child_table.parent_id > 123140;
 ```
-通过子表的主键进行COUNT耗时5S+
+通过子表的主表id(有索引)进行COUNT耗时5S+
 ![img.png](img/MySQL测试大量数据的COUNT/img3.png)
 EXPLAIN结果
 ![img.png](img/MySQL测试大量数据的COUNT/img4.png)
@@ -93,7 +93,7 @@ SELECT COUNT(*)
 FROM parent_table
          JOIN child_table
               ON `parent_table`.id = `child_table`.parent_id
-                  AND child_table.detail = 'child_123123'
+                  AND child_table.detail LIKE 'child_%'
                   AND child_table.created_at > '2025-01-21 22:14:07';
 ```
 ![img.png](img/MySQL测试大量数据的COUNT/img5.png)
