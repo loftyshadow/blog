@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Sidebar } from "vitepress/types/default-theme";
 
 export const sidebar: Sidebar = {
@@ -214,6 +215,10 @@ export const sidebar: Sidebar = {
           text: "订单超时自动取消方案",
           link: "/java/订单超时自动取消方案.md",
         },
+        {
+          text: "AQS整理",
+          link: "/java/AQS整理.md",
+        },
       ],
     },
     {
@@ -247,7 +252,7 @@ export const sidebar: Sidebar = {
       collapsed: false,
       items: [
         {
-          text: "Redis内存淘汰策略",
+          text: "Redis过期删除策略与内存淘汰策略",
           link: "/java/Redis过期删除策略与内存淘汰策略.md",
         },
         {
@@ -263,6 +268,16 @@ export const sidebar: Sidebar = {
         {
           text: "ES自定义ik分词配置",
           link: "/java/ES自定义ik分词配置.md",
+        },
+      ],
+    },
+    {
+      text: "ORM",
+      collapsed: false,
+      items: [
+        {
+          text: "JPA使用整合",
+          link: "/java/JPA使用整合.md",
         },
       ],
     },

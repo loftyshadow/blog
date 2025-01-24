@@ -48,7 +48,7 @@ ORDER BY
 LIMIT
 <行数限制>
 ## Mysql查询过程
-![](img/waitToSort/2024-02-21-18-48-18.png)
+![](img/MySQL查询优化/2024-02-21-18-48-18.png)
 ## 1.对查询进行优化，要尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引。 
 
 ## 2. 索引列设置NOT NULL约束
@@ -56,24 +56,25 @@ LIMIT
 通过explain 看这条sql的执行计划，type = ref_or_null，这条sql语句会查询两次，第一次按照查询 a = xxx，第二次再单独查询 a is null
 1. 索引列存在 NULL 就会导致优化器在做索引选择的时候更加复杂，更加难以优化，因为可为 NULL 的列会使索引、索引统计和值比较都更复杂，比如进行索引统计时，count 会省略值为NULL 的行。
 2. NULL 值是一个没意义的值，但是它会占用物理空间，所以会带来的存储空间的问题，因为 InnoDB 存储记录的时候，如果表中存在允许为 NULL 的字段，那么行格式(opens new window)中至少会用 1 字节空间存储 NULL 值列表，如下图的紫色部分：
-![](img/waitToSort/2024-02-21-17-38-38.png)
+![](img/MySQL查询优化/2024-02-21-17-38-38.png)
 
 ## 3. 优化Limit分页查询
 当需要分页操作时，通常会使用LIMIT加上偏移量的办法实现，同时加上合适的ORDER BY字句。如果有对应的索引，通常效率会不错，否则，MySQL需要做大量的文件排序操作。
 
 一个常见的问题是当偏移量非常大的时候，比如：LIMIT 10000 20这样的查询，MySQL需要查询10020条记录然后只返回20条记录，前面的10000条都将被抛弃，这样的代价非常高。
 
-优化这种查询一个最简单的办法就是尽可能的使用覆盖索引扫描，而不是查询所有的列。然后根据需要做一次关联查询再返回所有的列。对于偏移量很大时，这样做的效率会提升非常大。考虑下面的查询：
-`SELECT film_id,description FROM film ORDER BY title LIMIT 50,5;`
+优化这种查询一个最简单的办法就是尽可能的使用覆盖索引扫描，而不是查询所有的列。然后根据需要做一次关联查询再返回所有的列。对于偏移量很大时，这样做的效率会提升非常大。考虑下面的查询：  
+```sql
+SELECT film_id, description FROM film ORDER BY title LIMIT 50,5;
+```
 如果这张表非常大，那么这个查询最好改成下面的样子：
-`
+```sql
 SELECT film.film_id,film.description
 FROM film INNER JOIN (
-   SELECT film_id FROM film ORDER BY title LIMIT 50,5
-) AS tmp USING(film_id);
-`
+    SELECT film_id FROM film ORDER BY title LIMIT 50,5
+) AS tmp USING (film_id);
+```
 limit偏移量大的时候，查询效率较低，可以记录上次查询最大的ID，下次查询时直接根据该ID来查询
-
 ## 4. 优化UNION
 MySQL处理UNION的策略是先创建临时表，然后再把各个查询结果插入到临时表中，最后再来做查询。因此很多优化策略在UNION查询中都没有办法很好的时候。经常需要手动将WHERE、LIMIT、ORDER BY等字句“下推”到各个子查询中，以便优化器可以充分利用这些条件先优化。
 
@@ -84,13 +85,13 @@ MySQL处理UNION的策略是先创建临时表，然后再把各个查询结果�
 执行流程。
 count方法的大原则是server层会从innodb存储引擎里读来一行行数据，并且只累计非null的值。但这个过程，根据count()方法括号内的传参，有略有不同。
 
-count(*)
+**count(*)**  
 server层拿到innodb返回的行数据，不对里面的行数据做任何解析和判断，默认取出的值肯定都不是null，直接行数+1。
 
-count(1)
+**count(1)**  
 server层拿到innodb返回的行数据，每行放个1进去，默认不可能为null，直接行数+1.
 
-count(某个列字段)
+**count(某个列字段)**  
 由于指明了要count某个字段，innodb在取数据的时候，会把这个字段解析出来返回给server层，所以会比count(1)和count(*)多了个解析字段出来的流程。
 
 如果这个列字段是主键id，主键是不可能为null的，所以server层也不用判断是否为null，innodb每返回一行，行数结果就+1.
@@ -135,14 +136,16 @@ MySQL中可以通过子查询来使用 SELECT 语句来创建一个单列的查�
 
 例子：假设要将所有没有订单记录的用户取出来，可以用下面这个查询完成：
 
-`SELECT col1 FROM customerinfo WHERE CustomerID NOT in (SELECT CustomerID FROM salesinfo )`
-如果使用连接(JOIN).. 来完成这个查询工作，速度将会有所提升。尤其是当 salesinfo表中对 CustomerID 建有索引的话，性能将会更好，查询如下：
-
-`
+```sql
 SELECT col1 FROM customerinfo 
-   LEFT JOIN salesinfoON customerinfo.CustomerID=salesinfo.CustomerID 
+  WHERE CustomerID NOT in (SELECT CustomerID FROM salesinfo )
+```  
+如果使用连接(JOIN).. 来完成这个查询工作，速度将会有所提升。尤其是当 salesinfo表中对 CustomerID 建有索引的话，性能将会更好，查询如下：
+```sql
+SELECT col1 FROM customerinfo 
+   LEFT JOIN salesinfoON customerinfo.CustomerID = salesinfo.CustomerID 
       WHERE salesinfo.CustomerID IS NULL
-`
+```
 连接(JOIN).. 之所以更有效率一些，是因为 MySQL 不需要在内存中创建临时表来完成这个逻辑上的需要两个步骤的查询工作。
 
 ## 10. 使用truncate代替delete
@@ -151,15 +154,26 @@ SELECT col1 FROM customerinfo
 
 使用truncate替代，不会记录可恢复的信息，数据不能被恢复。也因此使用truncate操作有其极少的资源占用与极快的时间。另外，使用truncate可以回收表的水位，使自增字段值归零。
 
-## 一次查询SQL实现替换循环查询SQL
+## 11. 一次查询SQL实现替换循环查询SQL
 
 在我们的示例网站系统中，现在要实现每个用户查看各自相册列表（假设每个列表显示10张相片）的时候，能够在相片名称后面显示该相片的留言数量。
 这个需求大家认为应该如何实现呢？我想90%的开发开发工程师会通过如下两步来实现该需求：
-1. 通过`SELECT id, subject, url FROM photo WHERE user_id = ? limit10`得到第一页的相片相关信息；
-2. 通过第1步结果集中的10个相片id循环运行十次`SELECT COUNT(*) FROM photo_comment WHERE photh_id = ?`
+1. 通过
+```sql
+SELECT id, subject, url FROM photo WHERE user_id = ? limit10
+```
+得到第一页的相片相关信息；  
+2. 通过第1步结果集中的10个相片id循环运行十次
+```sql
+SELECT COUNT(*) FROM photo_comment WHERE photh_id = ?
+```
 来此外可能还有部分人想到了如下的方案：
 1. 和上面完全一样的操作步骤；
-2. 通过程序拼装上面得到的10个photo的id，再通过in查询`SELECT photo_id, count(*) FROM photo_comment WHERE photo_id in (?) GROUPBY photo_id`
+2. 通过程序拼装上面得到的10个photo的id，再通过in查询
+```sql
+SELECT photo_id, count(*) FROM photo_comment 
+  WHERE photo_id in (?) GROUPBY photo_id
+```
 一次得到10个photo的所有回复数量，再组装两个结果集得到展现对象。得到每张相册的回复数量然后再瓶装展现对象。
 我们来对以上两个方案做一下简单的比较：
 1. 从MySQL执行的SQL数量来看，第一种解决方案为11（1+10=11）条SQL语句，第二种解决方案为2条SQL语句（1+1）;
@@ -178,7 +192,7 @@ SQL语句的解析动作在整个SQL语句执行过程中的整体消耗的CPU�
 6. 应用程序数据处理方面所多出的这个photo_id的拼装所消耗的资源是非常小的，甚至比应用程序与MySQL做一次简单的交互所消耗的资源还要少。
 综合上面的这6点比较，我们可以很容易得出结论，从整体资源消耗来看，第二中方案会远远优于第一种解决方案。
 
-## 表设计分离频繁字段
+## 12. 表设计分离频繁字段
 系统中用户数据的读取也是比较频繁的，但是大多数地方所需要的用户数据都只是用户的几个基本属性，
 如用户的id，昵称，密码，状态，邮箱等，所以将用户表的这几个属性单独分离出来后，也会让大量的SQL语句在运行的时候减少数据的检索量，
 从而提高性能。可能有人会觉得，在我们将一个表分成两个表的时候，我们如果要访问被分拆出去的信息的时候，性能不是就会变差了吗？

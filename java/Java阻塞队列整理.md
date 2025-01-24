@@ -67,24 +67,24 @@ SynchronousQueue: 队列只有一个元素，如果想插入多个，必须等�
 ## ArrayBlockingQueue
 从名称看就可以知道它是数组实现的，我们先来看看它有哪些重要字段
 ```java
- public class ArrayBlockingQueue<E> extends AbstractQueue<E>
-         implements BlockingQueue<E>, java.io.Serializable {
-     //存储元素的数组
-     final Object[] items;
-     //记录元素出队的下标
-     int takeIndex;
-     //记录元素入队的下标
-     int putIndex;
-     //队列中元素数量
-     int count；
-     //使用的锁
-     final ReentrantLock lock;
-     //出队的等待队列，作用于消费者
-     private final Condition notEmpty;
-     //入队的等待队列，作用于生产者
-     private final Condition notFull;
-     
- }
+ public class ArrayBlockingQueue<E> extends AbstractQueue<E>
+         implements BlockingQueue<E>, java.io.Serializable {
+     //存储元素的数组
+     final Object[] items;
+     //记录元素出队的下标
+     int takeIndex;
+     //记录元素入队的下标
+     int putIndex;
+     //队列中元素数量
+     int count;
+     //使用的锁
+     final ReentrantLock lock;
+     //出队的等待队列，作用于消费者
+     private final Condition notEmpty;
+     //入队的等待队列，作用于生产者
+     private final Condition notFull;
+     
+ }
 ```
 
 看完关键字段，我们可以知道：ArrayBlockingQueue由数组实现、使用并发包下的可重入锁、同时用两个等待队列作用生产者和消费者
@@ -96,16 +96,16 @@ SynchronousQueue: 队列只有一个元素，如果想插入多个，必须等�
 在构造器中、初始化数组容量，同时使用非公平锁
 ```java
 public ArrayBlockingQueue(int capacity) {
-    this(capacity, false);
+    this(capacity, false);
 }
 public ArrayBlockingQueue(int capacity, boolean fair) {
-    if (capacity <= 0)
-        throw new IllegalArgumentException();
-    this.items = new Object[capacity];
-    //锁是否为公平锁
-    lock = new ReentrantLock(fair);
-    notEmpty = lock.newCondition();
-    notFull =  lock.newCondition();
+    if (capacity <= 0)
+        throw new IllegalArgumentException();
+    this.items = new Object[capacity];
+    //锁是否为公平锁
+    lock = new ReentrantLock(fair);
+    notEmpty = lock.newCondition();
+    notFull =  lock.newCondition();
 }
 ```
 ArrayBlockingQueue的公平性是由ReentrantLock来实现的
@@ -113,29 +113,29 @@ ArrayBlockingQueue的公平性是由ReentrantLock来实现的
 我们来看看入队方法，入队方法都大同小异，我们本文都查看支持超时、响应中断的方法
 ```java
 public boolean offer(E e, long timeout, TimeUnit unit)
-    throws InterruptedException {
+    throws InterruptedException {
     //检查空指针
-    checkNotNull(e);
-    //获取超时纳秒
-    long nanos = unit.toNanos(timeout);
-    final ReentrantLock lock = this.lock;
-    //加锁
-    lock.lockInterruptibly();
-    try {
-        //如果队列已满
-        while (count == items.length) {
-            //超时则返回入队失败，否则生产者等待对应时间
-            if (nanos <= 0)
-                return false;
-            nanos = notFull.awaitNanos(nanos);
-        }
-        //入队
-        enqueue(e);
-        return true;
-    } finally {
-        //解锁
-        lock.unlock();
-    }
+    checkNotNull(e);
+    //获取超时纳秒
+    long nanos = unit.toNanos(timeout);
+    final ReentrantLock lock = this.lock;
+    //加锁
+    lock.lockInterruptibly();
+    try {
+        //如果队列已满
+        while (count == items.length) {
+            //超时则返回入队失败，否则生产者等待对应时间
+            if (nanos <= 0)
+                return false;
+            nanos = notFull.awaitNanos(nanos);
+        }
+        //入队
+        enqueue(e);
+        return true;
+    } finally {
+        //解锁
+        lock.unlock();
+    }
 }
 ```
 
@@ -144,17 +144,17 @@ public boolean offer(E e, long timeout, TimeUnit unit)
 
 ```java
 private void enqueue(E x) {
-    //队列数组
-    final Object[] items = this.items;
-    //往入队下标添加值
-    items[putIndex] = x;
-    //自增入队下标 如果已满则定位到0 成环
-    if (++putIndex == items.length)
-        putIndex = 0;
-    //统计数量增加
-    count++;
-    //唤醒消费者
-    notEmpty.signal();
+    //队列数组
+    final Object[] items = this.items;
+    //往入队下标添加值
+    items[putIndex] = x;
+    //自增入队下标 如果已满则定位到0 成环
+    if (++putIndex == items.length)
+        putIndex = 0;
+    //统计数量增加
+    count++;
+    //唤醒消费者
+    notEmpty.signal();
 }
 ```
 在入队中，主要是添加元素、修改下次添加的下标、统计队列中的元素和唤醒消费者，到这以及可以说明它的实现是环形数组
@@ -173,32 +173,32 @@ private void enqueue(E x) {
 `LinkedBlockingQueue`从名称上来看，就是使用链表实现的，我们来看看它的关键字段
 ```java
 public class LinkedBlockingQueue<E> extends AbstractQueue<E>
-        implements BlockingQueue<E>, java.io.Serializable {
-    //节点
-    static class Node<E> {
-        //存储元素
-        E item;
-        //下一个节点
-        Node<E> next;
-        
-        //...
-    }
-    //容量上限
-    private final int capacity;
-    //队列元素数量
-    private final AtomicInteger count = new AtomicInteger();
-    //头节点
-    transient Node<E> head;
-    //尾节点
-    private transient Node<E> last;
-    //出队的锁
-    private final ReentrantLock takeLock = new ReentrantLock();
-    //出队的等待队列
-    private final Condition notEmpty = takeLock.newCondition();
-    //入队的锁
-    private final ReentrantLock putLock = new ReentrantLock();
-    //入队的等待队列
-    private final Condition notFull = putLock.newCondition();
+        implements BlockingQueue<E>, java.io.Serializable {
+    //节点
+    static class Node<E> {
+        //存储元素
+        E item;
+        //下一个节点
+        Node<E> next;
+        
+        //...
+    }
+    //容量上限
+    private final int capacity;
+    //队列元素数量
+    private final AtomicInteger count = new AtomicInteger();
+    //头节点
+    transient Node<E> head;
+    //尾节点
+    private transient Node<E> last;
+    //出队的锁
+    private final ReentrantLock takeLock = new ReentrantLock();
+    //出队的等待队列
+    private final Condition notEmpty = takeLock.newCondition();
+    //入队的锁
+    private final ReentrantLock putLock = new ReentrantLock();
+    //入队的等待队列
+    private final Condition notFull = putLock.newCondition();
 }
 ```
 从字段中，我们可以知道它使用单向链表的节点、且用首尾节点记录队列的头尾，并且它使用两把锁、两个等待队列作用于队头、尾，与`ArrayBlockingQueue`相比能够增加并发性能
@@ -213,13 +213,13 @@ public class LinkedBlockingQueue<E> extends AbstractQueue<E>
 
 ```java
 public LinkedBlockingQueue() {
-    this(Integer.MAX_VALUE);
+    this(Integer.MAX_VALUE);
 }
   
 public LinkedBlockingQueue(int capacity) {
-    if (capacity <= 0) throw new IllegalArgumentException();
-    this.capacity = capacity;
-    last = head = new Node<E>(null);
+    if (capacity <= 0) throw new IllegalArgumentException();
+    this.capacity = capacity;
+    last = head = new Node<E>(null);
 }
 ```
 在构造中，首尾节点会指向一个值为空的虚拟节点
@@ -231,37 +231,37 @@ public LinkedBlockingQueue(int capacity) {
 来看看入队操作
 ```java
 public boolean offer(E e, long timeout, TimeUnit unit)
-    throws InterruptedException {
+    throws InterruptedException {
   
-    if (e == null) throw new NullPointerException();
-    long nanos = unit.toNanos(timeout);
-    int c = -1;
-    final ReentrantLock putLock = this.putLock;
-    final AtomicInteger count = this.count;
-    //加锁
-    putLock.lockInterruptibly();
-    try {
-        //队列已满，超时返回，不超时等待
-        while (count.get() == capacity) {
-            if (nanos <= 0)
-                return false;
-            nanos = notFull.awaitNanos(nanos);
-        }
-        //入队
-        enqueue(new Node<E>(e));
-        // 先获取再自增 c中存储的是旧值
-        c = count.getAndIncrement();
-        //如果数量没满 唤醒生产者
-        if (c + 1 < capacity)
-            notFull.signal();
-    } finally {
-        //解锁
-        putLock.unlock();
-    }
-    //如果旧值为0 说明该入队操作前是空队列，唤醒消费者来消费
-    if (c == 0)
-        signalNotEmpty();
-    return true;
+    if (e == null) throw new NullPointerException();
+    long nanos = unit.toNanos(timeout);
+    int c = -1;
+    final ReentrantLock putLock = this.putLock;
+    final AtomicInteger count = this.count;
+    //加锁
+    putLock.lockInterruptibly();
+    try {
+        //队列已满，超时返回，不超时等待
+        while (count.get() == capacity) {
+            if (nanos <= 0)
+                return false;
+            nanos = notFull.awaitNanos(nanos);
+        }
+        //入队
+        enqueue(new Node<E>(e));
+        // 先获取再自增 c中存储的是旧值
+        c = count.getAndIncrement();
+        //如果数量没满 唤醒生产者
+        if (c + 1 < capacity)
+            notFull.signal();
+    } finally {
+        //解锁
+        putLock.unlock();
+    }
+    //如果旧值为0 说明该入队操作前是空队列，唤醒消费者来消费
+    if (c == 0)
+        signalNotEmpty();
+    return true;
 }
 ```
 
@@ -271,50 +271,50 @@ public boolean offer(E e, long timeout, TimeUnit unit)
 ```java
 //添加节点到末尾
 private void enqueue(Node<E> node) {
-    last = last.next = node;
+    last = last.next = node;
 }
 ```
 唤醒消费者前要先获取锁
 ```java
 private void signalNotEmpty() {
-    final ReentrantLock takeLock = this.takeLock;
-    takeLock.lock();
-    try {
-        notEmpty.signal();
-    } finally {
-        takeLock.unlock();
-    }
+    final ReentrantLock takeLock = this.takeLock;
+    takeLock.lock();
+    try {
+        notEmpty.signal();
+    } finally {
+        takeLock.unlock();
+    }
 }
 ```
 出队操作也类似
 ```java
 public E poll(long timeout, TimeUnit unit) throws InterruptedException {
-    E x = null;
-    int c = -1;
-    long nanos = unit.toNanos(timeout);
-    final AtomicInteger count = this.count;
-    final ReentrantLock takeLock = this.takeLock;
-    takeLock.lockInterruptibly();
-    try {
-        // 队列为空 超时返回空，否则等待
-        while (count.get() == 0) {
-            if (nanos <= 0)
-                return null;
-            nanos = notEmpty.awaitNanos(nanos);
-        }
-        //出队
-        x = dequeue();
-        c = count.getAndDecrement();
-        //队列中除了当前线程获取的任务外还有任务就去唤醒消费者消费
-        if (c > 1)
-            notEmpty.signal();
-    } finally {
-        takeLock.unlock();
-    }
-    //原来队列已满就去唤醒生产者 生产
-    if (c == capacity)
-        signalNotFull();
-    return x;
+    E x = null;
+    int c = -1;
+    long nanos = unit.toNanos(timeout);
+    final AtomicInteger count = this.count;
+    final ReentrantLock takeLock = this.takeLock;
+    takeLock.lockInterruptibly();
+    try {
+        // 队列为空 超时返回空，否则等待
+        while (count.get() == 0) {
+            if (nanos <= 0)
+                return null;
+            nanos = notEmpty.awaitNanos(nanos);
+        }
+        //出队
+        x = dequeue();
+        c = count.getAndDecrement();
+        //队列中除了当前线程获取的任务外还有任务就去唤醒消费者消费
+        if (c > 1)
+            notEmpty.signal();
+    } finally {
+        takeLock.unlock();
+    }
+    //原来队列已满就去唤醒生产者 生产
+    if (c == capacity)
+        signalNotFull();
+    return x;
 }
 ```
 `LinkedBlockingQueue`与`ArrayBlockingQueue`的出队、入队实现类似
@@ -358,32 +358,32 @@ LinkedBlockingQueue基于链表实现，队列容量默认Integer.MAX_VALUE
 ```java
 @Test
 public void testPriorityBlockingQeque() {
-    //默认使用Integer实现Comparable的升序
-    PriorityBlockingQueue<Integer> queue = new PriorityBlockingQueue<>(6);
-    queue.offer(99);
-    queue.offer(1099);
-    queue.offer(299);
-    queue.offer(992);
-    queue.offer(99288);
-    queue.offer(995);
-    //99 299 992 995 1099 99288
-    while (!queue.isEmpty()){
-        System.out.print(" "+queue.poll());
-    }
+    //默认使用Integer实现Comparable的升序
+    PriorityBlockingQueue<Integer> queue = new PriorityBlockingQueue<>(6);
+    queue.offer(99);
+    queue.offer(1099);
+    queue.offer(299);
+    queue.offer(992);
+    queue.offer(99288);
+    queue.offer(995);
+    //99 299 992 995 1099 99288
+    while (!queue.isEmpty()){
+        System.out.print(" "+queue.poll());
+    }
   
-    System.out.println();
+    System.out.println();
     //指定Comparator 降序
-    queue = new PriorityBlockingQueue<>(6, (o1, o2) -> o2-o1);
-    queue.offer(99);
-    queue.offer(1099);
-    queue.offer(299);
-    queue.offer(992);
-    queue.offer(99288);
-    queue.offer(995);
-    //99288 1099 995 992 299 99
-    while (!queue.isEmpty()){
-        System.out.print(" "+queue.poll());
-    }
+    queue = new PriorityBlockingQueue<>(6, (o1, o2) -> o2-o1);
+    queue.offer(99);
+    queue.offer(1099);
+    queue.offer(299);
+    queue.offer(992);
+    queue.offer(99288);
+    queue.offer(995);
+    //99288 1099 995 992 299 99
+    while (!queue.isEmpty()){
+        System.out.print(" "+queue.poll());
+    }
 }
 ```
 适用于需要根据优先级排序处理的场景
@@ -409,11 +409,11 @@ Delay是一个延时获取元素的无界阻塞队列， 延时最长排在队�
 Delay队列元素实现Delayed接口通过`getDelay`获取延时时间
 ```java
 public class DelayQueue<E extends Delayed> extends AbstractQueue<E>
-    implements BlockingQueue<E> {
+    implements BlockingQueue<E> {
 }
 ​
 public interface Delayed extends Comparable<Delayed> {
-    long getDelay(TimeUnit unit);
+    long getDelay(TimeUnit unit);
 }
 ```
 
@@ -423,46 +423,46 @@ public interface Delayed extends Comparable<Delayed> {
 2. 定时任务调度： 将定时任务的时间设置为延时时间，一旦可以获取到任务就开始执行
 以定时线程池`ScheduledThreadPoolExecutor`的定时任务`ScheduledFutureTask`为例，它实现`Delayed`获取延迟执行的时间
 
-![](img/2024-04-14-20-11-29.png)
+![](img/Java阻塞队列整理/2024-04-14-20-11-29.png)
 
 1. 创建对象时,初始化数据
 
 ```java
 ScheduledFutureTask(Runnable r, V result, long ns, long period) {
-    super(r, result);
-    //time记录当前对象延迟到什么时候可以使用,单位是纳秒
-    this.time = ns;
-    this.period = period;
-    //sequenceNumber记录元素在队列中先后顺序  sequencer原子自增
-    //AtomicLong sequencer = new AtomicLong();
-    this.sequenceNumber = sequencer.getAndIncrement();
+    super(r, result);
+    //time记录当前对象延迟到什么时候可以使用,单位是纳秒
+    this.time = ns;
+    this.period = period;
+    //sequenceNumber记录元素在队列中先后顺序  sequencer原子自增
+    //AtomicLong sequencer = new AtomicLong();
+    this.sequenceNumber = sequencer.getAndIncrement();
 }
 ```
 2. 实现Delayed接口的getDelay方法
 ```java
 public long getDelay(TimeUnit unit) {
-    return unit.convert(time - now(), NANOSECONDS);
+    return unit.convert(time - now(), NANOSECONDS);
 }
 ```
 3. Delay接口继承了Comparable接口，目的是要实现compareTo方法来继续排序
 ```java
 public int compareTo(Delayed other) {
-    if (other == this) // compare zero if same object
-        return 0;
-    if (other instanceof ScheduledFutureTask) {
-        ScheduledFutureTask<?> x = (ScheduledFutureTask<?>)other;
-        long diff = time - x.time;
-        if (diff < 0)
-            return -1;
-        else if (diff > 0)
-            return 1;
-        else if (sequenceNumber < x.sequenceNumber)
-            return -1;
-        else
-            return 1;
-    }
-    long diff = getDelay(NANOSECONDS) - other.getDelay(NANOSECONDS);
-    return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+    if (other == this) // compare zero if same object
+        return 0;
+    if (other instanceof ScheduledFutureTask) {
+        ScheduledFutureTask<?> x = (ScheduledFutureTask<?>)other;
+        long diff = time - x.time;
+        if (diff < 0)
+            return -1;
+        else if (diff > 0)
+            return 1;
+        else if (sequenceNumber < x.sequenceNumber)
+            return -1;
+        else
+            return 1;
+    }
+    long diff = getDelay(NANOSECONDS) - other.getDelay(NANOSECONDS);
+    return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
 }
 ```
 **特征**:
@@ -493,39 +493,39 @@ DelayQueue延迟队列，基于优先级队列来实现
 ```java
 @Test
 public void testSynchronousQueue() throws InterruptedException {
-    final SynchronousQueue<Integer> queue = new SynchronousQueue(true);
-    new Thread(() -> {
-        try {
-            queue.put(1);
-            queue.put(2);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }, "put12线程").start();
+    final SynchronousQueue<Integer> queue = new SynchronousQueue(true);
+    new Thread(() -> {
+        try {
+            queue.put(1);
+            queue.put(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }, "put12线程").start();
   
-    new Thread(() -> {
-        try {
-            queue.put(3);
-            queue.put(4);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }, "put34线程").start();
+    new Thread(() -> {
+        try {
+            queue.put(3);
+            queue.put(4);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }, "put34线程").start();
   
-    TimeUnit.SECONDS.sleep(1);
-    System.out.println(Thread.currentThread().getName() + "拿出" + queue.take());
-    TimeUnit.SECONDS.sleep(1);
-    System.out.println(Thread.currentThread().getName() + "拿出" + queue.take());
-    TimeUnit.SECONDS.sleep(1);
-    System.out.println(Thread.currentThread().getName() + "拿出" + queue.take());
-    TimeUnit.SECONDS.sleep(1);
-    System.out.println(Thread.currentThread().getName() + "拿出" + queue.take());
+    TimeUnit.SECONDS.sleep(1);
+    System.out.println(Thread.currentThread().getName() + "拿出" + queue.take());
+    TimeUnit.SECONDS.sleep(1);
+    System.out.println(Thread.currentThread().getName() + "拿出" + queue.take());
+    TimeUnit.SECONDS.sleep(1);
+    System.out.println(Thread.currentThread().getName() + "拿出" + queue.take());
+    TimeUnit.SECONDS.sleep(1);
+    System.out.println(Thread.currentThread().getName() + "拿出" + queue.take());
 }
- //结果 因为使用公平锁 1在2前，3在4前
- //main拿出1
- //main拿出3
- //main拿出2
- //main拿出4
+ //结果 因为使用公平锁 1在2前，3在4前
+ //main拿出1
+ //main拿出3
+ //main拿出2
+ //main拿出4
 ```
 
 **SynchronousQueue队列本身不存储元素，负责把生产者的数据传递给消费者，适合传递性的场景**
@@ -556,45 +556,45 @@ transfer()
 ```java
 @Test
 public void testTransfer() throws InterruptedException {
-    LinkedTransferQueue queue = new LinkedTransferQueue();
-    new Thread(()->{
-        try {
-            //阻塞直到被获取
-            queue.transfer(1);
-            //生产者放入的1被取走了
-            System.out.println(Thread.currentThread().getName()+"放入的1被取走了");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    },"生产者").start();
+    LinkedTransferQueue queue = new LinkedTransferQueue();
+    new Thread(()->{
+        try {
+            //阻塞直到被获取
+            queue.transfer(1);
+            //生产者放入的1被取走了
+            System.out.println(Thread.currentThread().getName()+"放入的1被取走了");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    },"生产者").start();
   
-    TimeUnit.SECONDS.sleep(3);
-    //main取出队列中的元素
-    System.out.println(Thread.currentThread().getName()+"取出队列中的元素");
-    queue.poll();
+    TimeUnit.SECONDS.sleep(3);
+    //main取出队列中的元素
+    System.out.println(Thread.currentThread().getName()+"取出队列中的元素");
+    queue.poll();
 }
 ```
 `tryTransfer()`无论消费者是否消费都直接返回
 ```java
 @Test
 public void testTryTransfer() throws InterruptedException {
-    LinkedTransferQueue<Integer> queue = new LinkedTransferQueue<>();
-    //false
-    System.out.println(queue.tryTransfer(1));
-    //null
-    System.out.println(queue.poll());
+    LinkedTransferQueue<Integer> queue = new LinkedTransferQueue<>();
+    //false
+    System.out.println(queue.tryTransfer(1));
+    //null
+    System.out.println(queue.poll());
   
-    new Thread(()->{
-        try {
-            //消费者取出2
-            System.out.println(Thread.currentThread().getName()+"取出"+queue.poll(2, TimeUnit.SECONDS));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    },"消费者").start();
-    TimeUnit.SECONDS.sleep(1);
-    //true
-    System.out.println(queue.tryTransfer(2));
+    new Thread(()->{
+        try {
+            //消费者取出2
+            System.out.println(Thread.currentThread().getName()+"取出"+queue.poll(2, TimeUnit.SECONDS));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    },"消费者").start();
+    TimeUnit.SECONDS.sleep(1);
+    //true
+    System.out.println(queue.tryTransfer(2));
 }
 ```
 `tryTransfer(long,TimeUnit)` 在超时时间内消费者消费元素返回true，反之返回false

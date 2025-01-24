@@ -1,3 +1,4 @@
+// @ts-ignore
 import { NavItem } from "vitepress/types/default-theme";
 
 export const nav: NavItem[] = [

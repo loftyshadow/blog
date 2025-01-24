@@ -1,4 +1,4 @@
-# Mysql 索引失效
+# MySQL 索引失效
 
 [原文链接](https://juejin.cn/post/7307166050512388096?searchId=2024011708424080E96C10C96313ECDE9A)
 
@@ -85,7 +85,7 @@ explain select * from t_user where id = 1;
 ```
 
 执行结果：
-![img.png](img/waitToSort/img5.png)
+![img.png](img/MySQL索引失效/img5.png)
 可以看到上述SQL语句使用了主键索引（PRIMARY），key_len为4；
 其中key_len的含义为：表示索引使用的字节数，根据这个值可以判断索引的使用情况，特别是在组合索引的时候，判断该索引有多少部分被使用到非常重要。
 做好以上数据及知识的准备，下面就开始讲解具体索引失效的实例了。
@@ -108,7 +108,7 @@ explain select * from t_user where id_no = '1002';
 ```
 
 explain结果：
-![img.png](img/waitToSort/img6.png)
+![img.png](img/MySQL索引失效/img6.png)
 通过explain执行结果可以看出，上述SQL语句走了union_idx这条索引。
 这里再普及一下key_len的计算：
 
@@ -122,7 +122,7 @@ explain结果：
 explain select * from t_user where id_no = '1002' and username = 'Tom2';
 ```
 explain结果：
-![img.png](img/waitToSort/img11.png)
+![img.png](img/MySQL索引失效/img11.png)
 很显然，依旧走了union_idx索引，根据上面key_len的分析，大胆猜测，在使用索引时，不仅使用了id_no列，还使用了username列。
 
 示例三：
@@ -130,7 +130,7 @@ explain结果：
 explain select * from t_user where id_no = '1002' and age = 12;
 ```
 explain结果：
-![img.png](img/waitToSort/img12.png)
+![img.png](img/MySQL索引失效/img12.png)
 走了union_idx索引，但跟示例一一样，只用到了id_no列。
 
 当然，还有三列都在查询条件中的情况，就不再举例了。上面都是走索引的正向例子，也就是满足最左匹配原则的例子，下面来看看，不满足该原则的反向例子。
@@ -140,7 +140,7 @@ explain结果：
 explain select * from t_user where username = 'Tom2' and age = 12;
 ```
 explain结果：
-![img.png](img/waitToSort/img13.png)
+![img.png](img/MySQL索引失效/img13.png)
 此时，可以看到未走任何索引，也就是说索引失效了。
 
 同样的，下面只要没出现最左条件的组合，索引也是失效的：
@@ -164,7 +164,7 @@ explain select id_no, username, age from t_user where username = 'Tom2';
 explain select id_no, username, age from t_user where age = 12;
 ```
 explain结果：
-![img.png](img/waitToSort/img14.png)
+![img.png](img/MySQL索引失效/img14.png)
 无论查询条件是username还是age，都走了索引，根据key_len可以看出使用了索引的所有列。
 第二种索引失效场景：在联合索引下，尽量使用明确的查询列来趋向于走覆盖索引；
 这一条不走索引的情况属于优化项，如果业务场景满足，则进来促使SQL语句走索引。至于阿里巴巴开发手册中的规范，只不过是两者撞到一起了，规范本身并不是为这条索引规则而定的。
@@ -174,7 +174,7 @@ explain结果：
 explain select * from t_user where id + 1 = 2 ;
 ```
 explain结果：
-![img.png](img/waitToSort/img15.png)
+![img.png](img/MySQL索引失效/img15.png)
 可以看到，即便id列有索引，由于进行了计算处理，导致无法正常走索引。
 针对这种情况，其实不单单是索引的问题，还会增加数据库的计算负担。就以上述SQL语句为例，数据库需要全表扫描出所有的id字段值，然后对其计算，计算之后再与参数值进行比较。如果每次执行都经历上述步骤，性能损耗可想而知。
 建议的使用方式是：先在内存中进行计算好预期的值，或者在SQL语句条件的右侧进行参数值的计算。
@@ -192,7 +192,7 @@ explain select * from t_user where id = 2 - 1 ;
 explain select * from t_user where SUBSTR(id_no,1,3) = '100';
 ```
 explain结果：
-![img.png](img/waitToSort/img16.png)
+![img.png](img/MySQL索引失效/img16.png)
 上述示例中，索引列使用了函数（SUBSTR，字符串截取），导致索引失效。
 此时，索引失效的原因与第三种情况一样，都是因为数据库要先进行全表扫描，获得数据之后再进行截取、计算，导致索引索引失效。同时，还伴随着性能问题。
 示例中只列举了SUBSTR函数，像CONCAT等类似的函数，也都会出现类似的情况。解决方案可参考第三种场景，可考虑先通过内存计算或其他方式减少数据库来进行内容的处理。
@@ -203,7 +203,7 @@ explain结果：
 explain select * from t_user where id_no like '%00%';
 ```
 explain结果：
-![img.png](img/waitToSort/img17.png)
+![img.png](img/MySQL索引失效/img17.png)
 针对like的使用非常频繁，但使用不当往往会导致不走索引。常见的like使用方式有：
 
 - 方式一：like ‘%abc’；
@@ -220,7 +220,7 @@ explain结果：
 explain select * from t_user where id_no = 1002;
 ```
 explain结果：
-![img.png](img/waitToSort/img18.png)
+![img.png](img/MySQL索引失效/img18.png)
 id_no字段类型为varchar，但在SQL语句中使用了int类型，导致全表扫描。
 出现索引失效的原因是：varchar和int是两个种不同的类型。
 解决方案就是将参数1002添加上单引号或双引号。
@@ -237,7 +237,7 @@ OR是日常使用最多的操作关键字了，但使用不当，也会导致索
 explain select * from t_user where id = 2 or username = 'Tom2';
 ```
 explain结果：
-![img.png](img/waitToSort/img19.png)
+![img.png](img/MySQL索引失效/img19.png)
 看到上述执行结果是否是很惊奇啊，明明id字段是有索引的，由于使用or关键字，索引竟然失效了。
 其实，换一个角度来想，如果单独使用username字段作为条件很显然是全表扫描，既然已经进行了全表扫描了，前面id的条件再走一次索引反而是浪费了。所以，在使用or关键字时，切记两个条件都要添加索引，否则会导致索引失效。
 但如果or两边同时使用“>”和“<”，则索引也会失效：
@@ -245,7 +245,7 @@ explain结果：
 explain select * from t_user where id  > 1 or id  < 80;
 ```
 explain结果：
-![img.png](img/waitToSort/img20.png)
+![img.png](img/MySQL索引失效/img20.png)
 第七种索引失效情况：**查询条件使用or关键字，其中一个字段没有创建索引**，则会导致整个查询语句索引失效； or两边为“>”和“<”范围查询时，索引失效。
 ## 8. 两列做比较
 如果两个列数据都有索引，但在查询条件中对两列数据进行了对比操作，则会导致索引失效。
@@ -254,7 +254,7 @@ explain结果：
 explain select * from t_user where id > age;
 ```
 explain结果：
-![img.png](img/waitToSort/img21.png)
+![img.png](img/MySQL索引失效/img21.png)
 这里虽然id有索引，age也可以创建索引，但当两列做比较时，索引还是会失效的。
 第八种索引失效情况：两列数据做比较，即便两列都创建了索引，索引也会失效。
 ## 9. 不等于比较
@@ -263,7 +263,7 @@ explain结果：
 explain select * from t_user where id_no <> '1002';
 ```
 explain结果：
-![img.png](img/waitToSort/img22.png)
+![img.png](img/MySQL索引失效/img22.png)
 当查询条件为字符串时，使用”\<\>“或”!=“作为条件查询，有可能不走索引，但也不全是。
 ```sql:no-line-numbers
 explain select * from t_user where create_time != '2022-02-27 09:56:42';
@@ -274,14 +274,14 @@ explain select * from t_user where create_time != '2022-02-27 09:56:42';
 explain select * from t_user where id != 2;
 ```
 explain结果：
-![img.png](img/waitToSort/img23.png)
+![img.png](img/MySQL索引失效/img23.png)
 ## 10. is (not) null
 示例：
 ```sql:no-line-numbers
 explain select * from t_user where id_no is not null;
 ```
 explain结果：
-![img.png](img/waitToSort/img24.png)
+![img.png](img/MySQL索引失效/img24.png)
 第十种索引失效情况：查询条件使用is null/is not null时，
 MySQL中决定使不使用某个索引执行查询的依据就是成本够不够小，如果null值很多/少，还是会用到索引的
 ## 11. not in和not exists
@@ -297,13 +297,13 @@ explain select * from t_user where id_no between '1002' and '1003';
 explain select * from t_user where id_no not in('1002' , '1003');
 ```
 explain结果：
-![img.png](img/waitToSort/img25.png)
+![img.png](img/MySQL索引失效/img25.png)
 当使用not in时，不走索引？把条件列换成主键试试：
 ```sql:no-line-numbers
 explain select * from t_user where id not in (2,3);
 ```
 explain结果：
-![img.png](img/waitToSort/img26.png)
+![img.png](img/MySQL索引失效/img26.png)
 如果是主键，则正常走索引。
 第十一种索引失效情况：查询条件使用not in时，如果是主键则走索引，如果是普通索引，则索引失效。
 再来看看not exists：
@@ -311,7 +311,7 @@ explain结果：
 explain select * from t_user u1 where not exists (select 1 from t_user u2 where u2.id  = 2 and u2.id = u1.id);
 ```
 explain结果：
-![img.png](img/waitToSort/img27.png)
+![img.png](img/MySQL索引失效/img27.png)
 当查询条件使用not exists时，不走索引。
 第十二种索引失效情况：查询条件使用not exists时，索引失效。
 ## 12. order by导致索引失效
@@ -320,21 +320,21 @@ explain结果：
 explain select * from t_user order by id_no ;
 ```
 explain结果：
-![img.png](img/waitToSort/img28.png)
+![img.png](img/MySQL索引失效/img28.png)
 其实这种情况的索引失效很容易理解，毕竟需要对全表数据进行排序处理。
 那么，添加删limit关键字是否就走索引了呢？
 ```sql:no-line-numbers
 explain select * from t_user order by id_no limit 10;
 ```
 explain结果：
-![img.png](img/waitToSort/img29.png)
+![img.png](img/MySQL索引失效/img29.png)
 结果依旧不走索引。在网络上看到有说如果order by条件满足最左匹配则会正常走索引， 在当前8.0.18版本中并未出现。所以，在基于order by和limit进行使用时，要特别留意。是否走索引不仅涉及到数据库版本，还要看Mysql优化器是如何处理的。
 这里还有一个特例，就是主键使用order by时，可以正常走索引。
 ```sql:no-line-numbers
 explain select * from t_user order by id desc;
 ```
 explain结果：
-![img.png](img/waitToSort/img30.png)
+![img.png](img/MySQL索引失效/img30.png)
 可以看出针对主键，还是order by可以正常走索引。
 另外，笔者测试如下SQL语句：
 ```sql:no-line-numbers
@@ -350,7 +350,7 @@ explain select * from t_user order by id,id_no desc limit 10;
 explain select * from t_user order by id_no desc,username desc;
 ```
 explain结果：
-![img.png](img/waitToSort/img31.png)
+![img.png](img/MySQL索引失效/img31.png)
 上述两个SQL语句，都未走索引。
 第十三种索引失效情况：当查询条件涉及到order by、limit等条件时，是否走索引情况比较复杂，而且与Mysql版本有关，通常普通索引，如果未使用limit，则不会走索引。order by多个索引字段时，可能不会走索引。其他情况，建议在使用时进行expain验证。
 ## 13. 参数不同导致索引失效
@@ -360,14 +360,14 @@ explain select * from t_user where create_time > '2023-02-24 09:04:23';
 ```
 其中，时间是未来的时间，确保能够查到数据。
 explain结果：
-![img.png](img/waitToSort/img32.png)
+![img.png](img/MySQL索引失效/img32.png)
 可以看到，正常走索引。
 随后，我们将查询条件的参数换个日期：
 ```sql:no-line-numbers
 explain select * from t_user where create_time > '2023-11-29 09:04:23';
 ```
 explain结果：
-![img.png](img/waitToSort/img33.png)
+![img.png](img/MySQL索引失效/img33.png)
 此时，进行了全表扫描。这也是最开始提到的奇怪的现象。
 为什么同样的查询语句，只是查询的参数值不同，却会出现一个走索引，一个不走索引的情况呢？
 答案很简单：上述索引失效是因为DBMS发现全表扫描比走索引效率更高，因此就放弃了走索引。
