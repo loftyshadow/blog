@@ -278,3 +278,5 @@ The second exception involves the ++ and −− operators (§4.8). These operato
 This chapter has shown how JavaScript programs are written at the lowest level. The next chapter takes us one step higher and introduces the primitive types and values (numbers, strings, and so on) that serve as the basic units of computation for JavaScript programs.
 
 > 本章展示了 JavaScript 程序是如何在底层编写的。下一章将进一步介绍作为 JavaScript 程序基本计算单元的基本类型和值（数字、字符串等）。
+
+[下一章](./ch3.md)
