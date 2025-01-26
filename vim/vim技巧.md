@@ -13,3 +13,12 @@
 6. insert模式\<C-o>退出insert模式后执行命令后重新进入insert模式，可用于zz后继续输入
 
 7. gv 重选上次的高亮选区
+
+<Counter/>
+
+<script setup>
+  // 局部注册组件
+  import HelloWorld from '../components/HelloWorld.vue';
+</script>
+
+<HelloWorld/>
