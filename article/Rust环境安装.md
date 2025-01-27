@@ -4,7 +4,7 @@
 
 需要安装 Microsoft C++ 生成工具。 最简单的方法是下载 [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)。 进行安装选择时，请勾选 "C++ 生成工具" 和 Windows 10 SDK。
 
-![](./img/msvc环境.png)
+![](img/Rust环境安装/msvc环境.png)
 
 前往[Rust 官网](https://www.rust-lang.org/learn/get-started)，在打开的页面中按照你的系统位数选择对应的链接下载 rust 安装程序。
 
@@ -13,8 +13,8 @@
 rust 默认安装在 C 盘，想安装到其他盘需要先设置变量
 自己先创建好目录，.rustup 和 .cargo
 RUSTUP_HOME，CARGO_HOME，
-![](./img/CARGO_HOME.png)
-![](./img/RUST_HOME.png)
+![](img/Rust环境安装/CARGO_HOME.png)
+![](img/Rust环境安装/RUST_HOME.png)
 
 双击打开 rustup-init.exe，进入以下命令行界面：
 

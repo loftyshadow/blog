@@ -130,16 +130,6 @@ export const sidebar: Sidebar = {
       link: "/wsl/已知错误整理.md",
     },
   ],
-  "/rust/": [
-    {
-      text: "Rust环境安装",
-      link: "/rust/rust环境安装.md",
-    },
-    {
-      text: "Rust相关书籍",
-      link: "/rust/rust相关书籍.md",
-    },
-  ],
   "/article/": [
     {
       text: "Zsh安装",

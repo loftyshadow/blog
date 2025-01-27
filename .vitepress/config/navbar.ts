@@ -17,11 +17,6 @@ export const nav: NavItem[] = [
     link: "/leetcode/menu.md",
   },
   {
-    text: "Rust整理",
-    activeMatch: "^/rust/",
-    link: "/rust/rust环境安装.md",
-  },
-  {
     text: "书籍整理",
     activeMatch: "^/books/",
     link: "/books/menu.md",

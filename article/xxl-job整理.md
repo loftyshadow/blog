@@ -1,7 +1,5 @@
 # xxl-job整理
-
 ## 1. 依赖地址
-
 ::: code-group
 ```xml [maven]
 <!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-job-core -->
@@ -18,21 +16,16 @@ implementation group: 'com.xuxueli', name: 'xxl-job-core', version: '2.4.0'
 ```
 
 :::
-
 ## 2. 下载
 | 源码仓库地址	| Release Download |
 |-- | -- |
 | https://github.com/xuxueli/xxl-job |	[Download](https://github.com/xuxueli/xxl-job/releases) |
 | http://gitee.com/xuxueli0323/xxl-job |	[Download](http://gitee.com/xuxueli0323/xxl-job/releases) |
-
 ## 3. 初始化调度数据库
-请下载项目源码并解压，获取 “调度数据库初始化SQL脚本” 并执行即可。
-
-“调度数据库初始化SQL脚本” 位置为:
-
-`/xxl-job/doc/db/tables_xxl_job.sql`
-调度中心支持集群部署，集群情况下各节点务必连接同一个mysql实例;
-
+请下载项目源码并解压，获取 “调度数据库初始化SQL脚本” 并执行即可。  
+“调度数据库初始化SQL脚本” 位置为:  
+`/xxl-job/doc/db/tables_xxl_job.sql`  
+调度中心支持集群部署，集群情况下各节点务必连接同一个mysql实例;  
 如果mysql做主从,调度中心集群节点务必强制走主库;
 
 <details>
@@ -165,9 +158,7 @@ commit;
 </details>
 
 ## 4. 编译源码
-
 解压源码,按照maven格式将源码导入IDE, 使用maven进行编译即可，源码结构如下：
-
 > xxl-job-admin：调度中心
 >
 > xxl-job-core：公共依赖
@@ -177,17 +168,13 @@ commit;
 >   - ：xxl-job-executor-sample-springboot：Springboot版本，通过Springboot管理执行器，**推荐这种方式**；
 >
 >   - ：xxl-job-executor-sample-frameless：无框架版本；
-
 ## 5. 配置部署“调度中心”
 调度中心项目：`xxl-job-admin`
 作用：统一管理任务调度平台上调度任务，负责触发调度执行，并且提供任务管理平台。
-步骤一：调度中心配置：
-调度中心配置文件地址：
-
-/xxl-job/xxl-job-admin/src/main/resources/application.properties
-
+步骤一：调度中心配置：  
+调度中心配置文件地址：  
+/xxl-job/xxl-job-admin/src/main/resources/application.properties  
 调度中心配置内容说明：
-
 ```properties
 ### 调度中心JDBC链接：链接地址请保持和 2.1章节 所创建的调度数据库的地址一致
 spring.datasource.url=jdbc:mysql://127.0.0.1:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai
@@ -213,24 +200,14 @@ xxl.job.triggerpool.slow.max=100
 ### 调度中心日志表数据保存天数 [必填]：过期日志自动清理；限制大于等于7时生效，否则, 如-1，关闭自动清理功能；
 xxl.job.logretentiondays=30
 ```
-
-如果已经正确进行上述配置，可将项目编译打包部署。
-
-调度中心访问地址：`http://localhost:8080/xxl-job-admin` (该地址执行器将会使用到，作为回调地址)
-
-默认登录账号 “admin/123456”, 登录后运行界面如下图所示。
-
-![](img/2024-03-25-20-41-31.png)
-
-
+如果已经正确进行上述配置，可将项目编译打包部署。  
+调度中心访问地址：`http://localhost:8080/xxl-job-admin` (该地址执行器将会使用到，作为回调地址)  
+默认登录账号 “admin/123456”, 登录后运行界面如下图所示。  
+![](img/xxl-job整理/2024-03-25-20-41-31.png)
 ## 6. 配置执行器
-
-确认pom文件中引入了 “xxl-job-core” 的maven依赖；
-
-执行器配置,配置文件地址：
-
-`/xxl-job/xxl-job-executor-samples/xxl-job-executor-sample-springboot/src/main/resources/application.properties`
-
+确认pom文件中引入了 “xxl-job-core” 的maven依赖；  
+执行器配置,配置文件地址：  
+`/xxl-job/xxl-job-executor-samples/xxl-job-executor-sample-springboot/src/main/resources/application.properties`  
 执行器配置，配置内容说明：
 ```properties
 ### 调度中心部署根地址 [选填]：如调度中心集群部署存在多个地址则用逗号分隔。执行器将会使用该地址进行"执行器心跳注册"和"任务结果回调"；为空则关闭自动注册；
@@ -251,12 +228,9 @@ xxl.job.executor.logpath=/data/applogs/xxl-job/jobhandler
 xxl.job.executor.logretentiondays=30
 ```
 ## 7. 执行器组件配置
-
 执行器组件,配置文件地址：
-
-`/xxl-job/xxl-job-executor-samples/xxl-job-executor-sample-springboot/src/main/java/com/xxl/job/executor/core/config/XxlJobConfig.java`
+`/xxl-job/xxl-job-executor-samples/xxl-job-executor-sample-springboot/src/main/java/com/xxl/job/executor/core/config/XxlJobConfig.java`  
 执行器组件,配置内容说明：
-
 ```java
 @Bean
 public XxlJobSpringExecutor xxlJobExecutor() {
@@ -272,60 +246,45 @@ public XxlJobSpringExecutor xxlJobExecutor() {
     return xxlJobSpringExecutor;
 }
 ```
-
-
 ## 8. 部署执行器项目：
-如果已经正确进行上述配置，可将执行器项目编译打部署，系统提供多种执行器Sample示例项目，选择其中一个即可，各自的部署方式如下。
-
-xxl-job-executor-sample-springboot：项目编译打包成springboot类型的可执行JAR包，命令启动即可；
-
-xxl-job-executor-sample-frameless：项目编译打包成JAR包，命令启动即可；
-至此“执行器”项目已经部署结束。
-
+如果已经正确进行上述配置，可将执行器项目编译打部署，系统提供多种执行器Sample示例项目，选择其中一个即可，各自的部署方式如下。  
+xxl-job-executor-sample-springboot：项目编译打包成springboot类型的可执行JAR包，命令启动即可；  
+xxl-job-executor-sample-frameless：项目编译打包成JAR包，命令启动即可；  
+至此“执行器”项目已经部署结束。  
 ## 9. 开发第一个任务“Hello World”
-BEAN模式（方法形式）
-Bean模式任务，支持基于方法的开发方式，每个任务对应一个方法。
-
-优点：
-每个任务只需要开发一个方法，并添加”@XxlJob”注解即可，更加方便、快速。
-支持自动扫描任务并注入到执行器容器。
-缺点：要求Spring容器环境；
-基于方法开发的任务，底层会生成JobHandler代理，和基于类的方式一样，任务也会以JobHandler的形式存在于执行器任务容器中。
-
-执行器项目中，开发Job方法：
+BEAN模式（方法形式）  
+Bean模式任务，支持基于方法的开发方式，每个任务对应一个方法。  
+优点：  
+每个任务只需要开发一个方法，并添加”@XxlJob”注解即可，更加方便、快速。  
+支持自动扫描任务并注入到执行器容器。  
+缺点：要求Spring容器环境；  
+基于方法开发的任务，底层会生成JobHandler代理，和基于类的方式一样，任务也会以JobHandler的形式存在于执行器任务容器中。  
+执行器项目中，开发Job方法：  
 1. 任务开发：在Spring Bean实例中，开发Job方法；
 2. 注解配置：为Job方法添加注解 "@XxlJob(value="自定义jobhandler名称", init = "JobHandler初始化方法", destroy = "JobHandler销毁方法")"，注解value值对应的是调度中心新建任务的JobHandler属性的值。
 3. 执行日志：需要通过 "XxlJobHelper.log" 打印执行日志；
 4. 任务结果：默认任务结果为 "成功" 状态，不需要主动设置；如有诉求，比如设置任务结果为失败，可以通过 "XxlJobHelper.handleFail/handleSuccess" 自主设置任务结果；
+
 // 可参考Sample示例执行器中的 "com.xxl.job.executor.service.jobhandler.SampleXxlJob" ，如下：
-```
+```java
 @XxlJob("demoJobHandler")
 public void demoJobHandler() throws Exception {
     XxlJobHelper.log("XXL-JOB, Hello World.");
 }
 ```
-
-
-![](img/2024-03-25-20-47-57.png)
-
-步骤二：调度中心，新建调度任务
+![](img/xxl-job整理/2024-03-25-20-47-57.png)
+步骤二：调度中心，新建调度任务  
 参考上文“配置属性详细说明”对新建的任务进行参数配置，运行模式选中 “BEAN模式”，JobHandler属性填写任务注解“@XxlJob”中定义的值；
-
-![](img/2024-03-25-20-48-45.png)
-
+![](img/xxl-job整理/2024-03-25-20-48-45.png)
 执行自定义任务
-
-![](img/2024-03-25-20-50-02.png)
-
+![](img/xxl-job整理/2024-03-25-20-50-02.png)
 查看执行日志
-![](img/2024-03-25-20-50-33.png)
-
-原生内置Bean模式任务
+![](img/xxl-job整理/2024-03-25-20-50-33.png)
+原生内置Bean模式任务  
 为方便用户参考与快速实用，示例执行器内原生提供多个Bean模式任务Handler，可以直接配置实用，如下：
-
-demoJobHandler：简单示例任务，任务内部模拟耗时任务逻辑，用户可在线体验Rolling Log等功能；
-shardingJobHandler：分片示例任务，任务内部模拟处理分片参数，可参考熟悉分片任务；
-httpJobHandler：通用HTTP任务Handler；业务方只需要提供HTTP链接等信息即可，不限制语言、平台。示例任务入参如下：
+demoJobHandler：简单示例任务，任务内部模拟耗时任务逻辑，用户可在线体验Rolling Log等功能；  
+shardingJobHandler：分片示例任务，任务内部模拟处理分片参数，可参考熟悉分片任务；  
+httpJobHandler：通用HTTP任务Handler；业务方只需要提供HTTP链接等信息即可，不限制语言、平台。示例任务入参如下：  
 > url: http://www.xxx.com
 >
 > method: get 或 post
