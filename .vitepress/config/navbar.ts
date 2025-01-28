@@ -40,8 +40,8 @@ export const nav: NavItem[] = [
         link: "/snippets/常用软件.md",
       },
       {
-        text: "Chrome插件",
-        link: "/snippets/Chrome浏览器插件.md",
+        text: "Chrome浏览器设置",
+        link: "/snippets/Chrome浏览器设置.md",
       },
       {
         text: "油猴插件",
