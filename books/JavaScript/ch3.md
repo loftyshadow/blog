@@ -1602,3 +1602,5 @@ Some key points to remember about this chapter:
 
 1. This is the format for numbers of type double in Java, C++, and most modern programming languages.
 2. There are JavaScript extensions, such as TypeScript and Flow (§17.8), that allow types to be specified as part of variable declarations with syntax like let x: number = 0;.
+
+[下一章](./ch4.md)
