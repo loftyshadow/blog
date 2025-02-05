@@ -54,10 +54,6 @@
 
 [代码检查](https://plugins.jetbrains.com/plugin/7973-sonarlint)
 
-# 通义灵码
-
-[ai 助手](https://plugins.jetbrains.com/plugin/17809-tongyi-lingma--your-ai-coding-assistant-type-less-code-more-)
-
 # Translation
 
 [翻译插件](https://plugins.jetbrains.com/plugin/8579-translation)
@@ -65,6 +61,10 @@
 # Smart Input
 
 [自动切换中英文输入法](https://plugins.jetbrains.com/plugin/20575-smart-input)
+
+# Single Hotswap
+
+[单文件热加载](https://plugins.jetbrains.com/plugin/14832-single-hotswap)
 
 # ideavim
 
