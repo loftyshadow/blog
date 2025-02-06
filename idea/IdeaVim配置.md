@@ -87,7 +87,7 @@ nmap gt <action>(GotoTest)
 "将光标移动到上一个方法的声明处
 nmap [m <action>(MethodUp)
 "将光标移动到下一个方法的声明处
-nmap ]m <action>(MethodUp)
+nmap ]m <action>(MethodDown)
 "跳转到当前接口或抽象类的实现处
 nmap gi <action>(GotoImplementation)
 "跳转到声明
@@ -150,7 +150,6 @@ nmap <leader>bo <action>(CloseAllEditorsButActive)
 "关闭所有标签
 nmap <leader>ba <action>(CloseAllEditors)
 let g:WhichKeyDesc_CloseAllEditorsButActive = "<leader>bo 关闭除当前标签外的所有标签"
-let g:WhichKeyDesc_Extract = "<leader>e 提取相关"
 "固定当前标签页
 nmap <leader>bp <action>(PinActiveEditorTab)
 let g:WhichKeyDesc_PinEditors = "<leader>bp 固定当前标签"
@@ -162,7 +161,7 @@ nmap <leader>cr <action>(RunConfiguration)
 let g:WhichKeyDesc_ConsoleClear = "<leader>cl 清空服务日志"
 "使焦点转移到 NERDTree 窗口
 map <leader>e :NERDTreeFocus<CR>
-let g:WhichKeyDesc_NERDTreeFocus = "<leader>e 提取相关"
+let g:WhichKeyDesc_NERDTreeFocus = "<leader>e 打开文件目录"
 map <leader>E <action>(SelectInProjectView)
 let g:WhichKeyDesc_SelectInProjectView = "<leader>E 打开当前文件"
 "extract method/function 将选中的代码片段提取为一个独立的方法(Ctrl + Alt + M)
@@ -231,12 +230,12 @@ let g:WhichKeyDesc_ShowGitBlame = "<leader>gb Git Blame"
 "执行版本控制（VCS）的回滚操作，将修改的代码还原到之前的版本
 nmap <leader>gr <action>(Vcs.RollbackChangedLines)
 let g:WhichKeyDesc_VcsRollbackChangedLines = "<leader>gr 回滚修改"
-"快速查找并跳转到下一个以 ( 开始的函数或方法调用的位置️
-nmap <leader>i f(a
-let g:WhichKeyDesc_NextWholeOccurrence = "<leader>i 跳转到下一个以 ( 开始的函数或方法调用的位置️"
-"普通模式下在行尾一个分号，然后进入插入模式并在当前行的下方新建一行
-nmap <leader>j A;<ESC>o
-let g:WhichKeyDesc_JumpToNextLine = "<leader>j 在行尾一个分号，然后进入插入模式并在当前行的下方新建一行"
+"HotSwap
+nmap <leader>hs <action>(SingleHotswapRedesign)
+let g:WhichKeyDesc_SingleHotswapRedesign = "<leader>hs HotSwap"
+"内联方法
+nmap <leader>il <action>(Inline)
+let g:WhichKeyDesc_Inline = "<leader>il 内联方法"
 let g:WhichKeyDesc_NerdTree = "<leader>n NerdTree相关和取消高亮"
 "在当前目录新建类
 nmap <leader>nc <action>(NewClass)
