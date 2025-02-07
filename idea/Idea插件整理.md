@@ -62,6 +62,10 @@
 
 [自动切换中英文输入法](https://plugins.jetbrains.com/plugin/20575-smart-input)
 
+# Tiamaes Spring Boot Assistant
+
+[yaml配置提示](https://plugins.jetbrains.com/plugin/23191-tiamaes-spring-boot-assistant)
+
 # Single Hotswap
 
 [单文件热加载](https://plugins.jetbrains.com/plugin/14832-single-hotswap)
