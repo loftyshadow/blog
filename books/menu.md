@@ -1,4 +1,6 @@
-## [《JavaScript 权威指南第七版》中英对照](./JavaScript/menu.md)  
+## [JavaScript 权威指南第七版中英对照](./JavaScript/menu.md)  
+
+## [EffectiveJava第三版中英对照](EffectiveJava/menu.md)
 
 ## [Rust 入门秘籍](https://rust-book.junmajinlong.com/)  
 
