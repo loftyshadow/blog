@@ -4,8 +4,11 @@
     "vitepress": "2.0.0-alpha.2"
   },
   "scripts": {
-    "dev": "vitepress dev --port 6947",
+    "dev": "vitepress dev --port 6947 --host",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview"
+  },
+  "dependencies": {
+    "markdown-it-task-lists": "^2.1.1"
   }
 }

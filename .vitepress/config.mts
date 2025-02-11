@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import {nav} from "./config/navbar";
 import {sidebar} from "./config/sidebar";
+import taskList from 'markdown-it-task-lists'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -44,5 +45,8 @@ export default defineConfig({
   markdown: {
     math: true,
     lineNumbers: true, // 显示代码行数
+    config: (md) => {
+      md.use(taskList)
+    }
   },
 })
