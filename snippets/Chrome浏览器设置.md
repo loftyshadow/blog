@@ -1,6 +1,6 @@
 # 浏览器插件
-## AdBlock
-[广告拦截插件](https://chromewebstore.google.com/detail/adblock-%E2%80%94-%E6%9C%80%E4%BD%B3%E5%B9%BF%E5%91%8A%E6%8B%A6%E6%88%AA%E5%B7%A5%E5%85%B7/gighmmpiobklfepjocnamgkkbiglidom)
+## AdGuard
+[广告拦截插件](https://chromewebstore.google.com/detail/adguard-%E5%B9%BF%E5%91%8A%E6%8B%A6%E6%88%AA%E5%99%A8-mv3-beta/apjcbfpjihpedihablmalmbbhjpklbdf)
 ## Better History
 [更好的历史记录](https://chrome.google.com/webstore/detail/egehpkpgpgooebopjihjmnpejnjafefi)
 ## Hover Zoom+
@@ -17,6 +17,8 @@
 [AI 抠图](https://chromewebstore.google.com/detail/magic-copy/nnifclicibdhgakebbnbfmomniihfmkg)
 ## Vimium C
 [vim 操作浏览器](https://chromewebstore.google.com/detail/vimium-c-%E5%85%A8%E9%94%AE%E7%9B%98%E6%93%8D%E4%BD%9C%E6%B5%8F%E8%A7%88%E5%99%A8/hfjbmagddngcpeloejdejnfgbamkjaeg)
+## 划词翻译
+[划词翻译](https://chromewebstore.google.com/detail/%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/ikhdkkncnoglghljlkmcimlnlhkeamad)
 ## Page Assist
 [本地AI模型的WebUI](https://chromewebstore.google.com/detail/page-assist-%E6%9C%AC%E5%9C%B0-ai-%E6%A8%A1%E5%9E%8B%E7%9A%84-web/jfgfiigpkhlkbnfnbobbkinehhfdhndo)
 
@@ -28,3 +30,5 @@
 平滑滚动
 ## Overlay Scrollbars
 不使用时隐藏右侧滚动条
+## Fluent Overlay scrollbars.
+美化状态栏
