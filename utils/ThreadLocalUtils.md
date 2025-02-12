@@ -1,11 +1,6 @@
 # ThreadLocalUtils
 
 ```java
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-
 @SuppressWarnings("unchecked")
 public class ThreadLocalUtils {
 

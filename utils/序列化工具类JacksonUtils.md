@@ -1,19 +1,14 @@
 #  序列化工具类JacksonUtils
 
 ```java
-/**
- * JacksonUtils
- *
- * @author LoftyShadow
- * @version 1.0
- * @date 2023/8/16 15:04
- */
 public class JacksonUtils {
+
+    private JacksonUtils() {
+    }
 
     static final Logger LOG = LoggerFactory.getLogger(JacksonUtils.class);
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
-
 
     static {
         MAPPER.setTimeZone(TimeZone.getTimeZone("GMT+8"));
@@ -24,9 +19,6 @@ public class JacksonUtils {
         MAPPER.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         MAPPER.configure(Feature.ALLOW_SINGLE_QUOTES, true);
-    }
-
-    private JacksonUtils() {
     }
 
     /**

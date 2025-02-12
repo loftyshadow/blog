@@ -27,7 +27,7 @@ export const nav: NavItem[] = [
     link: "/article/Zsh安装.md",
   },
   {
-    text: "常用工具类Utils整理",
+    text: "常用配置工具类整理",
     activeMatch: "^/utils/",
     link: "/utils/计算工具类ArithUtils.md",
   },

@@ -1,20 +1,13 @@
 #  计算工具类ArithUtils
 
 ```java
-/**
- * 由于Java的简单类型不能够精确的对浮点数进行运算，这个工具类提供精 确的浮点数运算，包括加减乘除和四舍五入。
- */
 public class ArithUtils {
+    
+    private ArithUtils() {
+    }
 
     // 默认除法运算精度
-
     private static final int DEF_DIV_SCALE = 10;
-
-    // 这个类不能实例化
-
-    private ArithUtils() {
-
-    }
 
     /**
      * 提供精确的加法运算。
