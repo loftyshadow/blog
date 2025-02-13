@@ -1983,3 +1983,5 @@ Provide a value to be iterated; only used in generator functions
    jump tables.
 2. When we consider the continue statement in §5.5.3, we’ll see that this while loop is not an exact equivalent of the
    for loop.
+
+[下一章](./ch6.md)
