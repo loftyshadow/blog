@@ -131,7 +131,8 @@ HashSet。但是 **不要将一个大的序列存储在内存中，只是为了�
 If the sequence you’re returning is large but can be represented concisely, consider implementing a special-purpose
 collection. For example, suppose you want to return the power set of a given set, which consists of all of its subsets.
 The power set of `{a, b, c}` is `{ {}, {a}, {b}, {c}, {a, b}, {a, c}, {b, c}, {a, b, c} }`. If a set has n elements, its
-power set has 2<sup>n</sup>. Therefore, you shouldn’t even consider storing the power set in a standard collection implementation.
+power set has 2<sup>n</sup>. Therefore, you shouldn’t even consider storing the power set in a standard collection
+implementation.
 It is, however, easy to implement a custom collection for the job with the help of AbstractList.
 
 如果返回的序列比较大，但是可以有规律地表示，那么可以考虑实现一个特殊用途的集合。例如，假设你想要返回给定集合的幂集，该集合由它的所有子集组成。

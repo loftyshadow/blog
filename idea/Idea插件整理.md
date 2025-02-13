@@ -8,7 +8,7 @@
 
 # Convert YAML and Properties File
 
-[转换 YAML 和 Properties](https://plugins.jetbrains.com/plugin/13804-convert-yaml-and-properties-file)
+[转换 YAML 和 Properties](https://plugins.jetbrains.com/plugin/26391-convert-yaml-and-properties-file)
 
 # GenerateAllSetter
 

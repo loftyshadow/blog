@@ -2,11 +2,14 @@
 
 ### Chapter 9 Introduction（章节介绍）
 
-THIS chapter is devoted to the nuts and bolts of the language. It discusses local variables, control structures, libraries, data types, and two extralinguistic facilities: reflection and native methods. Finally, it discusses optimization and naming conventions.
+THIS chapter is devoted to the nuts and bolts of the language. It discusses local variables, control structures,
+libraries, data types, and two extralinguistic facilities: reflection and native methods. Finally, it discusses
+optimization and naming conventions.
 
 本章主要讨论了 Java 语言的具体细节，包括局部变量、控制结构、类库、数据结构和两种不是由语言本身提供的机制：反射和本地方法。最后，讨论了优化和命名惯例。
 
 ### Contents of the chapter（章节目录）
+
 - [Item 57: Minimize the scope of local variables（将局部变量的作用域最小化）](Chapter-9-Item-57-Minimize-the-scope-of-local-variables.md)
 - [Item 58: Prefer for-each loops to traditional for loops（for-each 循环优于传统的 for 循环）](Chapter-9-Item-58-Prefer-for-each-loops-to-traditional-for-loops.md)
 - [Item 59: Know and use the libraries（了解并使用库）](Chapter-9-Item-59-Know-and-use-the-libraries.md)

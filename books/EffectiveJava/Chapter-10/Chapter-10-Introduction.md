@@ -2,11 +2,13 @@
 
 ### Chapter 10 Introduction（章节介绍）
 
-WHEN used to best advantage, exceptions can improve a program’s readability, reliability, and maintainability. When used improperly, they can have the opposite effect. This chapter provides guidelines for using exceptions effectively.
+WHEN used to best advantage, exceptions can improve a program’s readability, reliability, and maintainability. When used
+improperly, they can have the opposite effect. This chapter provides guidelines for using exceptions effectively.
 
 当充分利用好异常时，可以提高程序的可读性、可靠性和可维护性。如果使用不当，则会产生负面效果。本章提供了有效使用异常的指南。
 
 ### Contents of the chapter（章节目录）
+
 - [Item 69: Use exceptions only for exceptional conditions（仅在确有异常条件下使用异常）](Chapter-10-Item-69-Use-exceptions-only-for-exceptional-conditions.md)
 - [Item 70: Use checked exceptions for recoverable conditions and runtime exceptions for programming errors（对可恢复情况使用 checked 异常，对编程错误使用运行时异常）](Chapter-10-Item-70-Use-checked-exceptions-for-recoverable-conditions-and-runtime-exceptions-for-programming-errors.md)
 - [Item 71: Avoid unnecessary use of checked exceptions（避免不必要地使用 checked 异常）](Chapter-10-Item-71-Avoid-unnecessary-use-of-checked-exceptions.md)
