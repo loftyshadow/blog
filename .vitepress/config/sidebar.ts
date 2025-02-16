@@ -348,7 +348,11 @@ export const sidebar: Sidebar = {
                 {
                     text: "RedisConfig配置",
                     link: "/utils/RedisConfig.md",
-                }
+                },
+                {
+                    text: "SpringCorsConfig配置",
+                    link: "/utils/SpringCorsConfig配置.md",
+                },
             ]
         }],
     "/leetcode/": [
