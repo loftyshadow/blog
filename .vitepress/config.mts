@@ -40,6 +40,10 @@ export default defineConfig({
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2024-present LoftyShadow'
+    },
+    outline: {
+      level: [1, 5], // 设置目录层级
+      label: '页面导航', // 自定义标题
     }
   },
   markdown: {
