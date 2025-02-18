@@ -1,14 +1,12 @@
-# 模板live templates
 ![idea配置Live Templates位置](./img/Idea模板liveTemplates位置.png)
 Idea配置Live Templates位置如上图
-
-## log
+# log
 
 ```text:no-line-numbers
 private static final Logger log = LoggerFactory.getLogger($CLASS_NAME$.class);
 ```
 
-## test
+# test
 
 ```text:no-line-numbers
 @Test
@@ -17,13 +15,13 @@ public void $METHOD_NAME$() {
 }
 ```
 
-## sleep
+# sleep
 
 ```text:no-line-numbers
 try { TimeUnit.SECONDS.sleep($SECONDS$); } catch (InterruptedException e) { throw new RuntimeException(e); }
 ```
 
-## thread 新建一个线程:
+# thread 新建一个线程:
 
 ```text:no-line-numbers
 new Thread(() -> {
@@ -31,7 +29,7 @@ new Thread(() -> {
     }, $threadName$).start();
 ```
 
-## @DNA
+# @DNA
 
 ```text:no-line-numbers
 @Data
@@ -39,7 +37,7 @@ new Thread(() -> {
 @AllArgsConstructor
 ```
 
-## getEnum
+# getEnum
 ```
 public static Optional<$CLASS_NAME$> getEnumByCode(Integer code) {
     return Arrays.stream(values())
@@ -48,5 +46,4 @@ public static Optional<$CLASS_NAME$> getEnumByCode(Integer code) {
 }
 ```
 枚举类`$CLASS_NAME$`会失效获取不到ClassName需要自己配置
-
 ![](img/2024-04-12-16-01-46.png)

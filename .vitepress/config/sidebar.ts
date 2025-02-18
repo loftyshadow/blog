@@ -167,6 +167,10 @@ export const sidebar: Sidebar = {
             text: "termux整理",
             link: "/article/termux整理.md",
         },
+        {
+            text: "Rust环境安装",
+            link: "/article/Rust环境安装.md",
+        },
     ],
     "/java/": [
         {
@@ -175,39 +179,39 @@ export const sidebar: Sidebar = {
             items: [
                 {
                     text: "常用的JVM参数和命令",
-                    link: "/java/常用的JVM参数和命令.md",
+                    link: "/java/java/常用的JVM参数和命令.md",
                 },
                 {
                     text: "Java阻塞队列整理",
-                    link: "/java/Java阻塞队列整理.md",
+                    link: "/java/java/Java阻塞队列整理.md",
                 },
                 {
                     text: "垃圾回收算法整理",
-                    link: "/java/垃圾回收算法整理.md",
+                    link: "/java/java/垃圾回收算法整理.md",
                 },
                 {
                     text: "经典垃圾收集器",
-                    link: "/java/经典垃圾收集器.md",
+                    link: "/java/java/经典垃圾收集器.md",
                 },
                 {
                     text: "OSI七层协议",
-                    link: "/java/OSI七层协议.md",
+                    link: "/java/java/OSI七层协议.md",
                 },
                 {
                     text: "三次握手和四次挥手",
-                    link: "/java/三次握手和四次挥手.md",
+                    link: "/java/java/三次握手和四次挥手.md",
                 },
                 {
                     text: "JVM类加载器和类加载过程",
-                    link: "/java/JVM类加载器和类加载过程.md",
+                    link: "/java/java/JVM类加载器和类加载过程.md",
                 },
                 {
                     text: "订单超时自动取消方案",
-                    link: "/java/订单超时自动取消方案.md",
+                    link: "/java/java/订单超时自动取消方案.md",
                 },
                 {
                     text: "AQS整理",
-                    link: "/java/AQS整理.md",
+                    link: "/java/java/AQS整理.md",
                 },
             ],
         },
@@ -217,23 +221,23 @@ export const sidebar: Sidebar = {
             items: [
                 {
                     text: "线程池相关",
-                    link: "/java/线程池相关.md",
+                    link: "/java/多线程相关/线程池相关.md",
                 },
                 {
                     text: "线程的五种状态",
-                    link: "/java/线程的五种状态.md",
+                    link: "/java/多线程相关/线程的五种状态.md",
                 },
                 {
                     text: "Synchronized和lock区别",
-                    link: "/java/Synchronized和lock区别.md",
+                    link: "/java/多线程相关/Synchronized和lock区别.md",
                 },
                 {
                     text: "线程间通信方式",
-                    link: "/java/线程间通信方式.md",
+                    link: "/java/多线程相关/线程间通信方式.md",
                 },
                 {
                     text: "ThreadLocal整理",
-                    link: "/java/ThreadLocal整理.md",
+                    link: "/java/多线程相关/ThreadLocal整理.md",
                 },
             ],
         },
@@ -243,11 +247,11 @@ export const sidebar: Sidebar = {
             items: [
                 {
                     text: "Redis过期删除策略与内存淘汰策略",
-                    link: "/java/Redis过期删除策略与内存淘汰策略.md",
+                    link: "/java/Redis/Redis过期删除策略与内存淘汰策略.md",
                 },
                 {
                     text: "Redis常见缓存问题",
-                    link: "/java/Redis常见缓存问题.md",
+                    link: "/java/Redis/Redis常见缓存问题.md",
                 },
             ],
         },
@@ -257,7 +261,7 @@ export const sidebar: Sidebar = {
             items: [
                 {
                     text: "ES自定义ik分词配置",
-                    link: "/java/ES自定义ik分词配置.md",
+                    link: "/java/ElasticSearch/ES自定义ik分词配置.md",
                 },
             ],
         },
@@ -267,7 +271,7 @@ export const sidebar: Sidebar = {
             items: [
                 {
                     text: "JPA使用整合",
-                    link: "/java/JPA使用整合.md",
+                    link: "/java/ORM/JPA使用整合.md",
                 },
             ],
         },
@@ -277,11 +281,11 @@ export const sidebar: Sidebar = {
             items: [
                 {
                     text: "Nacos做配置中心",
-                    link: "/java/Nacos做配置中心.md",
+                    link: "/java/微服务/Nacos做配置中心.md",
                 },
                 {
                     text: "微服务拆分整理",
-                    link: "/java/微服务拆分整理.md",
+                    link: "/java/微服务/微服务拆分整理.md",
                 },
             ],
         },
@@ -291,15 +295,19 @@ export const sidebar: Sidebar = {
             items: [
                 {
                     text: "Sping解决循环依赖",
-                    link: "/java/Sping解决循环依赖.md",
+                    link: "/java/Spring/Sping解决循环依赖.md",
                 },
                 {
                     text: "Spring的IOC和Bean的生命周期",
-                    link: "/java/Spring的IOC和Bean的生命周期.md",
+                    link: "/java/Spring/Spring的IOC和Bean的生命周期.md",
                 },
                 {
                     text: "Spring的事务及传播机制",
-                    link: "/java/Spring的事务及传播机制.md",
+                    link: "/java/Spring/Spring的事务及传播机制.md",
+                },
+                {
+                    text: "Spring常用注解",
+                    link: "/java/Spring/Spring常用注解.md",
                 },
             ],
         },
@@ -321,23 +329,23 @@ export const sidebar: Sidebar = {
             items: [
                 {
                     text: "计算工具类ArithUtils",
-                    link: "/utils/计算工具类ArithUtils.md",
+                    link: "/utils/Utils工具类/计算工具类ArithUtils.md",
                 },
                 {
                     text: "日期工具类DateUtils",
-                    link: "/utils/日期工具类DateUtils.md",
+                    link: "/utils/Utils工具类/日期工具类DateUtils.md",
                 },
                 {
                     text: "序列化工具类JacksonUtils",
-                    link: "/utils/序列化工具类JacksonUtils.md",
+                    link: "/utils/Utils工具类/序列化工具类JacksonUtils.md",
                 },
                 {
                     text: "SpringContextUtils",
-                    link: "/utils/SpringContextUtils.md",
+                    link: "/utils/Utils工具类/SpringContextUtils.md",
                 },
                 {
                     text: "ThreadLocalUtils",
-                    link: "/utils/ThreadLocalUtils.md",
+                    link: "/utils/Utils工具类/ThreadLocalUtils.md",
                 },
             ]
         },
@@ -347,11 +355,11 @@ export const sidebar: Sidebar = {
             items: [
                 {
                     text: "RedisConfig配置",
-                    link: "/utils/RedisConfig.md",
+                    link: "/utils/Config配置类/RedisConfig.md",
                 },
                 {
                     text: "SpringCorsConfig配置",
-                    link: "/utils/SpringCorsConfig配置.md",
+                    link: "/utils/Config配置类/SpringCorsConfig配置.md",
                 },
             ]
         }],

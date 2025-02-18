@@ -1,5 +1,4 @@
-# Windows安装Scoop
-[原文连接](https://muxiner.github.io/using-scoop/)
+[原文连接](https://muxiner.github.io/using-scoop/)  
 [ScoopInstaller](https://github.com/ScoopInstaller/Install#for-admin)
 ```shell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser

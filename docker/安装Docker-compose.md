@@ -1,5 +1,3 @@
-# 下载docker-compose
-
 ```shell:no-line-numbers
 #运行此命令以下载 Docker Compose 的当前稳定版本
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose

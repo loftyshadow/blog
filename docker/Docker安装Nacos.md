@@ -1,12 +1,10 @@
-# docker 启动nacos
-
 ```shell:no-line-numbers
 mkdir -p /mydata/nacos/logs/                      #新建logs目录
 mkdir -p /mydata/nacos/init.d/
 vim /mydata/nacos/init.d/custom.properties        #修改配置文件
 ```
 
-## Nacos配置
+# Nacos配置
 
 ```text:no-line-numbers
 server.contextPath=/nacos
@@ -37,7 +35,7 @@ nacos.naming.data.warmup=true
 nacos.naming.expireInstance=true
 ```
 
-## mysql新建nacos的数据库，并执行脚本：
+# mysql新建nacos的数据库，并执行脚本：
 
 <details>
 <summary>nacos.sql</summary>
@@ -269,7 +267,7 @@ INSERT INTO roles (username, role) VALUES ('nacos', 'ROLE_ADMIN');
 
 
 
-## 单机启动
+# 单机启动
 
 ```shell:no-line-numbers
 docker pull nacos/nacos-server:v2.3.0

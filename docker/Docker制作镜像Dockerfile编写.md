@@ -1,5 +1,3 @@
-# Docker制作镜像Dockerfile编写
-
 | 指令名 | 功能描述 |
 | ------ | -------- |
 | FROM | 指定基础镜像或父级镜像 |
@@ -33,7 +31,7 @@ CMD ["java -version"]
 
 执行`docker build -t .`来构建镜像
 
-## FROM
+# FROM
 指定基础镜像或父级镜像
 ```
 语法
@@ -81,7 +79,7 @@ COPY --from=gradle-latest /app/ .
 ENTRYPOINT ["/bin/sh", "-c", "java -jar ./build/libs/accounting-0.0.1-SNAPSHOT.jar"]
 ```
 
-## RUN
+# RUN
 
 ```text
 shell 格式：RUN <command> (/bin/sh -c /S /C)
@@ -94,7 +92,7 @@ RUN指令将会在前一条命令创建出的镜像的基础之上创建一个�
 2. 使用shell格式时，命令通过 /bin/sh -c 运行，可以使用反斜杠（\）将单个RUN指令继续到下一行。
 3. RUN指令将执行所有合法命令并提交执行结果，RUN指令创建的中间镜像会被缓存，并会在下次构建中使用。如果不想使用这些缓存镜像，可以在构建时指定 --no-cache 参数，如：docker build --no-cache。
 
-## CMD
+# CMD
 
 ```
 exec格式（推荐）：CMD ["executable","param1","param2"]
@@ -110,7 +108,7 @@ Docker 不是虚拟机，容器就是进程。既然是进程，那么在启动�
 4. entrypoint格式是在CMD指令和ENTRYPOINT指令配合时使用的，CMD指令中的参数会被添加到ENTRYPOINT指令中；
 5. 如果使用CMD为ENTRYPOINT指令提供默认参数，CMD和ENTRYPOINT指令都应以JSON数组格式指定；
 
-## LABEL
+# LABEL
 
 ```
 LABEL <key>=<value> <key>=<value> <key>=<value> ...
@@ -134,7 +132,7 @@ that label-values can span multiple lines."
 ```
 使用`docker inspect`命令查看image的labels
 
-## EXPOSE
+# EXPOSE
 
 ```
 语法
@@ -156,7 +154,7 @@ EXPOSE指令通知Docker容器在运行时监听指定的网络端口，可以�
 帮助镜像使用者理解这个镜像服务的守护端口，以方便配置映射；
 在运行时使用随机端口映射时，也就是 `docker run -P` 时，会自动随机映射 `EXPOSE` 的端口。
 
-## ENV
+# ENV
 
 ```
 语法
@@ -177,7 +175,7 @@ ENV PATH $PATH:$GOPATH/bin
 设置一个时，第一个空格后面的整个字符串将被视为`<value>` 包括空格和引号等字符；
 设置多个时，这种形式在语法中使用"="，与命令行解析一样，引号和反斜杠可用于在值内包含空格。
 
-## ADD
+# ADD
 ```
 ADD [--chown=<user>:<group>] <src>... <dest>
 ADD [--chown=<user>:<group>] ["<src>",... "<dest>"]
@@ -216,7 +214,7 @@ ADD https://oss.abeille.top/demo-0.0.1-SNAPSHOT.jar .
 ENTRYPOINT ["/bin/sh", "-c", "java -jar demo-0.0.1-SNAPSHOT.jar"]
 ```
 
-## COPY
+# COPY
 
 ```
 COPY [--chown=<user>:<group>] <src>... <dest>
@@ -246,7 +244,7 @@ ENTRYPOINT ["/bin/sh", "-c", "java -jar demo-0.0.1-SNAPSHOT.jar"]
 
 对于不需要ADD的tar自动提取功能的其他项目（文件，目录），应始终使用COPY。
 
-## ENTRYPOINT
+# ENTRYPOINT
 
 ```
 exec格式：ENTRYPOINT ["executable", "param1", "param2"]
@@ -281,7 +279,7 @@ RUN 执行命令并创建新的镜像层，RUN 经常用于安装软件包。
 CMD 设置容器启动后默认执行的命令及其参数，但 CMD 能够被 `docker run` 后面跟的命令行参数替换。
 ENTRYPOINT 配置容器启动时运行的命令。
 
-## VOLUME
+# VOLUME
 ```
 VOLUME ["/data"]
 ```
@@ -300,7 +298,7 @@ VOLUME指令创建具有指定名称的挂载点，并将其标记为从本机�
 2. 指定了VOLUME没有指定-v，这种文件夹可以在不同容器之间共享，但是无法在本地修改。
 3. 指定了-v的文件夹，这种文件夹可以在不同容器之间共享，且可以在本地修改。
 
-## USER
+# USER
 
 ```
 USER <user>[:<group>]
@@ -319,7 +317,7 @@ USER dev
 RUN [ "systemctl start elasticsearch" ]
 ```
 
-## WORKDIR
+# WORKDIR
 
 ```
 WORKDIR /path/to/workdir
@@ -338,7 +336,7 @@ WORKDIR chain
 RUN pwd
 ```
 
-## ARG
+# ARG
 ```
 ARG <name>[=<default value>]
 ```
@@ -355,7 +353,7 @@ ARG和ENV指令的最大区别在于它们的作用域。ARG指令定义的参�
 另一个区别是，ARG指令可以由--build-arg选项在构建时进行设置，而ENV指令在构建时无法更改。因此，如果你需要在构建时传递某些参数，你应该使用ARG指令。
 ARG指令可以在FROM指令之前使用，但ENV指令则不能。这是因为FROM指令之前的任何指令都在构建上下文中执行，而FROM指令之后的指令则在新的构建阶段中执行。
 
-## ONBUILD
+# ONBUILD
 ```
 ONBUILD [INSTRUCTION]
 ```
@@ -371,7 +369,7 @@ ONBUILD 是一个特殊的指令，它的功能时添加一个将来执行的触
 2. 使用ONBUILD指令的Dockerfile构建的镜像应该有特殊的标签，例如：demo:1.1.0-onbuild，这样做的好处是提示开发人员要在使用时注意；
 3. 在ONBUILD指令中添加ADD和COPY指令时要特别注意，假如新构建过程的被添加的资源缺失了，会导致构建失败；
 
-## BUILD
+# BUILD
 ```
 docker build -t imageName .
 ```

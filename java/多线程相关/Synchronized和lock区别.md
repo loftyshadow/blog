@@ -1,5 +1,4 @@
-# Synchronized和lock区别
-## Synchronized
+# Synchronized
 `synchronized` 是 Java 内置的同步机制。它基于监视器锁（monitor lock）或对象锁概忈实现，当线程进入一个 `synchronized` 方法或代码块时，它会自动获得锁，退出时自动释放锁。
 **特点**
 - **内置语法**: 不需要显式创建锁对象。
@@ -55,7 +54,7 @@ public class SynchronizedExample {
 > 优点：线程竞争不使用自旋，释放CPU  
 > 缺点：线程阻塞，响应时间缓慢。  
 > 场景：追求吞吐量，同步块执行速度较长。
-## Lock 接口
+# Lock 接口
 Lock 是一个接口，它提供了比 synchronized 更灵活的锁操作，并且允许更细粒度的锁控制。ReentrantLock 是 Lock 的一个常用实现类。
 
 **特点**
@@ -64,7 +63,7 @@ Lock 是一个接口，它提供了比 synchronized 更灵活的锁操作，并�
 - 中断锁等待: 线程可以在等待锁的过程中响应中断。
 - 公平锁支持: 可选的公平锁模式可以保证先进先出的服务顺序。
 - 锁绑定多个条件: 可以绑定多个条件对象，实现复杂的同步机制。
-## 比较
+# 比较
 1. 可中断性: 使用 Lock，线程在等待锁的过程中可以被中断。与 synchronized 不同，一个等待 synchronized 块的线程不能被中断。
 2. 公平性: Lock 提供了可选的公平性设置，例如，ReentrantLock 支持创建公平锁和非公平锁，而 synchronized 不支持公平锁。
 3. 条件变量: Lock 提供了 Condition 类，可以分离对象锁的等待集，而 synchronized 与 Object 类的 wait()、notify()、notifyAll() 方法一起工作，只有一个条件（等待集），可能不够细粒度。  

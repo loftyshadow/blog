@@ -1,4 +1,3 @@
-# IdeaVim 配置
 [actionList](./ideaActionList.md)
 
 ```text

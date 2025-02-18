@@ -1,9 +1,8 @@
-# Zsh 整理
-## Windows Zsh 安装
-### 安装 Git
+# Windows Zsh 安装
+## 安装 Git
 前往[git 官网](https://gitforwindows.org/)安装 git
 ![git安装选项](img/Zsh安装/git安装选项.png)
-### 安装 Zsh
+## 安装 Zsh
 下载[zsh](https://packages.msys2.org/package/zsh?repo=msys&variant=x86_64)压缩文件,
 ![下载ZSH压缩文件](img/Zsh安装/下载ZSH压缩文件.png)
 直接解压至 Git 根目录下**重点**，可使用[PeaZip](https://peazip.github.io/)解压  
@@ -18,7 +17,7 @@ if [ -t 1 ]; then
 exec zsh
 fi
 ```
-## 安装starship(推荐)
+# 安装starship(推荐)
 [StarShip](https://github.com/starship/starship/releases)  
 下载压缩包配置到环境变量中  
 为 Starship 创建配置文件 `~/.config/starship.toml`。
@@ -217,15 +216,15 @@ eval "$(starship init zsh)"
 ```
 </details>
 
-## 安装 Oh My Zsh(不推荐)
+# 安装 Oh My Zsh(不推荐)
 进入[官网](https://ohmyz.sh/#install)，复制首页命令进行安装
 ```shell
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 提示可忽略  
 ![安装Oh My Zsh](./img/Zsh安装/安装Oh%20My%20Zsh.png)
-### 安装插件
-### 下载
+## 安装插件
+## 下载
 ```shell
 cd ~/.oh-my-zsh/custom/plugins
 
@@ -236,7 +235,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
 git clone https://github.com/Aloxaf/fzf-tab.git
 
 ```
-### 配置
+## 配置
 ```shell
 vi ~/.zshrc
 ```

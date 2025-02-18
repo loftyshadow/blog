@@ -1,8 +1,8 @@
 ik下载地址：https://github.com/medcl/elasticsearch-analysis-ik/releases?page=1
-## 分词器配置文件
+# 分词器配置文件
 目录结构如图
 
-![](img/ES自定义ik分词配置/2024-02-28-00-34-39.png)
+![](../img/ES自定义ik分词配置/2024-02-28-00-34-39.png)
 
 **extra_single_word.dic**：常用的单个汉字  
 **extra_single_word_full.dic**：全部的单个汉字  
@@ -38,14 +38,14 @@ ik 原生最重要的两个配置文件
 **custom/ext_stopword.dic** 中包含了中文的一些扩展词  
 什么是停用词？与其他词相比，功能词没有什么实际含义，比如'the'、'is'、'at'、'which'、'on'等
 
-## 自定义分词库
+# 自定义分词库
 每年都会涌现一些特殊的流行词,一般不会在 ik 的原生词典里， 自己补充自己的最新的词语，到 ik 的词库里面去
 
 **IKAnalyzer.cfg.xml**：ext_dict，custom/mydict.dic 是在配置文件的默认文件，可以追加，也可以自定义
 
 **想要词库生效，需要重启 es**
 
-## 热更新 IK 分词使用方法
+# 热更新 IK 分词使用方法
         目前该插件支持热更新 IK 分词，通过上文在 IK 配置文件中提到的如下配置
 ```xml
 	<!--用户可以在这里配置远程扩展字典 -->

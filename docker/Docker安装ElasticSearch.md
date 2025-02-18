@@ -1,11 +1,9 @@
-# Docker安装ElasticSearch
-
-## 下载镜像
+# 下载镜像
 ```shell:no-line-numbers
 docker pull elasticsearch:8.11.1
 ```
 
-## 创建相关文件
+# 创建相关文件
 ```shell:no-line-numbers
 mkdir -p /mydata/elasticsearch/img
 mkdir -p /mydata/elasticsearch/data
@@ -28,7 +26,7 @@ xpack.security.transport.ssl.enabled: false
 xpack.security.enrollment.enabled: false" >>//mydata/elasticsearch/img/elasticsearch.yml
 ```
 
-## 启动es
+# 启动es
 
 ```shell:no-line-numbers
 docker run --name elasticsearch -p 9200:9200 -p 9300:9300 \
@@ -42,6 +40,5 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 \
 -d elasticsearch:8.11.1
 ```
 
-## 测试es健康状态
-
+# 测试es健康状态
 [测试es健康状态](http://192.168.1.14:9200/_cat/health?v)

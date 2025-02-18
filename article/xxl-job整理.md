@@ -1,5 +1,4 @@
-# xxl-job整理
-## 1. 依赖地址
+# 1. 依赖地址
 ::: code-group
 ```xml [maven]
 <!-- https://mvnrepository.com/artifact/com.xuxueli/xxl-job-core -->
@@ -16,12 +15,12 @@ implementation group: 'com.xuxueli', name: 'xxl-job-core', version: '2.4.0'
 ```
 
 :::
-## 2. 下载
+# 2. 下载
 | 源码仓库地址	| Release Download |
 |-- | -- |
 | https://github.com/xuxueli/xxl-job |	[Download](https://github.com/xuxueli/xxl-job/releases) |
 | http://gitee.com/xuxueli0323/xxl-job |	[Download](http://gitee.com/xuxueli0323/xxl-job/releases) |
-## 3. 初始化调度数据库
+# 3. 初始化调度数据库
 请下载项目源码并解压，获取 “调度数据库初始化SQL脚本” 并执行即可。  
 “调度数据库初始化SQL脚本” 位置为:  
 `/xxl-job/doc/db/tables_xxl_job.sql`  
@@ -157,7 +156,7 @@ commit;
 ```
 </details>
 
-## 4. 编译源码
+# 4. 编译源码
 解压源码,按照maven格式将源码导入IDE, 使用maven进行编译即可，源码结构如下：
 > xxl-job-admin：调度中心
 >
@@ -168,7 +167,7 @@ commit;
 >   - ：xxl-job-executor-sample-springboot：Springboot版本，通过Springboot管理执行器，**推荐这种方式**；
 >
 >   - ：xxl-job-executor-sample-frameless：无框架版本；
-## 5. 配置部署“调度中心”
+# 5. 配置部署“调度中心”
 调度中心项目：`xxl-job-admin`
 作用：统一管理任务调度平台上调度任务，负责触发调度执行，并且提供任务管理平台。
 步骤一：调度中心配置：  
@@ -204,7 +203,7 @@ xxl.job.logretentiondays=30
 调度中心访问地址：`http://localhost:8080/xxl-job-admin` (该地址执行器将会使用到，作为回调地址)  
 默认登录账号 “admin/123456”, 登录后运行界面如下图所示。  
 ![](img/xxl-job整理/2024-03-25-20-41-31.png)
-## 6. 配置执行器
+# 6. 配置执行器
 确认pom文件中引入了 “xxl-job-core” 的maven依赖；  
 执行器配置,配置文件地址：  
 `/xxl-job/xxl-job-executor-samples/xxl-job-executor-sample-springboot/src/main/resources/application.properties`  
@@ -227,7 +226,7 @@ xxl.job.executor.logpath=/data/applogs/xxl-job/jobhandler
 ### 执行器日志文件保存天数 [选填] ： 过期日志自动清理, 限制值大于等于3时生效; 否则, 如-1, 关闭自动清理功能；
 xxl.job.executor.logretentiondays=30
 ```
-## 7. 执行器组件配置
+# 7. 执行器组件配置
 执行器组件,配置文件地址：
 `/xxl-job/xxl-job-executor-samples/xxl-job-executor-sample-springboot/src/main/java/com/xxl/job/executor/core/config/XxlJobConfig.java`  
 执行器组件,配置内容说明：
@@ -246,12 +245,12 @@ public XxlJobSpringExecutor xxlJobExecutor() {
     return xxlJobSpringExecutor;
 }
 ```
-## 8. 部署执行器项目：
+# 8. 部署执行器项目：
 如果已经正确进行上述配置，可将执行器项目编译打部署，系统提供多种执行器Sample示例项目，选择其中一个即可，各自的部署方式如下。  
 xxl-job-executor-sample-springboot：项目编译打包成springboot类型的可执行JAR包，命令启动即可；  
 xxl-job-executor-sample-frameless：项目编译打包成JAR包，命令启动即可；  
 至此“执行器”项目已经部署结束。  
-## 9. 开发第一个任务“Hello World”
+# 9. 开发第一个任务“Hello World”
 BEAN模式（方法形式）  
 Bean模式任务，支持基于方法的开发方式，每个任务对应一个方法。  
 优点：  

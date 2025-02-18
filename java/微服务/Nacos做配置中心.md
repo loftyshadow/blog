@@ -1,5 +1,4 @@
-# Nacos做配置中心
-## 1. 添加依赖：
+# 1. 添加依赖：
 
 :::code-group
 ```xml [maven]
@@ -15,7 +14,7 @@
    implementation group: 'com.alibaba.cloud', name: 'spring-cloud-starter-alibaba-nacos-config', version: '2023.0.0.0-RC1'
 ```
 :::
-## 2. 在 `bootstrap.properties` 中配置 Nacos server 的地址和应用名
+# 2. 在 `bootstrap.properties` 中配置 Nacos server 的地址和应用名
 ```properties
 spring.application.name=cloud
 server.port=8083
@@ -36,7 +35,7 @@ ${prefix}-${spring.profiles.active}.${file-extension}
 `file-exetension` 为配置内容的数据格式，可以通过配置项 `spring.cloud.nacos.config.file-extension` 来配置.  
 目前只支持 `properties` 和 `yaml` 类型。
 
-## 3. 读取配置代码编写
+# 3. 读取配置代码编写
 ```java
 @Component
 @ConfigurationProperties(prefix = "coupon")
@@ -92,9 +91,9 @@ public class CouponController {
 }
 ```
 
-## 4. 在nacos 控制台新建一个 DataID 为cloud的配置集：
+# 4. 在nacos 控制台新建一个 DataID 为cloud的配置集：
 
-![](img/Nacos做配置中心/2024-02-28-14-58-05.png)
+![](../img/Nacos做配置中心/2024-02-28-14-58-05.png)
 
 ```http 
 GET http://localhost:8083/coupon

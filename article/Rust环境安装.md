@@ -1,23 +1,15 @@
-# Rust 环境安装
-
-## 环境安装
+# 环境安装
 
 需要安装 Microsoft C++ 生成工具。 最简单的方法是下载 [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)。 进行安装选择时，请勾选 "C++ 生成工具" 和 Windows 10 SDK。
-
 ![](img/Rust环境安装/msvc环境.png)
-
 前往[Rust 官网](https://www.rust-lang.org/learn/get-started)，在打开的页面中按照你的系统位数选择对应的链接下载 rust 安装程序。
-
-## 设置安装目录
-
+# 设置安装目录
 rust 默认安装在 C 盘，想安装到其他盘需要先设置变量
 自己先创建好目录，.rustup 和 .cargo
 RUSTUP_HOME，CARGO_HOME，
 ![](img/Rust环境安装/CARGO_HOME.png)
 ![](img/Rust环境安装/RUST_HOME.png)
-
 双击打开 rustup-init.exe，进入以下命令行界面：
-
 ```text
 This path will then be added to your PATH environment variable by modifying the HKEY_CURRENT_USER/Environment/PATH registry key。
 
@@ -38,7 +30,7 @@ modify PATH variable: yes
 
 输入 1，之后按下回车键，开始安装 Rust
 
-## 安装完成检查
+# 安装完成检查
 
 Rust 开发环境中，所有工具都安装在 ~/.cargo/bin 目录，包括 rustc、cargo 和 rustup
 
@@ -100,7 +92,7 @@ rustup component add <component>
 rustup component remove <component>
 ```
 
-## cargo 配置
+# cargo 配置
 
 在用户主目录的 .cargo 目录下新建一个文件，命名为 config（没有扩展名），并输入以下内容：
 
@@ -122,7 +114,7 @@ registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
 
 ```
 
-## cargo 基本命令
+# cargo 基本命令
 
 ```shell
  查看cargo版本

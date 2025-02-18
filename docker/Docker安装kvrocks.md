@@ -1,5 +1,3 @@
-# Docker安装kvrocks
-
 ```shell
 docker run -d --name kvrocks -p 6666:6666 apache/kvrocks:2.8.0
 ```

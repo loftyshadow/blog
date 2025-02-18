@@ -1,8 +1,7 @@
-# 常用 JVM 参数
-JVM参数可以分为三种类型，分别是以-、-X、-XX开头的参数
--开头的参数比较稳定，后续版本基本不变，如-version  查看版本信息
--X开头的参数比较稳定，后续版本可能改变，如-Xmx设置初始堆内存大小
--XX开头的参数不稳定，后续版本会变动，如-XX:MetaspaceSize 设置元空间大小
+JVM参数可以分为三种类型，分别是以-、-X、-XX开头的参数  
+-开头的参数比较稳定，后续版本基本不变，如-version  查看版本信息  
+-X开头的参数比较稳定，后续版本可能改变，如-Xmx设置初始堆内存大小  
+-XX开头的参数不稳定，后续版本会变动，如-XX:MetaspaceSize 设置元空间大小  
 
 | 参数                                     | 含义                              | 备注                                                                            |
 | ---------------------------------------- | --------------------------------- | ------------------------------------------------------------------------------- |
@@ -32,15 +31,15 @@ JVM参数可以分为三种类型，分别是以-、-X、-XX开头的参数
 | -XX:G1MixedGCLiveThresholdPercent | 混合垃圾回收周期中要包括的旧区域设置占用率阈值 | 默认65% |
 | -XX:G1MixedGCCountTarget | G1回收分区时最大混合式GC周期数 | 默认值为8 |
 | -XX:G1OldCSetRegionThresholdPercent | 设置混合垃圾回收期间要回收的最大旧区域数 | 默认值为10 |
-## GC日志相关
+# GC日志相关
 通过GC日志能够分析JVM发生GC时各个数据区的情况  
 `-XX:+PrintGC` 或 `-verbose:gc` 输出简单GC日志信息  
 `-XX:+PrintGCDeatils` 输出详细GC日志信息  
 `-XX:+PrintGCTimeStamps` 和 `-XX:+PrintGCDateStamps` 则是在详细输出GC日志信息的基础上增加时间，前者输出程序运行时间，后者输出时间戳  
 其他参数还有 `-Xloggc:d:\gc.log` 将GC信息输出到d:\gc.log文件；`-XX:PrintHeapAtGC` 每次GC前后打印堆信息等  
-## 运行时数据区相关
+# 运行时数据区相关
 JVM有对各种运行时数据区（栈、堆、方法区、直接内存）的参数，常使用-XX命令，有些命令也可用-X来代替
-## 栈
+# 栈
 `-XX:ThreadStackSize=100k` 设置栈内存大小100k，可以使用 `-Xss100k`代替  
 栈是线程私有的，设置太大且创建线程多的场景下，可能会内存不足导致OOM
 # 堆
@@ -57,7 +56,7 @@ JVM有对各种运行时数据区（栈、堆、方法区、直接内存）的�
 **-XX:MaxTenuringThreshold=15** 对象年龄超过15进入老年代  
 **-XX:+PrintTenuringDistribution** JVM每次MinorGC后打印出当前使用的Survivor中对象的年龄分布  
 **-XX:TargetSurvivorRatio** MinorGC结束后Survivor区域中占用空间的期望比例  
-## 方法区
+# 方法区
 **-XX:MetaspaceSize** 元空间初始大小  
 **-XX:MaxMetasoaceSize** 元空间最大大小  
 **-XX:+UseCompressedOops** 使用压缩对象指针  
@@ -66,20 +65,20 @@ JVM有对各种运行时数据区（栈、堆、方法区、直接内存）的�
 要回收元空间时只能触发FULL GC，频繁触发FULL GC也可能是元空间大小不够  
 运行时产生大量动态类可能导致元空间被占满从而抛出OOM  
 面对这两种情况可以适当调整元空间大小  
-## 直接内存
+# 直接内存
 **-XX:MaxDiectMemorySize**设置直接内存大小，未指定则和最大堆内存一致
-## OOM相关
+# OOM相关
 **-XX:+HeapDumpOutOfMemoryError** 发生OOM时生成堆dump文件  
 **-XX:+HeapDumpBeforeFullGC** 发生FullGC时生成堆dump文件（OOM前会多次FullGC也就是可能多次生成dump文件）  
 **-XX:HeapDumpPath=d:\xxx**指定生成堆dump文件路径为d:\ (默认生成的dump文件在项目当前目录下)  
 **-XX:OnOutOfMemoryError=/opt/restart.sh** 发生OOM时去执行/opt/restart.sh文件  
-## 垃圾收集器相关
-### Serial 串行收集器
+# 垃圾收集器相关
+## Serial 串行收集器
 **-XX:+UseSerialGC** 年轻代，老年代都使用串行收集器
-### ParNew 并行收集器
+## ParNew 并行收集器
 **-XX:+UseParNewGC** 年轻代使用ParNew收集器
 JDK14 CMS被移除 没有老年代收集器配合 , 被废弃
-### Parallel 吞吐量优先并行收集器
+## Parallel 吞吐量优先并行收集器
 **-XX:+UseParallelGC 、-XX:+UseParallelOldGC** 使用任意一个参数，新生代、老年代就会使用Parallel收集器  
 **-XX:ParallelGCThreads** 设置年轻代并行收集线程数 （CPU数 < 8 设置与核心数相同；CPU数 > 8 设置线程数 = 3 + (5 * 核心数) / 8）  
 **-XX:+UseAdaptiveSizePolicy** 自适应调节策略  
@@ -87,14 +86,14 @@ JDK14 CMS被移除 没有老年代收集器配合 , 被废弃
 Parallel 主打高吞吐量优先，该参数具体值最好由`-XX:+UseAdaptiveSizePolicy`来分配  
 **-XX:GCTimeRatio=N** 垃圾收集时间占比(1/N+1)  
 用于衡量吞吐量，该值设置越大就与设置最大STW时间`-XX:MaxGCPauseMillis` 矛盾，不能同时使用  
-### CMS 并发收集器
+## CMS 并发收集器
 **-XX:+UseConcMarkSweepGC**老年代使用CMS垃圾收集器，新生代使用ParNew收集器  
 **-XX:CMSInitiatingOccupancyFraction**设置老年代使用多少空间时开始垃圾回收  
 如果设置的太高，不够内存分配不能满足并发执行，就会冻结用户线程启动Serial Old收集器，停顿时间就会变长（如果内存增长缓慢可以设置高一些，如果内存增长很快就要设置低一些 默认92%）  
 **-XX:+UseCMSCompactAtFullCollection**指定在FULL GC后是否对内存进行压缩整理  
 （开启后，通过`-XX:CMSFullGCsBeforeCompaction`设置执行多少次FULL GC后进行内存压缩整理）  
 **-XX:ParallelCMSThreads** 设置CMS线程数量  
-### G1 低延迟分代收集器
+## G1 低延迟分代收集器
 **-XX:+UseG1GC** 使用G1收集器  
 **-XX:G1HeapRegionSize**设置每个region大小  
 **-XX:MaxGCPauseMillis**设置预期停顿时间 （默认200ms，最好不要太小）  
@@ -109,31 +108,31 @@ Parallel 主打高吞吐量优先，该参数具体值最好由`-XX:+UseAdaptive
 ## jinfo
 - 实时查看和调整JVM参数  
 格式：`jinfo -flag <name> <PID>` 如：`jinfo -flag UserG1GC 126492`
-![](img/常用的JVM参数和命令/2024-02-22-20-51-52.png)
+![](../img/常用的JVM参数和命令/2024-02-22-20-51-52.png)
 - 修改  
 只有被标记为manageable的参数才可以使用jinfo实时修改  
 格式：  
 1. `jinfo -flag [+/-]<name> <PID>` 
 2. `jinfo -flag <name>=<value> <PID>` 如 `jinfo -flag HeapDumpPath=log/heap.hprof 126492`
-![](img/常用的JVM参数和命令/2024-02-22-20-52-36.png)
+![](../img/常用的JVM参数和命令/2024-02-22-20-52-36.png)
 ## jstat
 - 查看类装载信息  
 `jstat -class PID 1000 10` 查看某个java进程的类装载信息，每1000毫秒输出一次，共输出10 次
-![](img/常用的JVM参数和命令/2024-02-22-20-53-34.png)
+![](../img/常用的JVM参数和命令/2024-02-22-20-53-34.png)
 - 查看垃圾收集信息
 `jstat -gc PID 1000 1000`
-![](img/常用的JVM参数和命令/2024-02-22-20-54-19.png)
+![](../img/常用的JVM参数和命令/2024-02-22-20-54-19.png)
 ## jstack
 - 查看线程堆栈信息
 `jstack PID`
-![](img/常用的JVM参数和命令/2024-02-22-20-55-06.png)
+![](../img/常用的JVM参数和命令/2024-02-22-20-55-06.png)
 ## jmap
 - 生成堆转储快照
 - 打印堆内存相关信息
 `jmap -heap PID`
-![](img/常用的JVM参数和命令/2024-02-22-21-01-55.png)
+![](../img/常用的JVM参数和命令/2024-02-22-21-01-55.png)
 - dump出堆内存相关信息
 `jmap -dump:format=b,file=heap.hprof PID`
-![](img/常用的JVM参数和命令/2024-02-22-21-02-39.png)
+![](../img/常用的JVM参数和命令/2024-02-22-21-02-39.png)
 当发生堆内存溢出时，自动生成dump文件  
 **-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heap.hprof**

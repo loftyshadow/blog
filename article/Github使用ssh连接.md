@@ -1,6 +1,4 @@
-# Github使用SSH连接
-
-## 生成SSH密钥
+# 生成SSH密钥
 ```shell
 ssh-keygen -t rsa -b 4096 -C "1094290505@qq.com"
 ```
@@ -9,7 +7,7 @@ ssh-keygen -t rsa -b 4096 -C "1094290505@qq.com"
 cd ~/.ssh
 cat ./id_rsa.pub
 ```
-## 添加公钥到Github
+# 添加公钥到Github
 ![](img/Github使用ssh连接/2024-03-14-19-17-29.png)
 输入命令
 ```shell

@@ -1,12 +1,10 @@
-# Docker安装RabbitMQ
-
 ```shell:no-line-numbers
 docker run --restart=always \
 --privileged=true \
 -p 5672:5672 -p 15672:15672 --name rabbitmq -d rabbitmq:3.12.10-management
 ```
 
-## 开启延迟队列插件
+# 开启延迟队列插件
 
 ```shell:no-line-numbers
 # 拷贝至docker容器内

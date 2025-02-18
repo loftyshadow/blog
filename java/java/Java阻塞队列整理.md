@@ -1,5 +1,4 @@
-# 阻塞队列
-## 什么是队列？
+# 什么是队列？
 
 队列的实现可以是数组、也可以是链表，可以实现先进先出的顺序队列，也可以实现先进后出的栈队列
 
@@ -41,7 +40,7 @@ SynchronousQueue: 队列只有一个元素，如果想插入多个，必须等�
 需要注意的是LinkedBlockingQueue虽然是有界的，但有个巨坑，其默认大小是Integer.MAX_VALUE，高达21亿，一般情况下内存早爆了（在线程池的ThreadPoolExecutor有体现）。
 
 
-## API
+# API
 阻塞队列提供一下四种添加、删除元素的API，我们常用阻塞等待/超时阻塞等待的API
 
 | 方法名|	抛出异常 |	返回true/false |	阻塞等待 |	超时阻塞等待 |
@@ -53,7 +52,7 @@ SynchronousQueue: 队列只有一个元素，如果想插入多个，必须等�
 3. 阻塞等待: 队满时put会阻塞线程 或 队空时take会阻塞线程
 4. 超时阻塞等待: 在阻塞等待、返回true/false的基础上增加超时等待（等待一定时间就退出等待）
 
-## 阻塞队列的公平与不公平
+# 阻塞队列的公平与不公平
 
 
 什么是阻塞队列的公平与不公平？
@@ -64,7 +63,7 @@ SynchronousQueue: 队列只有一个元素，如果想插入多个，必须等�
 
 阻塞队列一般默认使用不公平锁
 
-## ArrayBlockingQueue
+# ArrayBlockingQueue
 从名称看就可以知道它是数组实现的，我们先来看看它有哪些重要字段
 ```java
  public class ArrayBlockingQueue<E> extends AbstractQueue<E>
@@ -168,7 +167,7 @@ private void enqueue(E x) {
 由于基于数组，容量固定所以不容易出现内存占用率过高，但是如果容量太小，取数据比存数据的速度慢，那么会造成过多的线程进入阻塞(也可以使用offer()方法达到不阻塞线程)， 此外由于存取共用一把锁，所以有高并发和吞吐量的要求情况下，我们也不建议使用`ArrayBlockingQueue`。
 
 
-## LinkedBlockingQueue
+# LinkedBlockingQueue
 
 `LinkedBlockingQueue`从名称上来看，就是使用链表实现的，我们来看看它的关键字段
 ```java
@@ -335,7 +334,7 @@ LinkedBlockingQueue基于链表实现，队列容量默认Integer.MAX_VALUE
 **使用场景**:
 在项目的一些核心业务且生产和消费速度相似的场景中:
 
-## LinkedBlockingDeque
+# LinkedBlockingDeque
 `LinkedBlockingDeque`实现与`LinkedBlockQueue`类似，在`LinkedBlockQueue`的基础上支持从队头、队尾进行添加、删除的操作
 
 它是一个双向链表，带有一系列First、Last的方法，比如：`offerLast`、`pollFirst`
@@ -348,7 +347,7 @@ LinkedBlockingQueue基于链表实现，队列容量默认Integer.MAX_VALUE
 
 `ForkJoin`框架就使用其来充当阻塞队列
 
-## PriorityBlockingQueue
+# PriorityBlockingQueue
 `PriorityBlockingQueue`是优先级排序的无界阻塞队列，阻塞队列按照优先级进行排序
 
 **使用堆排序，具体排序算法由`Comparable`或`Comparator`实现比较规则**
@@ -403,7 +402,7 @@ public void testPriorityBlockingQeque() {
 
 在项目上存在优先级的业务
 
-## DelayQueue
+# DelayQueue
 Delay是一个延时获取元素的无界阻塞队列， 延时最长排在队尾
 
 Delay队列元素实现Delayed接口通过`getDelay`获取延时时间
@@ -423,7 +422,7 @@ public interface Delayed extends Comparable<Delayed> {
 2. 定时任务调度： 将定时任务的时间设置为延时时间，一旦可以获取到任务就开始执行
 以定时线程池`ScheduledThreadPoolExecutor`的定时任务`ScheduledFutureTask`为例，它实现`Delayed`获取延迟执行的时间
 
-![](img/Java阻塞队列整理/2024-04-14-20-11-29.png)
+![](../img/Java阻塞队列整理/2024-04-14-20-11-29.png)
 
 1. 创建对象时,初始化数据
 
@@ -474,7 +473,7 @@ DelayQueue延迟队列，基于优先级队列来实现
 
 由于是基于优先级队列实现，但是它比较的是时间，我们可以根据需要去倒叙或者正序排列(一般都是倒叙，用于倒计时)
 
-## SynchronousQueue
+# SynchronousQueue
 
 
 一种阻塞队列，其中每个插入操作必须等待另一个线程的对应移除操作 ，反之亦然。
@@ -545,7 +544,7 @@ public void testSynchronousQueue() throws InterruptedException {
 
 参考线程池newCachedThreadPool()。
 
-## LinkedTransferQueue
+# LinkedTransferQueue
 LinkedTransferQueue是一个链表组成的无界阻塞队列，拥有transfer()和tryTransfer()方法
 
 transfer()
@@ -600,7 +599,7 @@ public void testTryTransfer() throws InterruptedException {
 `tryTransfer(long,TimeUnit)` 在超时时间内消费者消费元素返回true，反之返回false
 
 
-## 总结
+# 总结
 ArrayBlockingQueue由环形数组实现，固定容量无法扩容，使用非公平的可重入锁锁、两个等待队列操作入队、出队操作，适合并发小的场景
 
 LinkedBlockingQueue由单向链表实现，默认无界，使用两个可重入锁、两个等待队列进行入队、出队操作，并在此期间可能唤醒生产者或消费者线程，以此提高并发性能

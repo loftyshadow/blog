@@ -9,7 +9,7 @@ export const nav: NavItem[] = [
   {
     text: "Java整理",
     activeMatch: "^/java/",
-    link: "/java/常用的JVM参数和命令.md",
+    link: "/java/java/常用的JVM参数和命令.md",
   },
   {
     text: "算法整理",
@@ -29,7 +29,7 @@ export const nav: NavItem[] = [
   {
     text: "常用配置工具类整理",
     activeMatch: "^/utils/",
-    link: "/utils/计算工具类ArithUtils.md",
+    link: "/utils/Utils工具类/计算工具类ArithUtils.md",
   },
   {
     text: "杂项",

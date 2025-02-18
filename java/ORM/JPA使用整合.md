@@ -1,5 +1,4 @@
-## ID生成
-spring data jpa 的标准主键生成策略主要有四种，分别是：
+spring data jpa 的标准主键生成策略主要有四种，分别是：  
 ```java
 public enum GenerationType {
     TABLE, //使用一个额外的数据库表来保存主键
@@ -9,7 +8,7 @@ public enum GenerationType {
 }
 ```
 
-## 公用属性
+# 公用属性
 
 `@MappedSuperclass` 是 Java Persistence API (JPA) 中的一个注解，用于指示某个类是一个映射的超类（Mapped Superclass）。映射的超类类似于普通的 Java 类，但它不会被映射到数据库表，而是作为其他实体类的基类，用于共享字段和方法。  
 总之，`@MappedSuperclass` 注解允许你在 JPA 中创建一个共享属性和方法的基类，而不需要将这些属性和方法映射到数据库表中。

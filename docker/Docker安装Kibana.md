@@ -1,6 +1,4 @@
-# Docker安装Kibana
-
-## 下载镜像
+# 下载镜像
 ```shell:no-line-numbers
 docker pull kibana:8.11.1
 ```

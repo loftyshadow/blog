@@ -1,11 +1,9 @@
-# Dockeraa安装filebeat
-
-下载镜像
+# 下载镜像
 ```shell
 docker pull elastic/filebeat:8.11.1
 ```
 
-在宿主机创建文件夹和文件
+# 在宿主机创建文件夹和文件
 
 ```shell
 mkdir -p /usr/local/src/elk/filebeat/data
@@ -37,12 +35,12 @@ output.logstash:
   hosts: ["ip:5044"]
 ```
 
-修改权限
+# 修改权限
 ```shell
 chmod 777 /usr/local/src/elk/filebeat/data
 ```
 
-启动命令
+# 启动命令
 ```shell
 docker run --name filebeat -d \
 -v /Users/lihaodong/Desktop/log:/Users/lihaodong/Desktop/log \

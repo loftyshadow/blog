@@ -1,13 +1,11 @@
-# Docker安装Redis
-
-## 创建redis配置
+# 创建redis配置
 
 ```shell:no-line-numbers
 mkdir -p /mydata/redis/conf
 touch /mydata/redis/conf/redis.conf
 ```
 
-## 启动redis docker
+# 启动redis docker
 
 ```shell:no-line-numbers
 docker pull redis:7.2.3

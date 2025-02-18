@@ -1,5 +1,4 @@
-# Docker安装mysql
-## 创建mysql配置
+# 创建mysql配置
 
 ```shell:no-line-numbers
 mkdir -p /mydata/mysql/data
@@ -8,7 +7,7 @@ mkdir -p /mydata/mysql/conf
 vim /mydata/mysql/conf/my.cnf
 ```
 
-## docker mysql配置（my.cnf）
+# docker mysql配置（my.cnf）
 
 ```text
 [client]
@@ -36,7 +35,7 @@ mysqlx_max_connections=1000
 thread_cache_size=64
 ```
 
-## docker 启动mysql8.2.0
+# docker 启动mysql8.2.0
 
 ```shell:no-line-numbers
 docker pull mysql:8.2.0
@@ -49,7 +48,7 @@ docker run --restart=always --privileged=true -p 3306:3306 --name mysql \
 -d mysql:8.2.0
 ```
 
-## docker启动mysql5.7
+# docker启动mysql5.7
 
 ```shell:no-line-numbers
 docker run --restart=always --privileged=true -p 3306:3306 --name mysql \

@@ -1,9 +1,6 @@
-[ 原文链接 ](https://juejin.cn/post/6882266649509298189)
-# Spring解决循环依赖
+[原文链接 ](https://juejin.cn/post/6882266649509298189)  
 既然要解决循环依赖，那么就要知道循环依赖是什么。如下图所示：
-
-![](img/Spring解决循环依赖/2024-02-23-21-15-52.png)
-
+![](../img/Spring解决循环依赖/2024-02-23-21-15-52.png)
 通过上图，我们可以看出：
 
 - A 依赖于 B
@@ -43,7 +40,7 @@ public class C {
 如果是构造方法注入，那么就意味着需要调用构造方法注入，也无法利用缓存。
 **为什么Spring不能解决构造器的循环依赖**？  
 因为构造器是在实例化时调用的，此时bean还没有实例化完成，如果此时出现了循环依赖，一二三级缓存并没有Bean实例的任何相关信息，在实例化之后才放入三级缓存中，因此当getBean的时候缓存并没有命中，这样就抛出了循环依赖的异常了。
-## 三级缓存
+# 三级缓存
 Spring 解决循环依赖的核心就是提前暴露对象,三级缓存在`DefaultSingletonBeanRegistry`中，而提前暴露的对象就是放置于第二级缓存中。下表是三级缓存的说明：
 
 | 名称 | 描述                                                 |
@@ -52,7 +49,7 @@ Spring 解决循环依赖的核心就是提前暴露对象,三级缓存在`Defau
 |earlySingletonObjects | 	二级缓存，存放提前暴露的Bean，Bean 是不完整的，未完成属性注入和执行 init 方法。   |
 |singletonFactories | 	三级缓存，存放的是 Bean 工厂(Lambda表达式)，主要是生产 Bean，存放到二级缓存中。 |
 
-![](img/Spring解决循环依赖/2024-04-02-15-05-39.png)
+![](../img/Spring解决循环依赖/2024-04-02-15-05-39.png)
 所有被 Spring 管理的 Bean，最终都会存放在 `singletonObjects` 中，这里面存放的 Bean 是经历了所有生命周期的（除了销毁的生命周期），完整的，可以给用户使用的。  
 `earlySingletonObjects` 存放的是已经被实例化，但是还没有注入属性和执行 init 方法的 Bean。  
 `singletonFactories` 存放的是生产 Bean 的工厂(一个lambda表达式)。
@@ -74,7 +71,7 @@ Bean 都已经实例化了，为什么还需要一个生产 Bean 的工厂呢？
 SPRING在创建BEAN的时候，在哪里创建的动态代理？  
 ①：如果没有循环依赖的话，在bean初始化完成后创建动态代理  
 ②：如果有循环依赖，在bean实例化之后创建！
-## 解决循环依赖
+# 解决循环依赖
 Spring 是如何通过上面介绍的三级缓存来解决循环依赖的呢？这里只用 A，B 形成的循环依赖来举例：  
 1. 实例化 A，此时 A 还未完成属性填充和初始化方法（@PostConstruct）的执行，A 只是一个半成品。
 2. 为 A 创建一个 Bean 工厂，并放入到 singletonFactories 中。
@@ -169,7 +166,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 ```
 **通过上面的解析，我们可以知道 Spring 需要三级缓存的目的是为了在没有循环依赖的情况下，延迟代理对象的创建，使 Bean 的创建符合 Spring 的设计原则。**
 
-## 如何获取依赖
+# 如何获取依赖
 我们目前已经知道了 Spring 的三级依赖的作用，但是 Spring 在注入属性的时候是如何去获取依赖的呢？  
 他是通过一个 `getSingleton()` 方法去获取所需要的 Bean 的。
 ```java
@@ -234,8 +231,8 @@ protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 }
 ```
 当 Spring 为某个 Bean 填充属性的时候，它首先会寻找需要注入对象的名称，然后依次执行 `getSingleton()` 方法得到所需注入的对象，而获取对象的过程就是先从一级缓存中获取，一级缓存中没有就从二级缓存中获取，二级缓存中没有就从三级缓存中获取，如果三级缓存中也没有，那么就会去执行 `doCreateBean()` 方法创建这个 Bean。
-![](img/Spring解决循环依赖/2024-04-09-23-23-31.png)
-## 二级缓存
+![](../img/Spring解决循环依赖/2024-04-09-23-23-31.png)
+# 二级缓存
 我们现在已经知道，第三级缓存的目的是为了延迟代理对象的创建，因为如果没有依赖循环的话，那么就不需要为其提前创建代理，可以将它延迟到初始化完成之后再创建。
 既然目的只是延迟的话，那么我们是不是可以不延迟创建，而是在实例化完成之后，就为其创建代理对象，这样我们就不需要第三级缓存了。因此，我们可以将`addSingletonFactory()` 方法进行改造。
 ```java
@@ -251,8 +248,8 @@ protected void addSingletonFactory(String beanName, ObjectFactory<?> singletonFa
 }
 ```
 这样的话，每次实例化完 Bean 之后就直接去创建代理对象，并添加到二级缓存中。**测试结果是完全正常的，Spring 的初始化时间应该也是不会有太大的影响，因为如果 Bean 本身不需要代理的话，是直接返回原始 Bean 的，并不需要走复杂的创建代理 Bean 的流程。**
-## 结论
-![](img/Spring解决循环依赖/2024-04-06-23-52-03.png)
+# 结论
+![](../img/Spring解决循环依赖/2024-04-06-23-52-03.png)
 1. `doCreateBean`方法会调用`createBeanInstance`方法来对beanA进行实例化。
 2. `addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));`会将生成代理对象的工厂放入到三级缓存。
 3. beanA调用`populateBean`方法，注入beanB实例。  

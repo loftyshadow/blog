@@ -1,11 +1,10 @@
-# Docker安装Canal(不推荐，推荐使用Flink CDC)
-
-## 下载镜像
+不推荐，推荐使用Flink CDC
+# 下载镜像
 
 ```shell:no-line-numbers
 docker pull canal/canal-server:v1.1.6
 ```
-## 修改配置
+# 修改配置
 ```shell:no-line-numbers
 mkdir -p /mydata/canal/conf/example
 mkdir -p /mydata/canal/logs
@@ -270,7 +269,7 @@ canal.mq.partition=0
 
 
 
-## 启动Canal
+# 启动Canal
 ```shell:no-line-numbers
 docker run --name canal -p 11111:11111 \
 -v /mydata/canal/conf/example:/home/admin/canal-server/conf/example \
