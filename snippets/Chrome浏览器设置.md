@@ -28,7 +28,7 @@
 单独标签页的静音
 ## Smooth Scrolling
 平滑滚动
-## Overlay Scrollbars
-不使用时隐藏右侧滚动条
-## Fluent Overlay scrollbars.
+## Fluent scrollbars.
 美化状态栏
+## Fluent Overlay scrollbars.
+不使用时隐藏滚动条

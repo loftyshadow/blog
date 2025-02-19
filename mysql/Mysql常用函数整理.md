@@ -1,7 +1,4 @@
-#Mysql常用函数整理
-
-## COALESCE函数
-
+# COALESCE函数
 COALESCE函数会按照参数的顺序依次判断值是否为空。如果找到一个非空值，则返回该值；如果所有参数都为空，则返回NULL
 
 ```sql
@@ -15,7 +12,6 @@ SELECT COALESCE(db.field1, db.field2)
 UPDATE users SET phone = COALESCE(new_phone, phone) WHERE id = 1;
 
 -- 在以上示例中，COALESCE函数会检查new_phone的值是否为空。如果new_phone不为空，则使用new_phone的值来更新phone列；如果new_phone为空，则保持phone列的原值不变。
-
 ```
 可以配合NULLIF同时处理NULL和空字符串信息
 > `NULLIF`用来返回两个表达式的比较结果。具体来说，如果两个表达式相等，`NULLIF`函数返回NULL；如果不相等，它就返回第一个表达式的值。
@@ -23,7 +19,7 @@ UPDATE users SET phone = COALESCE(new_phone, phone) WHERE id = 1;
 SELECT COALESCE(NULLIF(field, ''), '字段为空或NULL') FROM table
 ```
 
-## FIND_IN_SET
+# FIND_IN_SET
 
 FIND_IN_SET 是基于逗号分隔的完整项来匹配的
 
@@ -42,3 +38,73 @@ SELECT *
 FROM book
 WHERE FIND_IN_SET(author, '施耐庵,罗贯中');
 ```
+
+# JSON格式处理
+## 1. JSON_LENGTH
+获取json数组长度
+```sql
+SELECT JSON_LENGTH(field) AS array_length FROM table
+```
+## 2. JSON_EXTRACT
+
+`JSON_EXTRACT()` 是JSON提取函数，`$.name`就是一个`JSON path`，表示定位文档的 `name`字段.`JSON path`是以 `$`开头
+```text
+{
+    "num": 123,
+    "arr": [1,2],
+    "obj": {
+        "a": 3,
+        "b": 4
+    }
+}
+$.num //结果：123
+$.arr //结果：[1, 2]
+$.arr[1] //结果：1
+$.obj.a //结果：3
+```
+
+## 3. MEMBER OF
+`MEMBER OF()` 函数检查一个指定的值是否是一个 JSON 数组中的元素。
+语法：
+```sql
+value MEMBER OF(value, json_array)
+```
+参数说明：  
+- `value`: 必需的。一个值。可以是任意类型
+- `json_array`: 必需的。一个JSON数组
+
+返回值：
+- 1： json_array中包含value，或json_array为值且与value相等
+- 0： 数组中不包含value
+
+报错情况：`json_array`不是有效的JSON文档
+
+示例：
+```sql
+SELECT 1 MEMBER OF('[1,2,"a"]'), -- 1
+       'a' MEMBER OF('"a"'),     -- 1
+       CAST('true' AS JSON) MEMBER OF('true') -- 1
+```
+
+# CAST
+语法：
+
+```sql
+CAST(expression AS type)
+```
+参数说明：
+- `expression`: 要转换的原始表达式
+- `tye`: 目标类型
+
+常用类型和格式：
+
+`BINARY`：二进制格式。  
+`CHAR`：字符串格式。  
+`DATE`：日期格式。  
+`TIME`：时间格式。  
+`DATETIME`：日期时间格式。  
+`SIGNED`：有符号整数。  
+`UNSIGNED`：无符号整数。  
+`FLOAT`：浮点数。  
+`DOUBLE`：双精度浮点数。  
+`DECIMAL`：小数。  
