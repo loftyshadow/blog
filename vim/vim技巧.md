@@ -8,6 +8,7 @@
 5. \<C-a>增加数字，会找当前行的数字，减少光标移动\<C-x> 减少数字
 6. insert模式\<C-o>退出insert模式后执行命令后重新进入insert模式，可用于zz后继续输入
 7. gv 重选上次的高亮选区
+8. neovim中执行zsh命令 `:! zsh -ic "ZSHCOMMAND"`
 <Counter/>
 <script setup>
   // 局部注册组件

@@ -14,17 +14,8 @@ pacman -Syu --noconfirm
 pacman -Syu --noconfirm
 ```
 # 安装 gcc c++ 编译器
-如何用 pacman 搜索库和软件, 以搜索 gcc 为例
 ```shell
-pacman -Ss gcc
-
-pacman -Ss gcc | grep ucrt64
-```
-找到 `ucrt64/mingw-w64-ucrt-x86_64-gcc`，即是我们要安装的 gcc 编译，
-解释下名字为何这么长：因为安装直接的名字 gcc 是 msys2 (unix风格) native 的，不是 windows native 的
-开始安装 gcc 编译器了
-```shell
-pacman -S --needed ucrt64/mingw-w64-ucrt-x86_64-gcc
+$ pacman -S mingw-w64-ucrt-x86_64-gcc
 ```
 安装之后的 gcc 在哪
 ```shell
