@@ -152,12 +152,10 @@ let g:WhichKeyDesc_CloseAllEditorsButActive = "<leader>bo 关闭除当前标签�
 "固定当前标签页
 nmap <leader>bp <action>(PinActiveEditorTab)
 let g:WhichKeyDesc_PinEditors = "<leader>bp 固定当前标签"
-"清空服务日志
-nmap <leader>cl <action>(ConsoleView.ClearAll)
-let g:WhichKeyDesc_ConsoleClear = "<leader>cl 清空服务日志"
+let g:WhichKeyDesc_Choose = "<leader>c 选择相关"
 "选择运行/debug
 nmap <leader>cr <action>(RunConfiguration)
-let g:WhichKeyDesc_ConsoleClear = "<leader>cl 清空服务日志"
+let g:WhichKeyDesc_RunConfiguration = "<leader>cr 选择运行/debug"
 "使焦点转移到 NERDTree 窗口
 map <leader>e :NERDTreeFocus<CR>
 let g:WhichKeyDesc_NERDTreeFocus = "<leader>e 打开文件目录"
@@ -201,9 +199,7 @@ let g:WhichKeyDesc_SelectIn = "<leader>si 在。。。中选择"
 "显示所有书签
 nmap <leader>sm <Action>(ShowBookmarks)
 et g:WhichKeyDesc_ShowBookmarks = "显示所有书签"
-"重新格式化代码，使其符合预定义的代码样式和规范 \| 优化导入语句，删除未使用的导入，并将导入语句按字母顺序进行排列
-nmap <leader>fm <action>(ReformatCode)
-"let g:WhichKeyDesc_Format = "<leader>f Format相关"
+let g:WhichKeyDesc_Find = "<leader>f 查找相关"
 let g:WhichKeyDesc_GitAndGenerate = "<leader>g Git版本控制"
 "寻找EndPoint
 nmap <leader>fe <action>(GotoUrlAction)
@@ -235,6 +231,9 @@ let g:WhichKeyDesc_SingleHotswapRedesign = "<leader>hs HotSwap"
 "内联方法
 nmap <leader>il <action>(Inline)
 let g:WhichKeyDesc_Inline = "<leader>il 内联方法"
+"展示JsonTree
+nmap <leader>jt <action>(JsonAssistant.Action.JsonStructureAction)
+let g:WhichKeyDesc_Inline = "<leader>il 内联方法"
 let g:WhichKeyDesc_NerdTree = "<leader>n NerdTree相关和取消高亮"
 "在当前目录新建类
 nmap <leader>nc <action>(NewClass)
@@ -253,8 +252,11 @@ map <leader>ol <action>(FileStructurePopup)
 let g:WhichKeyDesc_FileStructurePopup = "<leader>ol 浮动显示目录结构"
 let g:WhichKeyDesc_RunRollBackAndRename = "<leader>r 运行、回滚和重命名"
 "运行当前编辑器中的文件或类(Shift + F10)
-nmap <leader>rc :action RunClass<CR>
+nmap <leader>rc <action>(RunClass)
 let g:WhichKeyDesc_RunClass = "<leader>rc 运行当前编辑器中的文件或类"
+"复制当前位置
+nmap <leader>rf <action>(CopyReference)
+let g:WhichKeyDesc_CopyReference = "<leader>rf 复制当前位置"
 "最近打开项目
 nmap <leader>rp <Action>(ManageRecentProjects)
 let g:WhichKeyDesc_ManageRecentProjects = "<leader>rp 最近打开项目"

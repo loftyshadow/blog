@@ -46,13 +46,13 @@
 
 [MyBatis 插件](https://plugins.jetbrains.com/plugin/10119-mybatisx)
 
-# Rainbow Brackets
+# Json Assistant
 
-[括号层级不同颜色区分](https://plugins.jetbrains.com/plugin/10080-rainbow-brackets)
+[JSON处理](https://plugins.jetbrains.com/plugin/24738-json-assistant)
 
 # SonarLint
 
-[代码检查](https://plugins.jetbrains.com/plugin/7973-sonarlint)
+[代码检查](https://plugins.jetbrains.com/plugin/7973-sonarqube-for-ide)
 
 # Translation
 
@@ -65,10 +65,6 @@
 # Tiamaes Spring Boot Assistant
 
 [yaml配置提示](https://plugins.jetbrains.com/plugin/23191-tiamaes-spring-boot-assistant)
-
-# Single Hotswap
-
-[单文件热加载](https://plugins.jetbrains.com/plugin/14832-single-hotswap)
 
 # ideavim
 
