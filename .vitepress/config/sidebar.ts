@@ -148,20 +148,8 @@ export const sidebar: Sidebar = {
             link: "/article/Github使用ssh连接.md",
         },
         {
-            text: "Winodws添加neovide到右键",
-            link: "/article/Winodws添加neovide到右键.md",
-        },
-        {
-            text: "解决windows自动安装英语(英文)输入法",
-            link: "/article/解决windows自动安装英语(英文)输入法.md",
-        },
-        {
             text: "xxl-job整理",
             link: "/article/xxl-job整理.md",
-        },
-        {
-            text: "Window设置应用开机自启",
-            link: "/article/Window设置应用开机自启.md",
         },
         {
             text: "termux整理",
@@ -170,6 +158,22 @@ export const sidebar: Sidebar = {
         {
             text: "Rust环境安装",
             link: "/article/Rust环境安装.md",
+        },
+        {
+            text: "Windows耳机插孔选择错误更改",
+            link: "/article/Windows耳机插孔选择错误更改.md",
+        },
+        {
+            text: "解决windows自动安装英语(英文)输入法",
+            link: "/article/解决windows自动安装英语(英文)输入法.md",
+        },
+        {
+            text: "Window设置应用开机自启",
+            link: "/article/Window设置应用开机自启.md",
+        },
+        {
+            text: "Winodws添加neovide到右键",
+            link: "/article/Winodws添加neovide到右键.md",
         },
     ],
     "/java/": [
