@@ -54,7 +54,6 @@ services:
       - ./redis/data:/data
       - ./redis/redis.conf:/etc/redis/redis.conf
 
-
   nacos:
     image: nacos/nacos-server:v2.3.0
     container_name: nacos
@@ -86,10 +85,13 @@ services:
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - TZ=Asia/Shanghai
     volumes:
-      - ./elasticsearch/img/elasticsearch.yml:/usr/share/elasticsearch/img/elasticsearch.yml
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./elasticsearch/data:/usr/share/elasticsearch/data
       - ./elasticsearch/plugins:/usr/share/elasticsearch/plugins
+    networks:
+      - elastic_net
 
   kibana:
     image: kibana:8.11.1
@@ -98,26 +100,29 @@ services:
     ports:
       - 5601:5601
     links:
-      - mall4cloud-elasticsearch:elasticsearch
+      - elasticsearch:elasticsearch
     environment:
       - SERVER_HOST=0.0.0.0
-      - ELASTICSEARCH_HOSTS=http://192.168.1.44:9200
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
       - I18N_LOCALE=zh-CN
-#或者通过配置文件   volumes:
-#      - ./kibana/img/kibana.yml:/usr/share/kibana/img/kibana.yml
+      - TZ=Asia/Shanghai
+    #或者通过配置文件   volumes:
+    #      - ./kibana/img/kibana.yml:/usr/share/kibana/img/kibana.yml
+    networks:
+      - elastic_net
     depends_on:
       - elasticsearch
 
-#  canal:
-#    image: canal/canal-server:v1.1.6
-#    container_name: canal
-#    restart: "no"
-#    ports:
-#      - 11111:11111
-#    volumes:
-#      - ./canal/conf/example:/home/admin/canal-server/conf/example
-#      - ./canal/conf/canal.properties:/home/admin/canal-server/conf/canal.properties
-#      - ./canal/logs:/home/admin/canal-server/logs
+  #  canal:
+  #    image: canal/canal-server:v1.1.6
+  #    container_name: canal
+  #    restart: "no"
+  #    ports:
+  #      - 11111:11111
+  #    volumes:
+  #      - ./canal/conf/example:/home/admin/canal-server/conf/example
+  #      - ./canal/conf/canal.properties:/home/admin/canal-server/conf/canal.properties
+  #      - ./canal/logs:/home/admin/canal-server/logs
 
   postgres:
     image: postgres:16.1
@@ -161,5 +166,9 @@ services:
 #    restart: "no"
 #    ports:
 #      - 5000:80
+# 网络配置
+networks:
+  elastic_net:
+    driver: bridge
 ```
 </details>
