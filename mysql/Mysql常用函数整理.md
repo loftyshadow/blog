@@ -19,6 +19,33 @@ UPDATE users SET phone = COALESCE(new_phone, phone) WHERE id = 1;
 SELECT COALESCE(NULLIF(field, ''), '字段为空或NULL') FROM table
 ```
 
+# LOCATE/POSITION/INSTR
+## POSITION()函数
+语法: POSITION(substr IN str)
+返回字符串str中第一次出现子字符串substr的位置 
+```mysql
+SELECT position('a' IN 'nanana');   # 2
+```
+## LOCATE()函数
+语法: LOCATE(substr,str,[pos])  
+回从位置pos开始的字符串str中第一次出现子字符串substr的位置。 如果substr不在str中，则返回0。 如果substr或str为NULL，则返回NULL。  
+POSITION（substr IN str）是LOCATE（substr，str）的同义词。
+```mysql
+SELECT locate('a', 'nanana');       # 2
+SELECT locate('a', 'nanana', 3);    # 4
+SELECT locate('b', 'nanana');       # 0
+SELECT locate(10, 'nanana');        # 0
+SELECT locate(NULL , 'nanana');     # null
+SELECT locate('a' , NULL );         # null
+```
+## INSTR()函数 
+返回字符串str中第一次出现子字符串substr的位置。
+INSTR()与LOCATE（）的双参数形式相同，只是参数的顺序相反。
+```mysql
+SELECT instr('nanana', 'a');        # 2
+SELECT instr('nanana', 'e');        # 0
+```
+
 # FIND_IN_SET
 
 FIND_IN_SET 是基于逗号分隔的完整项来匹配的
