@@ -112,11 +112,8 @@ map zo <Action>(ExpandRegion)
 map zC <Action>(CollapseAllRegions)
 map zO <Action>(ExpandAllRegions)
 
-vmap J :move '>+1<CR>gv=gv
-vmap K :move '<-2<CR>gv=gv
-
-nmap J 5j
-nmap K 5k
+map J ^
+map K $
 "==================leader映射============
 " 启用whichkey
 set which-key
@@ -140,15 +137,19 @@ nmap <leader>6 <Action>(GoToTab6)
 nmap <leader>7 <Action>(GoToTab7)
 nmap <leader>8 <Action>(GoToTab8)
 nmap <leader>9 <Action>(GoToTab9)
+"复制到该行最后
+nmap <leader>a A<Esc>p
+let g:WhichKeyDesc_AppendToLineEnd = "<leader>a 复制到该行最后"
 let g:WhichKeyDesc_Buffer = "<leader>b 标签页相关"
 "关闭当前标签页
 nmap <leader>bd :action CloseEditor<CR>
 let g:WhichKeyDesc_CloseEditors = "<leader>bd 关闭当前标签"
 "关闭除当前标签外的所有标签
 nmap <leader>bo <action>(CloseAllEditorsButActive)
+let g:WhichKeyDesc_CloseAllEditorsButActive = "<leader>bo 关闭除当前标签外的所有标签"
 "关闭所有标签
 nmap <leader>ba <action>(CloseAllEditors)
-let g:WhichKeyDesc_CloseAllEditorsButActive = "<leader>bo 关闭除当前标签外的所有标签"
+let g:WhichKeyDesc_CloseAllEditors = "<leader>ba 关闭所有标签"
 "固定当前标签页
 nmap <leader>bp <action>(PinActiveEditorTab)
 let g:WhichKeyDesc_PinEditors = "<leader>bp 固定当前标签"
@@ -178,9 +179,6 @@ let g:WhichKeyDesc_Debug = "<leader>d Debug相关"
 "打断点/解除断点
 nmap <leader>dp <Action>(ToggleLineBreakpoint)
 let g:WhichKeyDesc_ToggleLineBreakpoint = "<leader>dp 设置断点"
-"调试
-nmap <leader>db <Action>(Debug)
-let g:WhichKeyDesc_DebugProgram = "<leader>db 调试"
 "查看指定变量值
 nmap <leader>de <Action>(QuickEvaluateExpression)
 let g:WhichKeyDesc_DebugQuickEvaluateExpression = "<leader>de 查看指定变量值"
@@ -226,8 +224,11 @@ let g:WhichKeyDesc_ShowGitBlame = "<leader>gb Git Blame"
 nmap <leader>gr <action>(Vcs.RollbackChangedLines)
 let g:WhichKeyDesc_VcsRollbackChangedLines = "<leader>gr 回滚修改"
 "HotSwap
-nmap <leader>hs <action>(SingleHotswapRedesign)
-let g:WhichKeyDesc_SingleHotswapRedesign = "<leader>hs HotSwap"
+nmap <leader>hs <action>(UpdateRunningApplication)
+let g:WhichKeyDesc_UpdateRunningApplication = "<leader>hs HotSwap"
+"关闭活动标签
+nmap <leader>ha <action>(HideActiveWindow)
+let g:WhichKeyDesc_HideActiveWindow = "<leader>ha 关闭活动标签"
 "内联方法
 nmap <leader>il <action>(Inline)
 let g:WhichKeyDesc_Inline = "<leader>il 内联方法"
@@ -250,8 +251,11 @@ let g:WhichKeyDesc_NERDTreeFind = "<leader>o 定位当前编辑文件所在的�
 "浮动显示目录结构
 map <leader>ol <action>(FileStructurePopup)
 let g:WhichKeyDesc_FileStructurePopup = "<leader>ol 浮动显示目录结构"
+"复制到下一行
+nmap <leader>p o<Esc>p
+let g:WhichKeyDesc_CopyToNextLine = "<leader>ol 复制到下一行"
 let g:WhichKeyDesc_RunRollBackAndRename = "<leader>r 运行、回滚和重命名"
-"运行当前编辑器中的文件或类(Shift + F10)
+"运行当前编辑器中的文件或类
 nmap <leader>rc <action>(RunClass)
 let g:WhichKeyDesc_RunClass = "<leader>rc 运行当前编辑器中的文件或类"
 "复制当前位置
@@ -260,6 +264,9 @@ let g:WhichKeyDesc_CopyReference = "<leader>rf 复制当前位置"
 "最近打开项目
 nmap <leader>rp <Action>(ManageRecentProjects)
 let g:WhichKeyDesc_ManageRecentProjects = "<leader>rp 最近打开项目"
+"重新Debug最近一次运行的程序或测试
+nmap <leader>rd <action>(Debug)
+let g:WhichKeyDesc_Debug = "重新Debug最近一次运行的程序或测试"
 "重新运行最近一次运行的程序或测试(Ctrl+Shift + F10)
 nmap <leader>rr <action>(Rerun)
 let g:WhichKeyDesc_Rerun = "<leader>rr 重新运行最近一次运行的程序或测试"
@@ -279,7 +286,7 @@ let g:WhichKeyDesc_SplitHorizontally = "<leader>sh 分屏 水平"
 map <leader>tt <Action>(ActivateTerminalToolWindow)
 let g:WhichKeyDesc_ActivateTerminalToolWindow = "<leader>tt 打开终端并进入项目根目录"
 "翻译选中文字
-map <leader>ts <action>($EditorTranslateAction)
+map <leader>ts <Action>(Translation.EditorTranslateAction)
 let g:WhichKeyDesc_Translate = "<leader>ts 翻译选中文字"
 let g:WhichKeyDesc_Window = "<leader>w Window相关"
 " 分屏切换
