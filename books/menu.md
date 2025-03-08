@@ -2,6 +2,8 @@
 
 ## [EffectiveJava第三版中英对照](EffectiveJava/menu.md)
 
+## [MySQL是怎样运行的](MySQL是怎样运行的/menu.md)
+
 ## [Rust 入门秘籍](https://rust-book.junmajinlong.com/)  
 
 ## [Rust 语言圣经](https://course.rs/)  

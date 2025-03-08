@@ -161,7 +161,7 @@ let g:WhichKeyDesc_RunConfiguration = "<leader>cr 选择运行/debug"
 map <leader>e :NERDTreeFocus<CR>
 let g:WhichKeyDesc_NERDTreeFocus = "<leader>e 打开文件目录"
 map <leader>E <action>(SelectInProjectView)
-let g:WhichKeyDesc_SelectInProjectView = "<leader>E 打开当前文件"
+let g:WhichKeyDesc_SelectInProjectView = "<leader>E 打开目录树锁定当前文件"
 "extract method/function 将选中的代码片段提取为一个独立的方法(Ctrl + Alt + M)
 vmap <leader>em <action>(ExtractMethod)
 let g:WhichKeyDesc_ExtractMethod = "<leader>em 提取选中方法"
@@ -331,6 +331,9 @@ sethandler <A-P> a:ide
 sethandler <C-S-;> a:ide
 sethandler <c-v> a:ide
 sethandler <c-c> a:ide
+sethandler <C-CR> a:ide
+sethandler <S-CR> a:ide
+sethandler <A-CR> a:ide
 
 sethandler <c-d> a:vim
 sethandler <c-u> a:vim
