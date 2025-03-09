@@ -474,3 +474,7 @@ Message: /* select#1 */ select `xiaohaizi`.`s1`.`key1` AS `key1`,`xiaohaizi`.`s2
 
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[15-查询优化的百科全书-Explain详解（上）](./15-查询优化的百科全书-Explain详解（上）.md)
+
+下一章:[17-神兵利器-optimizer trace的神器功效](./17-神兵利器-optimizer%20trace的神器功效.md)

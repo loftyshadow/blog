@@ -2417,3 +2417,7 @@ Functions are objects that can be manipulated by JavaScript, and this enables a 
 > 1. 这个术语最初是由 Martin Fowler 提出的，参见http://martinfowler.com/dslwip/MethodChaining.html。
 > 2. 这看起来不足为奇，但如果你对 Python 很熟悉，你会发现 Python 中的函数是程序的一 部分，但无法被程序操作。
 > 3. 这似乎并不是一个特别有趣的点，除非你熟悉更多的静态语言，其中函数是程序的一部分，但不能由程序操作。
+
+上一章:[ch7](./ch7.md)
+
+下一章:[ch9](./ch9.md)

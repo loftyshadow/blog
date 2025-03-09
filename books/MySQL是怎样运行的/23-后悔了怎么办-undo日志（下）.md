@@ -417,3 +417,7 @@ Too many active concurrent transactions
   
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[22-后悔了怎么办-undo日志（上）](./22-后悔了怎么办-undo日志（上）.md)
+
+下一章:[24-一条记录的多幅面孔-事务的隔离级别与MVCC](./24-一条记录的多幅面孔-事务的隔离级别与MVCC.md)

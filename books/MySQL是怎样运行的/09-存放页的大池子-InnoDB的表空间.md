@@ -644,3 +644,7 @@ mysql> SHOW TABLES LIKE 'innodb_sys%';
   
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[08-数据的家-MySQL的数据目录](./08-数据的家-MySQL的数据目录.md)
+
+下一章:[10-条条大路通罗马-单表访问方法](./10-条条大路通罗马-单表访问方法.md)

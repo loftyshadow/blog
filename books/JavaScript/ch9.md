@@ -1732,3 +1732,5 @@ keyword.
 
 > 2. 例如，见《Design Patterns (Addison-Wesley Professional)》作者 Erich Gamma 等，或者《Effective Java (Addison-Wesley
      Professional)》作者 Joshua Bloch。
+
+上一章:[ch8](./ch8.md)

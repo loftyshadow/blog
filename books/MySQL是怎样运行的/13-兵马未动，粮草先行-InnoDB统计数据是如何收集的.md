@@ -353,3 +353,7 @@ mysql> SELECT * FROM mysql.innodb_index_stats WHERE table_name = 'single_table';
   
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[12-谁最便宜就选谁-MySQL基于成本的优化](./12-谁最便宜就选谁-MySQL基于成本的优化.md)
+
+下一章:[14-不好看就要多整容-MySQL基于规则的优化（内含关于子查询优化二三事儿）](./14-不好看就要多整容-MySQL基于规则的优化（内含关于子查询优化二三事儿）.md)

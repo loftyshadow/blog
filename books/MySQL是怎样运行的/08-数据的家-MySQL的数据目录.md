@@ -223,3 +223,7 @@ test.MYI
 
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[07-好东西也得先学会怎么用-B+树索引的使用](./07-好东西也得先学会怎么用-B+树索引的使用.md)
+
+下一章:[09-存放页的大池子-InnoDB的表空间](./09-存放页的大池子-InnoDB的表空间.md)

@@ -539,3 +539,7 @@ Query OK, 1 row affected (0.00 sec)
   
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[03-乱码的前世今生-字符集和比较规则](./03-乱码的前世今生-字符集和比较规则.md)
+
+下一章:[05-盛放记录的大盒子-InnoDB数据页结构](./05-盛放记录的大盒子-InnoDB数据页结构.md)

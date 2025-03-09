@@ -387,3 +387,7 @@ Records: 12  Duplicates: 0  Warnings: 0
   
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[04-从一条记录说起-InnoDB记录结构](./04-从一条记录说起-InnoDB记录结构.md)
+
+下一章:[06-快速查询的秘籍-B+树索引](./06-快速查询的秘籍-B+树索引.md)

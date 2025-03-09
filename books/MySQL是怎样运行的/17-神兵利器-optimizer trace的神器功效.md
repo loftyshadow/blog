@@ -367,3 +367,7 @@ INSUFFICIENT_PRIVILEGES: 0
 
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[16-查询优化的百科全书-Explain详解（下）](./16-查询优化的百科全书-Explain详解（下）.md)
+
+下一章:[18-调节磁盘和CPU的矛盾-InnoDB的Buffer Pool](./18-调节磁盘和CPU的矛盾-InnoDB的Buffer%20Pool.md)

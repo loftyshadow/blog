@@ -326,3 +326,7 @@ UPDATE undo_demo
   
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[21-说过的话就一定要办到-redo日志（下）](./21-说过的话就一定要办到-redo日志（下）.md)
+
+下一章:[23-后悔了怎么办-undo日志（下）](./23-后悔了怎么办-undo日志（下）.md)

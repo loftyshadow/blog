@@ -377,3 +377,7 @@ mysql>
   
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[17-神兵利器-optimizer trace的神器功效](./17-神兵利器-optimizer%20trace的神器功效.md)
+
+下一章:[19-从猫爷被杀说起-事务简介](./19-从猫爷被杀说起-事务简介.md)

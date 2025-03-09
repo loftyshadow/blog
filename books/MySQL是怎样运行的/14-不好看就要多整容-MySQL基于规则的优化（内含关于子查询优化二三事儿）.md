@@ -1046,3 +1046,7 @@ SELECT * FROM  (
   
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[13-兵马未动，粮草先行-InnoDB统计数据是如何收集的](./13-兵马未动，粮草先行-InnoDB统计数据是如何收集的.md)
+
+下一章:[15-查询优化的百科全书-Explain详解（上）](./15-查询优化的百科全书-Explain详解（上）.md)

@@ -453,3 +453,7 @@ SELECT * FROM hero WHERE number = 1; # 得到的列name的值仍为'刘备'
   
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[23-后悔了怎么办-undo日志（下）](./23-后悔了怎么办-undo日志（下）.md)
+
+下一章:[25-工作面试老大难-锁](./25-工作面试老大难-锁.md)

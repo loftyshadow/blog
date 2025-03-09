@@ -334,3 +334,7 @@ Last checkpoint at  124052494
 
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[20-说过的话就一定要办到-redo日志（上）](./20-说过的话就一定要办到-redo日志（上）.md)
+
+下一章:[22-后悔了怎么办-undo日志（上）](./22-后悔了怎么办-undo日志（上）.md)

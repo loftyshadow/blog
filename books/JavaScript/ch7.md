@@ -1638,3 +1638,7 @@ The Array class defines a rich set of methods for manipulating arrays, and you s
 with the Array API.
 
 > Array 类定义了一组用于操作数组的丰富方法，应该确保熟悉 Array API。
+
+上一章:[ch6](./ch6.md)
+
+下一章:[ch8](./ch8.md)

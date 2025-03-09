@@ -712,3 +712,7 @@ mysql> EXPLAIN SELECT * FROM s1 INNER JOIN s2 ON s1.key1 = s2.key1 WHERE s1.comm
 
 <div STYLE="page-break-after: always;"></div>
 
+
+上一章:[14-不好看就要多整容-MySQL基于规则的优化（内含关于子查询优化二三事儿）](./14-不好看就要多整容-MySQL基于规则的优化（内含关于子查询优化二三事儿）.md)
+
+下一章:[16-查询优化的百科全书-Explain详解（下）](./16-查询优化的百科全书-Explain详解（下）.md)

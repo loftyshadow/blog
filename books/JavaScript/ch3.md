@@ -2325,4 +2325,6 @@ Some key points to remember about this chapter:
 2. There are JavaScript extensions, such as TypeScript and Flow (§17.8), that allow types to be specified as part of
    variable declarations with syntax like let x: number = 0;.
 
-[下一章](./ch4.md)
+上一章:[ch2](./ch2.md)
+
+下一章:[ch4](./ch4.md)

@@ -1984,4 +1984,6 @@ Provide a value to be iterated; only used in generator functions
 2. When we consider the continue statement in §5.5.3, we’ll see that this while loop is not an exact equivalent of the
    for loop.
 
-[下一章](./ch6.md)
+上一章:[ch4](./ch4.md)
+
+下一章:[ch6](./ch6.md)
