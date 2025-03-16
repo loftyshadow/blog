@@ -6906,6 +6906,6 @@ event handler properties are written entirely in lowercase.
 supported in Safari and a different syntax is required to use a custom element that extends anything other than
 HTMLElement.
 
-上一章:[ch14](./ch14.md)
+上一章:[ch14](./14-元编程)
 
-下一章:[ch16](./ch16.md)
+下一章:[ch16](./16-服务器端JavaScript)

@@ -1855,6 +1855,6 @@ Best wishes, David Flanagan, March 2020
    that used a type parameter. I found the learning process for Flow to be remarkably similar to what I went through in
    2004 when generics were added to Java.
 
-上一章:[ch16](./ch16.md)
+上一章:[ch16](./16-服务器端JavaScript)
 
-下一章:[ch2](./ch2.md)
+下一章:[ch2](./02-词法结构)

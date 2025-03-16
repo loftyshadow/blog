@@ -2422,6 +2422,6 @@ Node’s “worker_threads” module for true multithreaded programming using me
 different sections of the same file blew my mind when I first encountered it for the Unix fork() system call. And I
 think it is worth demonstrating this technique simply for its strange elegance.
 
-上一章:[ch15](./ch15.md)
+上一章:[ch15](./15-Web浏览器中的JavaScript)
 
-下一章:[ch17](./ch17.md)
+下一章:[ch17](./17-JavaScript工具和扩展)

@@ -2113,6 +2113,6 @@ Rauschmayer, [https://2ality.com]().
 > await。
 > [^3]: 我从 Dr. Axel Rauschmayer 的博客[https://2ality.com]()中了解了这种异步迭代方法。
 
-上一章:[ch12](./ch12.md)
+上一章:[ch12](./12-迭代器和生成器)
 
-下一章:[ch14](./ch14.md)
+下一章:[ch14](./14-元编程)

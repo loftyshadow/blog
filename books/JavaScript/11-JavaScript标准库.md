@@ -2904,6 +2904,6 @@ of the JavaScript standard library.
 5. Parsing URLs with regular expressions is not a good idea. See §11.9 for a more robust URL parser.
 6. C programmers will recognize many of these character sequences from the printf() function.
 
-上一章:[ch10](./ch10.md)
+上一章:[ch10](./10-模块)
 
-下一章:[ch12](./ch12.md)
+下一章:[ch12](./12-迭代器和生成器)
