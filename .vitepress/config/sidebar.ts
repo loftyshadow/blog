@@ -136,6 +136,10 @@ export const sidebar: Sidebar = {
             link: "/article/Zsh安装.md",
         },
         {
+            text: "Nushell安装",
+            link: "/article/Nushell安装",
+        },
+        {
             text: "MSYS2安装gcc、gmake",
             link: "/article/MSYS2安装gcc、gmake.md",
         },

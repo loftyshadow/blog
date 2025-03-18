@@ -1,4 +1,4 @@
-# Windows Zsh 安装
+# Windows Zsh 安装(推荐Nushell)
 ## 安装 Git
 前往[git 官网](https://gitforwindows.org/)安装 git
 ![git安装选项](img/Zsh安装/git安装选项.png)
@@ -41,7 +41,7 @@ continuation_prompt = '▶▶ '
 
 format = """
 [░▒▓](#a3aed2)\
-[  ](bg:#a3aed2 fg:#090c0c)\
+[ 🦝](bg:#a3aed2 fg:#090c0c)\
 [](bg:#769ff0 fg:#a3aed2)\
 $directory\
 [](fg:#769ff0 bg:#394260)\
