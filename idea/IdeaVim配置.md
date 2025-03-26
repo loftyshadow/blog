@@ -91,6 +91,8 @@ nmap ]m <action>(MethodDown)
 nmap gi <action>(GotoImplementation)
 "跳转到声明
 map gd <Action>(GotoDeclaration)
+"进入数据库
+map gb <Action>(Jdbc.OpenEditor.Data)
 "hover
 map gh <Action>(QuickJavaDoc)
 "跳转到父方法
@@ -198,19 +200,25 @@ let g:WhichKeyDesc_SelectIn = "<leader>si 在。。。中选择"
 nmap <leader>sm <Action>(ShowBookmarks)
 et g:WhichKeyDesc_ShowBookmarks = "显示所有书签"
 let g:WhichKeyDesc_Find = "<leader>f 查找相关"
-let g:WhichKeyDesc_GitAndGenerate = "<leader>g Git版本控制"
 "寻找EndPoint
 nmap <leader>fe <action>(GotoUrlAction)
 let g:WhichKeyDesc_GotoUrlAction = "<leader>fe 寻找EndPoints"
+"寻找DB
+nmap <leader>fd <action>(GotoDatabaseObject)
+let g:WhichKeyDesc_GotoDatabaseObject = "<leader>fd 寻找DataBase"
 "寻找文件
 nmap <leader>ff <action>(SearchEverywhere)
 let g:WhichKeyDesc_GitAndGenerate = "<leader>ff 寻找文件"
 "在文件中查找
 nmap <leader>fw <action>(FindInPath)
 let g:WhichKeyDesc_GitAndGenerate = "<leader>fw 在文件中查找"
+let g:WhichKeyDesc_GitAndGenerate = "<leader>g Git版本控制"
 "生成Code
 nmap <leader>gc <action>(Generate)
 let g:WhichKeyDesc_GenerateCode = "<leader>gc 生成Code"
+"生成重写方法
+nmap <leader>go <action>(OverrideMethods)
+let g:WhichKeyDesc_OverrideMethods = "<leader>go 生成重写方法"
 "执行版本控制（VCS）的回滚操作，将修改的代码还原到之前的版本
 nmap <leader>gh <action>(Vcs.ShowTabbedFileHistory)
 let g:WhichKeyDesc_ShowTabbedFileHistory = "<leader>gh 展示历史"
@@ -229,12 +237,6 @@ let g:WhichKeyDesc_UpdateRunningApplication = "<leader>hs HotSwap"
 "关闭活动标签
 nmap <leader>ha <action>(HideActiveWindow)
 let g:WhichKeyDesc_HideActiveWindow = "<leader>ha 关闭活动标签"
-"内联方法
-nmap <leader>il <action>(Inline)
-let g:WhichKeyDesc_Inline = "<leader>il 内联方法"
-"展示JsonTree
-nmap <leader>jt <action>(JsonAssistant.Action.JsonStructureAction)
-let g:WhichKeyDesc_Inline = "<leader>il 内联方法"
 let g:WhichKeyDesc_NerdTree = "<leader>n NerdTree相关和取消高亮"
 "在当前目录新建类
 nmap <leader>nc <action>(NewClass)
@@ -245,15 +247,12 @@ let g:WhichKeyDesc_NERDTreeOrNew_NewDir = "<leader>nd 在当前目录新建文�
 "取消搜索高亮显示(No light)
 nmap <leader>nh :nohlsearch<CR>
 let g:WhichKeyDesc_NoHighlight = "<leader>nh 取消搜索高亮显示"
-"文件资源管理器中定位当前编辑文件所在的节
-map <leader>o :NERDTreeFind<CR>
-let g:WhichKeyDesc_NERDTreeFind = "<leader>o 定位当前编辑文件所在的节点"
 "浮动显示目录结构
 map <leader>ol <action>(FileStructurePopup)
 let g:WhichKeyDesc_FileStructurePopup = "<leader>ol 浮动显示目录结构"
 "复制到下一行
 nmap <leader>p o<Esc>p
-let g:WhichKeyDesc_CopyToNextLine = "<leader>ol 复制到下一行"
+let g:WhichKeyDesc_CopyToNextLine = "<leader>p 复制到下一行"
 let g:WhichKeyDesc_RunRollBackAndRename = "<leader>r 运行、回滚和重命名"
 "运行当前编辑器中的文件或类
 nmap <leader>rc <action>(RunClass)
@@ -318,7 +317,7 @@ sethandler <c-n> a:ide
 sethandler <c-p> a:ide
 sethandler <c-q> a:ide
 sethandler <c-r> a:ide
-sethandler <c-s> a:ide
+sethandler <C-s> a:ide
 sethandler <c-t> a:ide
 sethandler <c-w> a:ide
 sethandler <c-x> a:ide
@@ -329,8 +328,8 @@ sethandler <c-]> a:ide
 sethandler <C-;> a:ide
 sethandler <A-P> a:ide
 sethandler <C-S-;> a:ide
-sethandler <c-v> a:ide
-sethandler <c-c> a:ide
+sethandler <C-v> a:ide
+sethandler <C-c> a:ide
 sethandler <C-CR> a:ide
 sethandler <S-CR> a:ide
 sethandler <A-CR> a:ide
