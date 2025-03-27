@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="elasticsearch-analysis-ik-8.11.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/docker/config/docker/elasticsearch/plugins/elasticsearch-analysis-ik-8.11.1/commons-codec-1.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/docker/config/docker/elasticsearch/plugins/elasticsearch-analysis-ik-8.11.1/httpcore-4.4.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/docker/config/docker/elasticsearch/plugins/elasticsearch-analysis-ik-8.11.1/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/docker/config/docker/elasticsearch/plugins/elasticsearch-analysis-ik-8.11.1/httpclient-4.5.13.jar!/" />
+      <root url="jar://$PROJECT_DIR$/docker/config/docker/elasticsearch/plugins/elasticsearch-analysis-ik-8.11.1/elasticsearch-analysis-ik-8.11.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

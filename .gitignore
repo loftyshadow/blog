@@ -4,7 +4,9 @@ dist
 stats.html
 .temp
 .cache
-.idea/vcs.xml
-.idea/**
 /node_modules/
 /.vitepress/cache/
+
+# idea 相关
+#.idea/vcs.xml
+#.idea/**
