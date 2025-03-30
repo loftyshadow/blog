@@ -11,7 +11,7 @@
 8. neovim中执行zsh命令 `:! zsh -ic "ZSHCOMMAND"`
 9. cib等效于ci(, ciB等效于ci{
 10. 跳转指定行可以直接输入数字加G,等效于:指定行
-11. vim放在后台<C-z>再次输入fg重新进入vim
+11. vim放在后台\<C-z>再次输入fg重新进入vim
 12. ZZ保存并退出，ZQ不保存退出
 <Counter/>
 <script setup>

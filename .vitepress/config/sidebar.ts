@@ -179,6 +179,10 @@ export const sidebar: Sidebar = {
             text: "Winodws添加neovide到右键",
             link: "/article/Winodws添加neovide到右键.md",
         },
+        {
+            text: "Win11关闭WindowsDefender实时保护",
+            link: "/article/Win11关闭WindowsDefender实时保护.md",
+        }
     ],
     "/java/": [
         {
