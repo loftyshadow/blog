@@ -70,6 +70,7 @@ set fdm=marker
 :set keep-english-in-normal
 :set keep-english-in-normal-and-restore-in-insert
 "======================map映射==========
+nmap vae ggVG
 "将 jk 映射为 <Esc>
 imap jk <Esc>
 nmap <c-o> <action>(Back)
@@ -299,43 +300,39 @@ let g:WhichKeyDesc_ToggleZenMode = "<leader>z 禅模式"
 
 
 "========================sethandler
-sethandler <C-2> a:ide
-sethandler <c-s-2> a:ide
-sethandler <c-6> a:ide
-sethandler <c-s-6> a:ide
-sethandler <c-a> a:ide
-sethandler <c-b> a:ide
-sethandler <c-e> a:ide
-sethandler <c-f> a:ide
-sethandler <c-g> a:ide
-sethandler <c-h> a:ide
-sethandler <c-j> a:ide
-sethandler <c-k> a:ide
-sethandler <c-l> a:ide
-sethandler <c-m> a:ide
-sethandler <c-n> a:ide
-sethandler <c-p> a:ide
-sethandler <c-q> a:ide
-sethandler <c-r> a:ide
+sethandler <C-b> a:ide
+sethandler <C-e> a:ide
+sethandler <C-f> a:ide
+sethandler <C-g> a:ide
+sethandler <C-h> a:ide
+sethandler <C-j> a:ide
+sethandler <C-k> a:ide
+sethandler <C-l> a:ide
+sethandler <C-m> a:ide
+sethandler <C-n> a:ide
+sethandler <C-p> a:ide
+sethandler <C-q> a:ide
+sethandler <C-r> a:ide
 sethandler <C-s> a:ide
-sethandler <c-t> a:ide
-sethandler <c-w> a:ide
-sethandler <c-x> a:ide
-sethandler <c-y> a:ide
-sethandler <c-\> a:ide
-sethandler <c-[> a:ide
-sethandler <c-]> a:ide
+sethandler <C-t> a:ide
+sethandler <C-w> a:ide
+sethandler <C-x> a:ide
+sethandler <C-y> a:ide
+sethandler <C-\> a:ide
+sethandler <C-[> a:ide
+sethandler <C-]> a:ide
 sethandler <C-;> a:ide
 sethandler <A-P> a:ide
 sethandler <C-S-;> a:ide
-sethandler <C-v> a:ide
 sethandler <C-c> a:ide
 sethandler <C-CR> a:ide
 sethandler <S-CR> a:ide
 sethandler <A-CR> a:ide
 
-sethandler <c-d> a:vim
-sethandler <c-u> a:vim
-sethandler <c-o> a:vim
-sethandler <c-i> a:vim
+sethandler <C-d> a:vim
+sethandler <C-u> a:vim
+sethandler <C-o> a:vim
+sethandler <C-i> a:vim
+sethandler <C-a> a:vim
+sethandler <C-v> a:vim
 ```
