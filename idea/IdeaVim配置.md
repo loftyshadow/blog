@@ -13,8 +13,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 " 支持[argtextobj](https://www.vim.org/scripts/script.php?script_id=2699)  cia/dia/caa/daa 快捷修改参数
 Plug 'vim-scripts/argtextobj.vim'
-" 支持[easymotion](https://plugins.jetbrains.com/plugin/13360-ideavim-easymotion/)
-Plug 'easymotion/vim-easymotion'
 
 "===============================================
 let g:argtextobj_pairs="[:],(:),<:>"
@@ -67,10 +65,12 @@ set mouse=a
 set cursorline
 set fdm=marker
 
+"flash查找
+map sd <Action>(flash.search)
+
 :set keep-english-in-normal
 :set keep-english-in-normal-and-restore-in-insert
 "======================map映射==========
-nmap vae ggVG
 "将 jk 映射为 <Esc>
 imap jk <Esc>
 nmap <c-o> <action>(Back)
@@ -328,11 +328,11 @@ sethandler <C-c> a:ide
 sethandler <C-CR> a:ide
 sethandler <S-CR> a:ide
 sethandler <A-CR> a:ide
+sethandler <C-v> a:ide
+sethandler <C-a> a:ide
 
 sethandler <C-d> a:vim
 sethandler <C-u> a:vim
 sethandler <C-o> a:vim
 sethandler <C-i> a:vim
-sethandler <C-a> a:vim
-sethandler <C-v> a:vim
 ```
