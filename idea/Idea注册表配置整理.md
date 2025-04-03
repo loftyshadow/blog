@@ -26,8 +26,8 @@ Choose Boot Runtime for the IDE
 
 # VM Option
 ```text:no-line-numbers
--Xms4g
--Xmx4g
+-Xms8g
+-Xmx8g
 -ea
 -XX:+UseZGC
 -XX:+IgnoreUnrecognizedVMOptions

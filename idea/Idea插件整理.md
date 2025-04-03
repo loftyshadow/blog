@@ -46,10 +46,6 @@
 
 [MyBatis 插件](https://plugins.jetbrains.com/plugin/10119-mybatisx)
 
-# Json Assistant
-
-[JSON处理](https://plugins.jetbrains.com/plugin/24738-json-assistant)
-
 # SonarLint
 
 [代码检查](https://plugins.jetbrains.com/plugin/7973-sonarqube-for-ide)
@@ -58,27 +54,15 @@
 
 [翻译插件](https://plugins.jetbrains.com/plugin/8579-translation)
 
-# Smart Input
-
-[自动切换中英文输入法](https://plugins.jetbrains.com/plugin/20575-smart-input)
-
-# Tiamaes Spring Boot Assistant
-
-[yaml配置提示](https://plugins.jetbrains.com/plugin/23191-tiamaes-spring-boot-assistant)
-
 # ideavim
 
 [IdeaVim](https://plugins.jetbrains.com/plugin/164-ideavim)
 
 [IdeaVimExtension](https://plugins.jetbrains.com/plugin/9615-ideavimextension)
 
-[IdeaVim-EasyMotion](https://plugins.jetbrains.com/plugin/13360-ideavim-easymotion)
-
 [Which-Key](https://plugins.jetbrains.com/plugin/13360-ideavim-easymotion)
 
-# Ace Jump
-
-[单词快速跳转](https://plugins.jetbrains.com/plugin/7086-acejump)
+[vim-flash](https://plugins.jetbrains.com/plugin/25101-vim-flash)
 
 # Catppuccin Theme
 [主题](https://plugins.jetbrains.com/plugin/18682-catppuccin-theme)

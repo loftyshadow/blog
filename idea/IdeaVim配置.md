@@ -13,8 +13,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 " 支持[argtextobj](https://www.vim.org/scripts/script.php?script_id=2699)  cia/dia/caa/daa 快捷修改参数
 Plug 'vim-scripts/argtextobj.vim'
-" 支持[easymotion](https://plugins.jetbrains.com/plugin/13360-ideavim-easymotion/)
-Plug 'easymotion/vim-easymotion'
 
 "===============================================
 let g:argtextobj_pairs="[:],(:),<:>"
@@ -50,7 +48,8 @@ set expandtab
 set smarttab
 "-----------
 "设置相对行号 和 当前行的绝对行号
-set number relativenumber
+set number
+set relativenumber
 "显示光标所在位置的行号和列号
 set ruler
 "自动折行
@@ -67,10 +66,12 @@ set mouse=a
 set cursorline
 set fdm=marker
 
+"flash查找
+map s <Action>(flash.search)
+
 :set keep-english-in-normal
 :set keep-english-in-normal-and-restore-in-insert
 "======================map映射==========
-nmap vae ggVG
 "将 jk 映射为 <Esc>
 imap jk <Esc>
 nmap <c-o> <action>(Back)
@@ -102,7 +103,6 @@ map gs <Action>(GotoSuperMethod)
 map gr <Action>(ShowUsages)
 "查找所以引用
 map gR <Action>(FindUsages)
-
 "跳转到下一个改变
 map ]c <action>(VcsShowNextChangeMarker)
 map [c <action>(VcsShowPrevChangeMarker)
@@ -142,6 +142,12 @@ nmap <leader>8 <Action>(GoToTab8)
 nmap <leader>9 <Action>(GoToTab9)
 "复制到该行最后
 nmap <leader>a A<Esc>p
+"加个空格复制到该行最后
+nmap <leader><leader>a A<Space><Esc>p
+
+"选择模式p默认为P,用来保留粘贴板
+vmap p P
+
 let g:WhichKeyDesc_AppendToLineEnd = "<leader>a 复制到该行最后"
 let g:WhichKeyDesc_Buffer = "<leader>b 标签页相关"
 "关闭当前标签页
@@ -191,9 +197,6 @@ let g:WhichKeyDesc_DebugRunToCursor = "<leader>dr 运行到光标处"
 "停止
 nmap <leader>sc <Action>(Stop)
 let g:WhichKeyDesc_StopClass = "sc停止运行类"
-"查找
-nmap <leader>sd <Plug>(easymotion-bd-f2)
-let g:WhichKeyDesc_SearchTwoChar = "<leader>sd easymotion查找两个字符"
 "在。。。中选择
 nmap <leader>si <Action>(SelectIn)
 let g:WhichKeyDesc_SelectIn = "<leader>si 在。。。中选择"
@@ -232,6 +235,10 @@ let g:WhichKeyDesc_ShowGitBlame = "<leader>gb Git Blame"
 "执行版本控制（VCS）的回滚操作，将修改的代码还原到之前的版本
 nmap <leader>gr <action>(Vcs.RollbackChangedLines)
 let g:WhichKeyDesc_VcsRollbackChangedLines = "<leader>gr 回滚修改"
+"高亮所有引用
+nmap <leader>hu <action>(HighlightUsagesInFile)
+let g:WhichKeyDesc_HighlightUsagesInFile = "<leader>hu 高亮所有引用"
+
 "HotSwap
 nmap <leader>hs <action>(UpdateRunningApplication)
 let g:WhichKeyDesc_UpdateRunningApplication = "<leader>hs HotSwap"
@@ -239,6 +246,8 @@ let g:WhichKeyDesc_UpdateRunningApplication = "<leader>hs HotSwap"
 nmap <leader>ha <action>(HideActiveWindow)
 let g:WhichKeyDesc_HideActiveWindow = "<leader>ha 关闭活动标签"
 let g:WhichKeyDesc_NerdTree = "<leader>n NerdTree相关和取消高亮"
+nmap <leader>il <action>(Inline)
+let g:WhichKeyDesc_Inline = "<leader>il 合并方法"
 "在当前目录新建类
 nmap <leader>nc <action>(NewClass)
 let g:WhichKeyDesc_NERDTreeOrNew_NewClasd = "<leader>nc 在当前目录新建类"
@@ -328,11 +337,11 @@ sethandler <C-c> a:ide
 sethandler <C-CR> a:ide
 sethandler <S-CR> a:ide
 sethandler <A-CR> a:ide
+sethandler <C-v> a:ide
+sethandler <C-a> a:ide
 
 sethandler <C-d> a:vim
 sethandler <C-u> a:vim
 sethandler <C-o> a:vim
 sethandler <C-i> a:vim
-sethandler <C-a> a:vim
-sethandler <C-v> a:vim
 ```
