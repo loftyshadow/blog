@@ -3,8 +3,8 @@
 [广告拦截插件](https://chromewebstore.google.com/detail/adguard-%E5%B9%BF%E5%91%8A%E6%8B%A6%E6%88%AA%E5%99%A8-mv3-beta/apjcbfpjihpedihablmalmbbhjpklbdf)
 ## Better History
 [更好的历史记录](https://chrome.google.com/webstore/detail/egehpkpgpgooebopjihjmnpejnjafefi)
-## Hover Zoom+
-[鼠标图片悬停放大插件](https://chromewebstore.google.com/detail/hover-zoom+/pccckmaobkjjboncdfnnofkonhgpceea)
+## 浮图秀
+[鼠标图片悬停放大插件](https://chromewebstore.google.com/detail/%E6%B5%AE%E5%9B%BE%E7%A7%80/mgpdnhlllbpncjpgokgfogidhoegebod)
 ## Infinity 新标签页
 [自定义新标签页插件](https://chrome.google.com/webstore/detail/nnnkddnnlpamobajfibfdgfnbcnkgngh)
 ## Language Reactor
