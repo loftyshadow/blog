@@ -92,5 +92,52 @@ def ngc [] {
   cd c:/SoftWare/Nginx/conf/conf.d
   n xw.conf
 }
+
+def nr [module] {
+    let config_path = 'c:/SoftWare/nginx-1.25.5/conf/conf.d/test.conf'
+    let nginx_path = 'c:/SoftWare/nginx-1.25.5'
+    let biz_module = 'biz-' ++ $module
+
+    # 通过 reduce 维护状态（change_flag + 已处理行集合）
+    let processed = open $config_path | lines | reduce -f {change_flag: false, lines: []} { |line, state|
+        let line = $line
+
+        # 更新标志位
+        let new_flag = if $line =~ $biz_module {
+            true
+        } else if $state.change_flag and ($line =~ '}') {
+            false
+        } else {
+            $state.change_flag
+        }
+
+        # 根据标志位处理当前行
+        let processed_line = if $state.change_flag {
+            if $line =~ '# proxy_pass' {
+                $line | str replace '# proxy_pass' 'proxy_pass'
+            } else if $line =~ 'proxy_pass' {
+                $line | str replace 'proxy_pass' '# proxy_pass'
+            } else {
+                $line
+            }
+        } else {
+            $line
+        }
+
+        # 返回新状态（更新后的标志位 + 累积处理行）
+        {
+            change_flag: $new_flag
+            lines: ($state.lines | append $processed_line)
+        }
+    }
+
+    # 保存修改
+    $processed.lines | str join (char nl) | save -f $config_path
+
+    # 刷新nginx
+    cd $nginx_path
+    nginx.exe -s reload
+}
+
 ```
 </details>
