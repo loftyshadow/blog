@@ -101,12 +101,12 @@ def nr [module] {
     # 不需要前缀的模块
     const NO_PREFIX_LIST = [print job infra]
     # 默认前缀
-    const PRE_FIX = 'biz-'
+    const PREFIX = 'biz-'
     
     let biz_module = if ($module in $NO_PREFIX_LIST) {
       $module
     } else {
-      $PRE_FIX ++ $module
+      $PREFIX ++ $module
     }
 
     # 通过 reduce 维护状态（change_flag + 已处理行集合）

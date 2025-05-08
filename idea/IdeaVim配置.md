@@ -210,6 +210,9 @@ let g:WhichKeyDesc_GotoUrlAction = "<leader>fe 寻找EndPoints"
 "寻找DB
 nmap <leader>fd <action>(GotoDatabaseObject)
 let g:WhichKeyDesc_GotoDatabaseObject = "<leader>fd 寻找DataBase"
+"寻找DB
+nmap <leader>fr <action>(RecentFiles)
+let g:WhichKeyDesc_RecentFiles = "<leader>fr 寻找最近修改的文件"
 "寻找文件
 nmap <leader>ff <action>(SearchEverywhere)
 let g:WhichKeyDesc_GitAndGenerate = "<leader>ff 寻找文件"
@@ -291,6 +294,9 @@ map <leader>sv <Action>(SplitVertically)
 let g:WhichKeyDesc_SplitVertically = "<leader>sv 分屏 垂直"
 map <leader>sh <Action>(SplitHorizontally)
 let g:WhichKeyDesc_SplitHorizontally = "<leader>sh 分屏 水平"
+" 打开数据库表位置
+map <leader>sd <Action>(sql.SelectInDatabaseView)
+let g:WhichKeyDesc_SelectInDatabaseView = "<leader>sd 打开数据库表位置"
 " 打开终端并进入项目根目录 (ActivateTerminal with project root dir)
 map <leader>tt <Action>(ActivateTerminalToolWindow)
 let g:WhichKeyDesc_ActivateTerminalToolWindow = "<leader>tt 打开终端并进入项目根目录"
