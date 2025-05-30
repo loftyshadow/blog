@@ -20,28 +20,18 @@ import lombok.extern.slf4j.Slf4j;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.mockito.Spy; 
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 #parse("File Header.java")
 
-@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 @Slf4j
 class ${NAME} {
 
-    @Autowired
+    @Spy
     ${SOURCE_CLASS_NAME} ${BEAN_NAME};
-  
-    @TestConfiguration
-    static class TestConfig {
-        @Bean
-        ${SOURCE_CLASS_NAME} ${BEAN_NAME}() {
-            return new ${SOURCE_CLASS_NAME}();
-        }
-    }
     
   ${BODY}
 }
