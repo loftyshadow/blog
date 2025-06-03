@@ -8,7 +8,6 @@ Plug 'preservim/nerdtree'
 Plug 'machakann/vim-highlightedyank'
 " 支持[surround](https://github.com/tpope/vim-surround) vi'/ci'/di'/cs'" 快速选择范围内内容
 Plug 'tpope/vim-surround'
-"set multiple-cursors
 " 支持[commentary](https://github.com/tpope/vim-commentary) gcc/gci{/gcw 生成注释
 Plug 'tpope/vim-commentary'
 " 支持[argtextobj](https://www.vim.org/scripts/script.php?script_id=2699)  cia/dia/caa/daa 快捷修改参数
@@ -117,7 +116,7 @@ map zO <Action>(ExpandAllRegions)
 
 map J ^
 map K $
-"==================leader映射============
+"==================leader映射==================
 " 启用whichkey
 set which-key
 set notimeout
@@ -142,13 +141,14 @@ nmap <leader>8 <Action>(GoToTab8)
 nmap <leader>9 <Action>(GoToTab9)
 "复制到该行最后
 nmap <leader>a A<Esc>p
+let g:WhichKeyDesc_AppendToLineEnd = "<leader>a 复制到该行最后"
 "加个空格复制到该行最后
 nmap <leader><leader>a A<Space><Esc>p
 
 "选择模式p默认为P,用来保留粘贴板
 vmap p P
 
-let g:WhichKeyDesc_AppendToLineEnd = "<leader>a 复制到该行最后"
+"==================<leader>b==================
 let g:WhichKeyDesc_Buffer = "<leader>b 标签页相关"
 "关闭当前标签页
 nmap <leader>bd :action CloseEditor<CR>
@@ -162,10 +162,14 @@ let g:WhichKeyDesc_CloseAllEditors = "<leader>ba 关闭所有标签"
 "固定当前标签页
 nmap <leader>bp <action>(PinActiveEditorTab)
 let g:WhichKeyDesc_PinEditors = "<leader>bp 固定当前标签"
+
+"==================<leader>c============
 let g:WhichKeyDesc_Choose = "<leader>c 选择相关"
 "选择运行/debug
 nmap <leader>cr <action>(RunConfiguration)
 let g:WhichKeyDesc_RunConfiguration = "<leader>cr 选择运行/debug"
+
+"==================<leader>e============
 "使焦点转移到 NERDTree 窗口
 map <leader>e :NERDTreeFocus<CR>
 let g:WhichKeyDesc_NERDTreeFocus = "<leader>e 打开文件目录"
@@ -184,6 +188,7 @@ let g:WhichKeyDesc_IntroduceConstant = "<leader>ef 提取新字段"
 vmap <leader>ev <action>(IntroduceVariable)
 let g:WhichKeyDesc_IntroduceVariable = "<leader>ev 提取变量"
 
+"==================<leader>d============
 let g:WhichKeyDesc_Debug = "<leader>d Debug相关"
 "打断点/解除断点
 nmap <leader>dp <Action>(ToggleLineBreakpoint)
@@ -194,6 +199,8 @@ let g:WhichKeyDesc_DebugQuickEvaluateExpression = "<leader>de 查看指定变量
 "运行到光标处
 nmap <leader>dr <Action>(RunToCursor)
 let g:WhichKeyDesc_DebugRunToCursor = "<leader>dr 运行到光标处"
+
+"==================<leader>s============
 "停止
 nmap <leader>sc <Action>(Stop)
 let g:WhichKeyDesc_StopClass = "sc停止运行类"
@@ -202,15 +209,23 @@ nmap <leader>si <Action>(SelectIn)
 let g:WhichKeyDesc_SelectIn = "<leader>si 在。。。中选择"
 "显示所有书签
 nmap <leader>sm <Action>(ShowBookmarks)
-et g:WhichKeyDesc_ShowBookmarks = "显示所有书签"
+let g:WhichKeyDesc_ShowBookmarks = "显示所有书签"
+"展示导航栏
+nmap <leader>sn <Action>(ShowNavBar)
+let g:WhichKeyDesc_ShowNavBar = "展示导航栏"
+
+"==================<leader>f============
 let g:WhichKeyDesc_Find = "<leader>f 查找相关"
+"寻找Class
+nmap <leader>fc <action>(GotoClass)
+let g:WhichKeyDesc_GotoClass = "<leader>fc 寻找Class"
 "寻找EndPoint
 nmap <leader>fe <action>(GotoUrlAction)
 let g:WhichKeyDesc_GotoUrlAction = "<leader>fe 寻找EndPoints"
 "寻找DB
 nmap <leader>fd <action>(GotoDatabaseObject)
 let g:WhichKeyDesc_GotoDatabaseObject = "<leader>fd 寻找DataBase"
-"寻找DB
+"寻找最新修改文件
 nmap <leader>fr <action>(RecentFiles)
 let g:WhichKeyDesc_RecentFiles = "<leader>fr 寻找最近修改的文件"
 "寻找文件
@@ -219,7 +234,16 @@ let g:WhichKeyDesc_GitAndGenerate = "<leader>ff 寻找文件"
 "在文件中查找
 nmap <leader>fw <action>(FindInPath)
 let g:WhichKeyDesc_GitAndGenerate = "<leader>fw 在文件中查找"
-let g:WhichKeyDesc_GitAndGenerate = "<leader>g Git版本控制"
+
+"==================<leader>m============
+"预览md
+nmap <leader>mp <action>(TextEditorWithPreview.Layout.EditorAndPreview)
+let g:WhichKeyDesc_PreviewOnly = "<leader>mp 预览md"
+"编辑md
+nmap <leader>me <action>(TextEditorWithPreview.Layout.EditorOnly)
+let g:WhichKeyDesc_EditorOnly = "<leader>me 在文件中查找"
+
+"==================<leader>g============
 "生成Code
 nmap <leader>gc <action>(Generate)
 let g:WhichKeyDesc_GenerateCode = "<leader>gc 生成Code"
@@ -238,19 +262,25 @@ let g:WhichKeyDesc_ShowGitBlame = "<leader>gb Git Blame"
 "执行版本控制（VCS）的回滚操作，将修改的代码还原到之前的版本
 nmap <leader>gr <action>(Vcs.RollbackChangedLines)
 let g:WhichKeyDesc_VcsRollbackChangedLines = "<leader>gr 回滚修改"
+
+"==================<leader>h============
 "高亮所有引用
 nmap <leader>hu <action>(HighlightUsagesInFile)
 let g:WhichKeyDesc_HighlightUsagesInFile = "<leader>hu 高亮所有引用"
-
 "HotSwap
 nmap <leader>hs <action>(UpdateRunningApplication)
 let g:WhichKeyDesc_UpdateRunningApplication = "<leader>hs HotSwap"
 "关闭活动标签
 nmap <leader>ha <action>(HideActiveWindow)
 let g:WhichKeyDesc_HideActiveWindow = "<leader>ha 关闭活动标签"
-let g:WhichKeyDesc_NerdTree = "<leader>n NerdTree相关和取消高亮"
+
+"==================<leader>i============
+"合并方法
 nmap <leader>il <action>(Inline)
 let g:WhichKeyDesc_Inline = "<leader>il 合并方法"
+
+"==================<leader>n============
+let g:WhichKeyDesc_NerdTree = "<leader>n NerdTree相关和取消高亮"
 "在当前目录新建类
 nmap <leader>nc <action>(NewClass)
 let g:WhichKeyDesc_NERDTreeOrNew_NewClasd = "<leader>nc 在当前目录新建类"
@@ -263,9 +293,13 @@ let g:WhichKeyDesc_NoHighlight = "<leader>nh 取消搜索高亮显示"
 "浮动显示目录结构
 map <leader>ol <action>(FileStructurePopup)
 let g:WhichKeyDesc_FileStructurePopup = "<leader>ol 浮动显示目录结构"
+
+"==========================<leader>p=============================
 "复制到下一行
 nmap <leader>p o<Esc>p
 let g:WhichKeyDesc_CopyToNextLine = "<leader>p 复制到下一行"
+
+"==========================<leader>r=============================
 let g:WhichKeyDesc_RunRollBackAndRename = "<leader>r 运行、回滚和重命名"
 "运行当前编辑器中的文件或类
 nmap <leader>rc <action>(RunClass)
@@ -288,6 +322,8 @@ let g:WhichKeyDesc_RerunTests = "<leader>rt 重新运行最近一次运行的测
 "在代码中快速更改一个标识符的名称，并自动处理所有相关的引用(Shift + F6)
 map <leader>rn <action>(RenameElement)
 let g:WhichKeyDesc_RenameElement = "<leader>rn 在代码中快速更改一个标识符的名称，并自动处理所有相关的引用"
+
+"==========================<leader>s=============================
 let g:WhichKeyDesc_Split = "<leader>s 分屏相关"
 " 分屏 垂直/水平/关闭 (Pane vertically split/horizontally split/close)
 map <leader>sv <Action>(SplitVertically)
@@ -297,24 +333,30 @@ let g:WhichKeyDesc_SplitHorizontally = "<leader>sh 分屏 水平"
 " 打开数据库表位置
 map <leader>sd <Action>(sql.SelectInDatabaseView)
 let g:WhichKeyDesc_SelectInDatabaseView = "<leader>sd 打开数据库表位置"
+
+"==========================<leader>t=============================
 " 打开终端并进入项目根目录 (ActivateTerminal with project root dir)
 map <leader>tt <Action>(ActivateTerminalToolWindow)
 let g:WhichKeyDesc_ActivateTerminalToolWindow = "<leader>tt 打开终端并进入项目根目录"
 "翻译选中文字
 map <leader>ts <Action>(Translation.EditorTranslateAction)
 let g:WhichKeyDesc_Translate = "<leader>ts 翻译选中文字"
+
+"==========================<leader>w=============================
 let g:WhichKeyDesc_Window = "<leader>w Window相关"
 " 分屏切换
 map <leader>wj <Action>(PrevSplitter)
 let g:WhichKeyDesc_NextSplitter = "<leader>wj 分屏切换"
 map <leader>wk <Action>(NextSplitter)
 let g:WhichKeyDesc_PrevSplitter = "<leader>wk 分屏切换"
+
+"==========================<leader>z=============================
 " zen-mode
 nmap <leader>z <Action>(ToggleZenMode)
 let g:WhichKeyDesc_ToggleZenMode = "<leader>z 禅模式"
 
 
-"========================sethandler
+"========================sethandler=============================
 sethandler <C-b> a:ide
 sethandler <C-e> a:ide
 sethandler <C-f> a:ide
