@@ -51,7 +51,7 @@ private static final Logger log = LoggerFactory.getLogger($CLASS_NAME$.class);
 @Test
 @SneakyThrows
 @DisplayName("")
-public void $METHOD_NAME$() {
+void $METHOD_NAME$() {
     $METHOD_BODY$
 }
 ```
