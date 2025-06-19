@@ -31,9 +31,11 @@ set smartcase
 set infercase
 "将搜索匹配的文本高亮显示
 set hlsearch
+set ideamarks
 "重构保持模式
 set idearefactormode=keep
 "------------
+set shell
 
 "--------ident
 set breakindent
@@ -116,6 +118,13 @@ map zO <Action>(ExpandAllRegions)
 
 map J ^
 map K $
+"mark未修复单独设置
+nmap m1 <Action>(ToggleBookmark1)
+nmap `1 <Action>(GotoBookmark1)
+nmap m2 <Action>(ToggleBookmark2)
+nmap `2 <Action>(GotoBookmark2)
+nmap m3 <Action>(ToggleBookmark3)
+nmap `3 <Action>(GotoBookmark3)
 "==================leader映射==================
 " 启用whichkey
 set which-key
@@ -213,6 +222,12 @@ let g:WhichKeyDesc_ShowBookmarks = "显示所有书签"
 "展示导航栏
 nmap <leader>sn <Action>(ShowNavBar)
 let g:WhichKeyDesc_ShowNavBar = "展示导航栏"
+"展示导航栏
+nmap <leader>se <Action>(ShowErrorDescription)
+let g:WhichKeyDesc_ShowErrorDescription = "展示错误信息"
+"展示Uml图
+nmap <leader>su <Action>(ShowUmlDiagram)
+let g:WhichKeyDesc_ShowUmlDiagram = "展示Uml图"
 
 "==================<leader>f============
 let g:WhichKeyDesc_Find = "<leader>f 查找相关"
@@ -271,7 +286,7 @@ let g:WhichKeyDesc_HighlightUsagesInFile = "<leader>hu 高亮所有引用"
 nmap <leader>hs <action>(UpdateRunningApplication)
 let g:WhichKeyDesc_UpdateRunningApplication = "<leader>hs HotSwap"
 "关闭活动标签
-nmap <leader>ha <action>(HideActiveWindow)
+nmap <leader>ha <action>(HideAllWindows)
 let g:WhichKeyDesc_HideActiveWindow = "<leader>ha 关闭活动标签"
 
 "==================<leader>i============
@@ -290,6 +305,8 @@ let g:WhichKeyDesc_NERDTreeOrNew_NewDir = "<leader>nd 在当前目录新建文�
 "取消搜索高亮显示(No light)
 nmap <leader>nh :nohlsearch<CR>
 let g:WhichKeyDesc_NoHighlight = "<leader>nh 取消搜索高亮显示"
+
+"==================<leader>o============
 "浮动显示目录结构
 map <leader>ol <action>(FileStructurePopup)
 let g:WhichKeyDesc_FileStructurePopup = "<leader>ol 浮动显示目录结构"
