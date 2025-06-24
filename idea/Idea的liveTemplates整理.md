@@ -90,9 +90,9 @@ new Thread(() -> {
 
 ## getEnum
 ```
-public static Optional<$CLASS_NAME$> getEnumByCode(Integer code) {
+public static Optional<$CLASS_NAME$> getEnumByName(String name) {
     return Arrays.stream(values())
-                .filter(e -> e.code.equals(code))
+                .filter(e -> e.name().equals(name))
                 .findFirst();
 }
 ```
