@@ -20,7 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.mockito.Spy; 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Spy;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -31,9 +34,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class ${NAME} {
 
     @Spy
+    @InjectMocks
     ${SOURCE_CLASS_NAME} ${BEAN_NAME};
-    
-  ${BODY}
+
+    ${BODY}
 }
 ```
 
