@@ -18,7 +18,7 @@ let g:argtextobj_pairs="[:],(:),<:>"
 
 " =============Base settings===========
 "设置在光标距离窗口顶部或底部一定行数时，开始滚动屏幕内容的行为
-set scrolloff=6
+set scrolloff=5
 
 "--------search
 "递增搜索功能：在执行搜索（使用 / 或 ? 命令）时，Vim 会在您输入搜索模式的过程中逐步匹配并高亮显示匹配的文本。
@@ -118,6 +118,8 @@ map zO <Action>(ExpandAllRegions)
 
 map J ^
 map K $
+vmap o f)
+vmap u F(
 "mark未修复单独设置
 nmap m1 <Action>(ToggleBookmark1)
 nmap `1 <Action>(GotoBookmark1)

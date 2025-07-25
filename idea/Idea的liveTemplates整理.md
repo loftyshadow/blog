@@ -60,20 +60,16 @@ void $METHOD_NAME$() {
 }
 ```
 
-## gwt
+## serial
 ```text:no-line-numbers
-// given
-
-// when
-
-// then
-
+@Serial
+private static final long serialVersionUID = 1L;
 ```
 
 ## sleep
 
 ```text:no-line-numbers
-try { TimeUnit.SECONDS.sleep($SECONDS$); } catch (InterruptedException e) { throw new RuntimeException(e); }
+TimeUnit.SECONDS.sleep($END$);
 ```
 
 ## thread 新建一个线程:
