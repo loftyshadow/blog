@@ -87,6 +87,17 @@ new Thread(() -> {
 @NoArgsConstructor
 @AllArgsConstructor
 ```
+## reg
+
+```text:no-line-numbers
+// region
+```
+
+## endreg
+
+```text:no-line-numbers
+// endregion
+```
 
 ## getEnum
 ```
