@@ -31,6 +31,10 @@ export const sidebar: Sidebar = {
             text: "MySQL测试大量数据的COUNT",
             link: "/mysql/MySQL测试大量数据的COUNT.md",
         },
+        {
+            text: "MySQL的索引相关概念",
+            link: "/mysql/MySQL的索引相关概念.md",
+        },
     ],
     "/docker/": [
         {
