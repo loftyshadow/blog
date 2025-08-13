@@ -1,10 +1,20 @@
 version: "3.5"
 
 services:
+  mysql-init:
+    image: busybox
+    container_name: mysql-init
+    volumes:
+      - ./mysql:/mysql-host
+      - ./scripts/mysql-init.sh:/mysql-init.sh
+    command: sh /mysql-init.sh
+
   mysql:
     image: mysql:8.2.0
     container_name: mysql
     restart: "no"
+    depends_on:
+      - mysql-init
     environment:
       - MYSQL_ROOT_PASSWORD=123456
       - TZ=Asia/Shanghai
