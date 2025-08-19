@@ -95,37 +95,7 @@ FROM book
 WHERE FIND_IN_SET(author, '施耐庵,罗贯中');
 ```
 
-# JSON格式处理
-
-## 1. JSON_LENGTH
-
-获取json数组长度
-
-```sql
-SELECT JSON_LENGTH(field) AS array_length
-FROM table
-```
-
-## 2. JSON_EXTRACT
-
-`JSON_EXTRACT()` 是JSON提取函数，`$.name`就是一个`JSON path`，表示定位文档的 `name`字段.`JSON path`是以 `$`开头
-
-```text
-{
-    "num": 123,
-    "arr": [1,2],
-    "obj": {
-        "a": 3,
-        "b": 4
-    }
-}
-$.num //结果：123
-$.arr //结果：[1, 2]
-$.arr[1] //结果：1
-$.obj.a //结果：3
-```
-
-## 3. MEMBER OF
+# 3. MEMBER OF
 
 `MEMBER OF()` 函数检查一个指定的值是否是一个 JSON 数组中的元素。
 语法：
@@ -178,6 +148,6 @@ CAST(expression AS type)
 `UNSIGNED`：无符号整数。  
 `FLOAT`：浮点数。  
 `DOUBLE`：双精度浮点数。  
-`DECIMAL`：小数。  
+`DECIMAL`：小数。
 
 # ORDER BY FIELD

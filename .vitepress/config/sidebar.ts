@@ -25,7 +25,7 @@ export const sidebar: Sidebar = {
         },
         {
             text: "Mysql常用函数整理",
-            link: "/mysql/Mysql常用函数整理.md",
+            link: "/mysql/MySQL常用函数整理.md",
         },
         {
             text: "MySQL测试大量数据的COUNT",
