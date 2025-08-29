@@ -35,6 +35,10 @@ export const sidebar: Sidebar = {
             text: "MySQL的索引相关概念",
             link: "/mysql/MySQL的索引相关概念.md",
         },
+        {
+            text: "MySQL可重复读隔离级别下如何解决幻读",
+            link: "/mysql/MySQL可重复读隔离级别下如何解决幻读.md",
+        },
     ],
     "/docker/": [
         {

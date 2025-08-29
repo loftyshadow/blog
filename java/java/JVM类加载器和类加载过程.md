@@ -90,7 +90,7 @@ public class User extends Base {
 - 符号引用
     - 通过全限定名是否能找到类 `ClassNotFoundException`
     - 通过全限定名是否能找到方法 `NoSuchMethodError`
-
+![img.png](../img/JVM类加载器和类加载过程/类加载过程验证.png)
 **准备阶段(`Prepare`)：为字段赋予初始值。**
 
 - 为类的static字段赋予初始值
