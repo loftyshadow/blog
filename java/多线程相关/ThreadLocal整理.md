@@ -126,6 +126,95 @@ if (k == key) {
 - 当为ThreadLocal类的对象set值时，首先获得当前线程的ThreadLocalMap类属性，然后以ThreadLocal类的对象为key，设定value。get值时则类似。
 - ThreadLocal变量的活动范围为某线程，是该线程“专有的，独自霸占”的，对该变量的所有操作均由该线程完成！也就是说，ThreadLocal 不是用来解决共享对象的多线程访问的竞争问题的，因为`ThreadLocal.set()` 到线程中的对象是该线程自己使用的对象，其他线程是不需要访问的，也访问不到的。当线程终止后，这些值会作为垃圾回收。
 ![](../img/ThreadLocal整理/2024-02-23-12-27-20.png)
+#### 1. 哈希值的计算
+
+首先，一个`ThreadLocal`对象如何得到它的哈希值？它并不是直接调用`hashCode()`方法。每个`ThreadLocal`对象在初始化时，都会被分配一个“神奇”的、唯一的`threadLocalHashCode`。
+
+```java
+// ThreadLocal.java
+// 这个hash值是每个ThreadLocal对象创建时就确定，并且之后不会改变
+private final int threadLocalHashCode = nextHashCode();
+
+// 一个原子计数器，用来保证每个新创建的ThreadLocal对象的hash值是唯一的
+private static AtomicInteger nextHashCode = new AtomicInteger();
+
+// 一个“神奇”的魔数，0x61c88647，黄金分割数。
+// 用它来递增可以使得哈希值在2的幂次长度的数组中分布得非常均匀，从而减少冲突。
+private static final int HASH_INCREMENT = 0x61c88647;
+
+private static int nextHashCode() {
+    return nextHashCode.getAndAdd(HASH_INCREMENT);
+}
+```
+
+*   **关键点**：通过一个`AtomicInteger`和一个固定的增量`HASH_INCREMENT`，`ThreadLocal`保证了每个实例都有一个不同的`threadLocalHashCode`，这大大降低了哈希冲突的概率。这个`HASH_INCREMENT`是经过精心挑选的，能让哈希码更均匀地分布。
+
+#### 2. 数组索引的计算
+
+当你调用`threadLocal.set(value)`时，`ThreadLocalMap`会用这个`threadLocalHashCode`来计算它在内部`Entry[] table`数组中的位置。
+
+```java
+// ThreadLocal.ThreadLocalMap.set(ThreadLocal<?> key, Object value)
+Entry[] tab = table;
+int len = tab.length;
+// 计算索引：用哈希码和(数组长度-1)做与运算，这是哈希表标准的高效取模操作
+int i = key.threadLocalHashCode & (len-1); 
+```
+
+#### 3. 冲突处理：线性探测
+
+现在，真正的冲突处理来了。`set`方法的逻辑会从计算出的索引`i`开始，向后遍历数组：
+
+```java
+// 简化后的 set 方法逻辑
+for (Entry e = tab[i]; e != null; e = tab[i = nextIndex(i, len)]) {
+    ThreadLocal<?> k = e.get();
+
+    // 情况1：找到了完全相同的Key（同一个ThreadLocal对象）
+    if (k == key) {
+        e.value = value; // 直接覆盖值，然后返回
+        return;
+    }
+
+    // 情况2：找到了一个“过时”的槽位（Key为null，之前被GC回收了）
+    if (k == null) {
+        // 调用 replaceStaleEntry 清理这个过时的槽位，并把新值放进去
+        replaceStaleEntry(key, value, i);
+        return;
+    }
+  
+    // 情况3（核心）：当前槽位被别的Key占了，发生哈希冲突
+    // 循环会继续，i = nextIndex(i, len)，也就是 i++ (如果越界则回到0)
+    // 继续探测下一个位置
+}
+
+// 循环结束，意味着从i开始向后探测，找到了一个空槽位(e == null)
+tab[i] = new Entry(key, value); // 在空槽位上创建新的Entry
+int sz = ++size;
+// 如果没有清理掉过时Entry，并且元素数量超过阈值，就进行扩容
+if (!cleanSomeSlots(i, sz) && sz >= threshold)
+    rehash();
+```
+
+`nextIndex`的实现非常简单：
+
+```java
+// 循环获取下一个索引
+private static int nextIndex(int i, int len) {
+    return ((i + 1 < len) ? i + 1 : 0);
+}
+```
+
+**我们来总结一下这个处理流程：**
+
+1.  **计算初始位置**：通过 `key.threadLocalHashCode & (table.length - 1)` 计算出索引 `i`。
+2.  **检查位置 `i`**：
+    *   **如果是空位**：太好了，直接把新的`Entry`放这里，`set`操作完成。
+    *   **如果不是空位**：检查这个位置上`Entry`的Key。
+        *   **Key正好是我们要设置的`key`**：说明是更新操作，直接更新`value`，操作完成。
+        *   **Key不是我们要设置的`key`**：**这就是哈希冲突**。
+3.  **线性探测**：计算下一个索引 `i = (i + 1) % table.length`，然后重复**步骤2**，直到找到一个空位或者找到匹配的Key为止。
+
 ## 2. get方法
 ```java
 public T get() {
@@ -156,6 +245,24 @@ private T setInitialValue() {
     return value;
 }
 ```
+
+`get`操作的逻辑是完全一样的。它也是从计算出的初始位置`i`开始，如果发现Key不匹配，就线性地向后探测，直到找到匹配的Key或者遇到一个`null`（表示这个Key不存在于Map中）。
+
+#### 5. 顺带一提：清理机制 (`expungeStaleEntry`)
+
+`ThreadLocalMap`的线性探测还有一个非常精妙的设计。在探测过程中，如果遇到了Key为`null`的“过时”`Entry`（这是因为`Entry`的Key是弱引用，`ThreadLocal`对象被GC回收了），它会触发一个清理动作`expungeStaleEntry`。
+
+这个清理动作不仅会移除当前这个过时的`Entry`，还会继续向后检查，把因为哈希冲突而排在后面的`Entry`进行**再哈希 (rehash)**，把它们挪到更合适的位置，以保持探测链的紧凑和高效。
+
+`ThreadLocalMap` 采用 **开放定址法中的线性探测** 来解决哈希冲突。当`set`一个键值对时，它会根据 `ThreadLocal` 对象的 `threadLocalHashCode` 计算出一个初始索引。
+
+1.  如果该索引位置为空，则直接插入。
+2.  如果该索引位置已被其他 `Entry` 占据，它会**向后逐一检查数组的下一个槽位**（`i+1`, `i+2`, ...，如果到末尾则从0开始），这个过程被称为“探测”。
+3.  探测过程中，它会一直寻找，直到：
+    *   找到一个**空的槽位**，然后将新的 `Entry` 放入。
+    *   或者，找到一个 `Entry` 的Key与当前要`set`的`key`**完全相同**，此时执行值的覆盖操作。
+
+这个机制保证了即使多个`ThreadLocal`对象不幸拥有了相同的哈希索引，它们也都能被正确地存入`ThreadLocalMap`中，只不过是沿着数组向后顺延排列而已。同时，这个过程还巧妙地集成了对过期弱引用的清理机制，使得`ThreadLocalMap`更加健壮。
 ## 3.remove方法
 ```java
 public void remove() {
