@@ -36,6 +36,14 @@ export const sidebar: Sidebar = {
             link: "/mysql/MySQL的索引相关概念.md",
         },
         {
+            text: "MySQL为什么使用B+树做索引",
+            link: "/mysql/MySQL为什么使用B+树做索引.md",
+        },
+        {
+            text: "MySQL锁处理",
+            link: "/mysql/MySQL锁处理.md",
+        },
+        {
             text: "MySQL可重复读隔离级别下如何解决幻读",
             link: "/mysql/MySQL可重复读隔离级别下如何解决幻读.md",
         },
@@ -276,6 +284,14 @@ export const sidebar: Sidebar = {
                 {
                     text: "Redis常见缓存问题",
                     link: "/java/Redis/Redis常见缓存问题.md",
+                },
+                {
+                    text: "Redis的ZSET设计",
+                    link: "/java/Redis/Redis的ZSET设计.md",
+                },
+                {
+                    text: "Redis的不同数据类型及使用场景",
+                    link: "/java/Redis/Redis的不同数据类型及使用场景.md",
                 },
             ],
         },
