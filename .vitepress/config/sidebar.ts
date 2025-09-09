@@ -40,6 +40,10 @@ export const sidebar: Sidebar = {
             link: "/mysql/MySQL为什么使用B+树做索引.md",
         },
         {
+            text: "MySQL的页分裂",
+            link: "/mysql/MySQL的页分裂.md",
+        },
+        {
             text: "MySQL锁处理",
             link: "/mysql/MySQL锁处理.md",
         },
