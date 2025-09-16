@@ -294,6 +294,10 @@ export const sidebar: Sidebar = {
                     link: "/java/Redis/Redis的ZSET设计.md",
                 },
                 {
+                    text: "Redis过期命令执行流程",
+                    link: "/java/Redis/Redis的不同数据类型及使用场景.md",
+                },
+                {
                     text: "Redis的不同数据类型及使用场景",
                     link: "/java/Redis/Redis的不同数据类型及使用场景.md",
                 },
