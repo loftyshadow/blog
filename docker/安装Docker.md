@@ -52,3 +52,28 @@ tcp://192.168.3.44:2375
 ```
 
 docker update --restart=always 容器名称(或者容器 ID)
+
+# docker 清理无用镜像、容器和数据卷
+```bash
+# 只删除停止的容器
+docker container prune
+
+# 只删除悬空镜像
+docker image prune
+
+# 只删除未使用的卷
+docker volume prune
+
+# 删除所有未使用的镜像（包括非悬空）
+docker image prune -a
+
+```
+
+实际使用建议
+```bash
+# 先检查 将要删除的内容：
+docker system prune -a --volumes --dry-run
+
+# 确认无误后 再实际执行：
+docker system prune -a --volumes --force
+```

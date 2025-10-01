@@ -28,3 +28,4 @@ Docker 依赖 Windows NAT 网络驱动，重启可释放被锁定的端口
 net stop winnat
 net start winnat
 ```
+entrypoint: ["sleep", "infinity"]  # 使用这个来覆盖默认的启动程序可以进入容器查看网络和文件信息

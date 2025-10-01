@@ -54,6 +54,12 @@
 
 [翻译插件](https://plugins.jetbrains.com/plugin/8579-translation)
 
+# VisualVM Launcher
+
+[visualVM集成](https://plugins.jetbrains.com/plugin/7115-visualvm-launcher/versions#tabs)
+
+[visualVM](https://visualvm.github.io/download.html)
+
 # ideavim
 
 [IdeaVim](https://plugins.jetbrains.com/plugin/164-ideavim)

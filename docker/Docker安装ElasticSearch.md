@@ -41,4 +41,4 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 \
 ```
 
 # 测试es健康状态
-[测试es健康状态](http://192.168.1.14:9200/_cat/health?v)
+[测试es健康状态](http://localhost:9200/_cat/health?v)
