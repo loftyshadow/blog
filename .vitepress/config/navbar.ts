@@ -29,7 +29,7 @@ export const nav: NavItem[] = [
   {
     text: "文章整理",
     activeMatch: "^/article/",
-    link: "/article/Zsh安装.md",
+    link: "/article/jq常用命令.md",
   },
   {
     text: "常用配置工具类整理",

@@ -51,6 +51,10 @@ export const sidebar: Sidebar = {
             text: "MySQL可重复读隔离级别下如何解决幻读",
             link: "/mysql/MySQL可重复读隔离级别下如何解决幻读.md",
         },
+        {
+            text: "MySQL的mysqldump整理",
+            link: "/mysql/MySQL的mysqldump整理.md",
+        },
     ],
     "/docker/": [
         {
@@ -151,6 +155,10 @@ export const sidebar: Sidebar = {
         },
     ],
     "/article/": [
+        {
+            text: "jq常用命令",
+            link: "/article/jq常用命令.md",
+        },
         {
             text: "Zsh安装",
             link: "/article/Zsh安装.md",

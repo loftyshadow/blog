@@ -77,3 +77,9 @@ docker system prune -a --volumes --dry-run
 # 确认无误后 再实际执行：
 docker system prune -a --volumes --force
 ```
+
+docker 容器内和宿主复制文件
+```bash
+docker cp [OPTIONS] CONTAINER:SRC_PATH DEST_PATH
+docker cp [OPTIONS] SRC_PATH CONTAINER:DEST_PATH
+```
