@@ -27,3 +27,9 @@ npx skills add mattpocock/skills@grill-me
 ```bash
 npx skills add yetone/native-feel-skill
 ```
+
+反复询问完整需求信息
+
+```bash
+npx skills add mattpocock/skills@grill-me -g -y
+```
