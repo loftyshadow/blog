@@ -7,7 +7,7 @@ npx skills add nextlevelbuilder/ui-ux-pro-max-skill@ui-ux-pro-max
 react best practice vercel 官方出品
 
 ```bash
-npx skills add vercel-labs/agent-skills ## 选择 react-best-practices 
+npx skills add vercel-labs/agent-skills -g -y
 ```
 
 frontend-design Anthropics 官方出品
@@ -19,7 +19,7 @@ npx skills add https://github.com/anthropics/skills/tree/main/skills/frontend-de
 UI 组件库 shadcn skill ui.shadcn.com/docs/skills
 
 ```bash
-npx skills add shadcn/ui
+npx skills add shadcn/ui -g -y
 ```
 
 专注前端界面设计，让页面有审美、有层次 frontend-design

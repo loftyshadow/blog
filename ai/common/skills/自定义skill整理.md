@@ -928,10 +928,10 @@ description: "用于代码修改完成后的最终收尾、交付、提交、创
    - 如果本次触碰了源码、测试代码、构建脚本、依赖声明、运行时配置、数据库迁移、类型声明等会影响运行或编译的文件，就必须跑 JetBrains MCP。
    - 优先使用当前可用的 JetBrains MCP，例如 PyCharm 或 IDEA。
    - 已知项目路径时必须传入项目路径。
-   - 对本次触碰过的源码文件运行文件级检查，检查范围必须包含 warning，不要只看 error。
+   - 对本次触碰过的源码文件运行文件级检查，检查范围必须包含 weak warning，不要只看 error。
    - 默认不运行项目 build 或 compile；只有用户明确声明要 build、构建、编译或跑全量构建时才运行。
-   - 本次新增 warning、本次改动直接相关 warning、阻塞构建或验证的 warning 都视为阻塞项，修复后重跑对应检查。
-   - 如果 IDE 报出 touched scope 之外或本次改动前已存在的历史 warning，不要偷偷忽略；在最终说明中标明这是范围外既有问题，并给出足够信息让用户判断。
+   - 本次新增 weak warning、本次改动直接相关 weak warning、阻塞构建或验证的 weak warning 都视为阻塞项，修复后重跑对应检查。
+   - 如果 IDE 报出 touched scope 之外或本次改动前已存在的历史 weak warning，不要偷偷忽略；在最终说明中标明这是范围外既有问题，并给出足够信息让用户判断。
    - 范围外或历史问题默认只记录不修复；只有它阻塞本次验证或用户明确要求时，才扩大修复范围。
 
 5. 验证适用的硬验收标准。
@@ -1014,7 +1014,7 @@ description: "用于代码修改完成后的最终收尾、交付、提交、创
 - 有硬指标时写明验证证据；没有适用硬指标时写明不适用；存在模糊标准时写明替代验证和剩余解释空间。
 
 JetBrains MCP：
-- 代码改动：写明 inspection 结果；只有用户明确声明运行 build/compile 时，才写 build 结果。说明 touched files 是否已经没有 warning 及以上问题。
+- 代码改动：写明 inspection 结果；只有用户明确声明运行 build/compile 时，才写 build 结果。说明 touched files 是否已经没有 weak warning 及以上问题。
 - 文档整理：写明未运行 JetBrains MCP，因为本次未触碰会影响运行或编译的代码文件；列出已运行的文档校验。
 
 优化闭环：
@@ -1245,7 +1245,7 @@ description: "用于需要使用 PyCharm、IntelliJ IDEA、GoLand 等 JetBrains 
 ## 适用场景
 
 - 用户要求使用 PyCharm、IDEA、GoLand、JetBrains MCP 或 IDE 检查。
-- 代码改动完成后，需要检查 touched files 是否有 warning 及以上问题。
+- 代码改动完成后，需要检查 touched files 是否有 weak warning 及以上问题。
 - 需要 IDE 语义能力：符号查找、符号信息、重命名、文件问题、项目模块、运行配置。
 - 需要查看 IDE 已配置数据库连接、schema、表结构或执行安全 SQL。
 - 需要通过 IDE run configuration 运行测试、服务或脚本。
@@ -1272,7 +1272,7 @@ description: "用于需要使用 PyCharm、IntelliJ IDEA、GoLand 等 JetBrains 
 
 ### 检查、构建和格式化
 
-- `get_file_problems`：对单个文件跑 IDE inspections，可包含 warning。
+- `get_file_problems`：对单个文件跑 IDE inspections，可包含 weak warning。
 - `build_project`：构建项目或重建指定文件。
 - `reformat_file`：按 IDE 格式化文件。
 
@@ -1281,7 +1281,7 @@ description: "用于需要使用 PyCharm、IntelliJ IDEA、GoLand 等 JetBrains 
 1. 只对代码、测试、构建脚本、依赖、运行配置、数据库迁移、类型声明等会影响运行或编译的文件运行。
 2. 对本次 touched source files 跑 `get_file_problems(errorsOnly=false)`。
 3. 对可构建项目跑 `build_project`；能指定 touched files 时优先缩小范围。
-4. 本次新增 warning、本次改动直接相关 warning、阻塞构建或验证的 warning 视为阻塞；历史 warning 记录为范围外风险，默认不扩大修。
+4. 本次新增 weak warning、本次改动直接相关 weak warning、阻塞构建或验证的 weak warning 视为阻塞；历史 weak warning 记录为范围外风险，默认不扩大修。
 
 ### 运行配置
 
