@@ -1232,163 +1232,124 @@ This reverts commit <hash>.
 
 ````md
 ---
-name: "jetbrains-mcp-tools"
-description: "用于需要使用 PyCharm、IntelliJ IDEA、GoLand 等 JetBrains IDE MCP 做项目检查、文件问题分析、构建、运行配置、数据库查询、文件导航、重构或 IDE 终端操作的场景。"
+name: jetbrains-mcp-tools
+description: 使用 PyCharm、IntelliJ IDEA、GoLand 等 JetBrains IDE MCP 完成项目探索、语义检索、调用层级分析、IDE inspections、构建、运行配置、符号重构、数据库检查和 Jupyter Notebook 操作。用户明确要求 JetBrains/PyCharm/IDE MCP，或任务需要 IDE 语义、运行配置、数据库数据源、文件问题检查时使用；普通 shell、git、lint、测试和大段代码编辑不因本 skill 自动改走 IDE 终端。
 ---
 
-# JetBrains MCP 快速调用
+# JetBrains MCP 工具
 
-## 目标
+## 核心原则
 
-快速选择 PyCharm、IntelliJ IDEA、GoLand 等 JetBrains IDE MCP 的合适能力。优先用于 IDE 级项目理解、文件问题检查、构建、运行配置、数据库对象查看、符号检索和安全的 IDE 辅助操作；普通终端命令默认直接用本地 shell/RTK。
+- 先检查当前会话实际暴露的 JetBrains MCP 工具，再选择调用；不要猜测旧工具名。
+- 优先把 IDE MCP 用于语义理解、inspection、构建、运行配置、数据库元数据和安全重构。
+- 普通文件编辑使用 `apply_patch`；普通 shell、git、pytest、npm、lint 等使用本地 shell，并按项目规则优先用 RTK。
+- 仅在用户明确要求 IDE 终端、需要 IDE 注入环境，或本地 shell 无法复现时使用 `execute_terminal_command`。
+- 保留用户已有改动；不回滚、不覆盖、不删除无关内容。
 
-## 适用场景
+## 选择工具
 
-- 用户要求使用 PyCharm、IDEA、GoLand、JetBrains MCP 或 IDE 检查。
-- 代码改动完成后，需要检查 touched files 是否有 weak warning 及以上问题。
-- 需要 IDE 语义能力：符号查找、符号信息、重命名、文件问题、项目模块、运行配置。
-- 需要查看 IDE 已配置数据库连接、schema、表结构或执行安全 SQL。
-- 需要通过 IDE run configuration 运行测试、服务或脚本。
+### 项目与文件
 
-## 不适用场景
+- 用 `get_project_modules` 查看模块。
+- 用 `get_project_dependencies` 查看 IDE 和生态依赖。
+- 用 `get_repositories` 查看 VCS roots；用 `git_status` 查看各仓库 porcelain 状态。
+- 用 `list_directory_tree` 浏览目录树，优先于 shell 的 `ls` 或 `tree`。
+- 用 `search_file` 按 glob 找文件。
+- 用 `search_text` 或 `search_regex` 查文本并获取匹配坐标。
+- 用 `read_file` 读取项目文件、依赖源码、JAR/JRT 内容或反编译 class；通过 offset/limit 分页。
+- 用 `get_all_open_file_paths` 查看活动编辑器和已打开文件。
+- 仅在确实要改变用户 IDE 界面状态时用 `open_file_in_editor`。
 
-- 纯文档、README、Markdown、skill 文档整理：不要为了形式跑 JetBrains MCP，使用对应文档校验即可。
-- 普通 shell 查询、测试、lint、build、git、rg、npm、pytest 等：默认直接使用本地 shell，并按项目要求优先通过 `rtk` 包装；不要为了形式改用 IDE terminal。
-- 大段代码编辑：默认用 `apply_patch`；JetBrains MCP 主要做检查、语义查询、重命名、格式化和运行。
+### 符号与调用关系
 
-## 当前主要能力
+- 用 `search_symbol` 按标识符片段定位项目符号；项目内找不到时再启用 external search。
+- 用 `get_symbol_info` 按文件、行、列读取 Quick Documentation、声明位置和签名。
+- 用 `analyze_calls` 查询 callable 的 `INCOMING_CALLS` 或 `OUTGOING_CALLS`，分析真实调用关系时优先于文本搜索。
+- 只知道短名称时，先用 `search_symbol` 找 fully qualified name，再传给 `analyze_calls`。
+- 遇到歧义时使用工具返回的精确签名重试；大型调用树使用 `treePath`、`childOffset`、`depth`、`maxChildren` 和 `maxNodes` 控制范围。
 
-### 项目和文件探索
+### Inspection、格式化与构建
 
-- `get_project_modules`：查看项目模块。
-- `get_project_dependencies`：查看项目依赖。
-- `get_repositories`：查看 VCS roots。
-- `list_directory_tree`：查看目录树，优先于 shell `ls/tree`。
-- `find_files_by_name_keyword`、`find_files_by_glob`、`search_file`：找文件。
-- `search_text`、`search_regex`、`search_in_files_by_text`、`search_in_files_by_regex`：搜文本或正则。
-- `search_symbol`、`get_symbol_info`：查符号和符号说明。
-- `read_file`、`get_file_text_by_path`：读取文件内容。
-- `open_file_in_editor`：打开文件到 IDE。
+- 用 `get_file_problems` 检查单个 touched source file，并传 `errorsOnly=false` 保留 `WEAK WARNING`、warning 和 error。
+- 多文件可先用 `lint_files(files=[...], min_severity="warning")` 批量检查；逐项处理 `timedOut`、`notAnalyzedReason`，并把顶层 `more=true` 视为结果不完整。
+- 不要用批量 `lint_files` 代替必须覆盖 `WEAK WARNING` 的单文件检查。
+- 用 `reformat_file` 按 IDE 规则格式化明确指定的文件。
+- 用 `build_project` 构建项目；能指定 touched files 时优先缩小范围。
+- 把本次新增或直接相关的 `WEAK WARNING`、warning、error，以及阻塞构建的问题视为阻塞；历史问题记录为范围外风险，不擅自扩大修复。
 
-### 检查、构建和格式化
+代码修改后的最低 IDE 验证：
 
-- `get_file_problems`：对单个文件跑 IDE inspections，可包含 weak warning。
-- `build_project`：构建项目或重建指定文件。
-- `reformat_file`：按 IDE 格式化文件。
-
-代码收尾时的最低 IDE 检查：
-
-1. 只对代码、测试、构建脚本、依赖、运行配置、数据库迁移、类型声明等会影响运行或编译的文件运行。
-2. 对本次 touched source files 跑 `get_file_problems(errorsOnly=false)`。
-3. 对可构建项目跑 `build_project`；能指定 touched files 时优先缩小范围。
-4. 本次新增 weak warning、本次改动直接相关 weak warning、阻塞构建或验证的 weak warning 视为阻塞；历史 weak warning 记录为范围外风险，默认不扩大修。
+1. 确认本次 touched source files。
+2. 对每个 touched source file 运行 `get_file_problems(errorsOnly=false)`。
+3. 对可构建项目运行 `build_project`。
+4. 修复本次相关问题后重新检查。
+5. 不对纯 Markdown、README 或普通说明文档运行 IDE inspections 或构建。
 
 ### 运行配置
 
-- `get_run_configurations`：列出项目 run configurations，或查询某文件里的可运行入口。
-- `execute_run_configuration`：执行已有配置或指定文件行号的临时运行配置。
+- 用 `get_run_configurations` 列出项目配置；传 `filePath` 时发现文件里的 run points。
+- 用 `execute_run_configuration` 执行已存在的配置，或按 `filePath` 和一基行号运行临时入口。
+- 仅当 `supportsDynamicLaunchOverrides=true` 时传 `programArguments`、`workingDirectory` 或 `envs`。
+- 对测试、lint、一次性脚本使用 `waitForExit=true`；对服务类长进程使用 `waitForExit=false`。
+- 记录 exit code、关键输出和 `fullOutputPath`；超时返回且没有 exit code 时，不声称执行成功。
 
-使用规则：
+### 编辑与重构
 
-- 运行已有配置前先用 `get_run_configurations` 确认名称和 `supportsDynamicLaunchOverrides`。
-- 只有配置支持动态覆盖时，才传 `programArguments`、`workingDirectory` 或 `envs`。
-- `waitForExit=true` 适合测试、lint、一次性脚本；服务类长进程用 `waitForExit=false`。
+- 普通代码编辑默认使用工作区的 `apply_patch`。
+- 可用 IDE MCP 的 `apply_patch` 在项目目录内应用 Codex patch 或 unified diff，但仍须执行 dirty worktree 和用户改动保护。
+- 用 `rename_refactoring` 做符号级重命名，避免文本替换破坏引用。
+- 用 `create_new_file` 创建明确要求的新文件；覆盖已有文件前确认不会破坏用户内容。
+- 不把 `execute_tool` 当作首选入口；只有独立工具未暴露或需要兼容动态能力时才使用。
 
-### IDE 集成终端例外
+### 数据库
 
-- `execute_terminal_command`：在 IDE 集成终端执行命令。
-
-默认不要用它跑普通命令。只有这些情况才考虑 IDE terminal：
-
-- 用户明确要求“在 PyCharm/IDEA/Goland 终端里跑”。
-- 需要复用 IDE 终端窗口、IDE 注入的环境或当前 IDE terminal 上下文。
-- 本地 shell/RTK 无法复现，而 IDE run/terminal 能复现的问题。
-
-即使使用 IDE terminal，也要说明为什么不用普通 shell/RTK。
-
-### 安全编辑和重构
-
-- `rename_refactoring`：程序符号重命名，优先于手写搜索替换。
-- `replace_text_in_file`：精确文本替换；只在替换范围非常明确时使用。
-- `create_new_file`：在项目内创建文件。
-- `reformat_file`：格式化文件。
-
-编辑规则：
-
-- 普通代码编辑默认用 `apply_patch`。
-- 符号级重命名优先用 `rename_refactoring`。
-- 不要用文本替换做语义重命名。
-- 不要重写、回滚或删除用户已有改动。
-
-### 数据库能力
-
-- `list_database_connections`：列出 IDE 数据库连接。
-- `test_database_connection`：测试连接。
-- `list_database_schemas`：列出 schemas。
-- `list_schema_object_kinds`：列出对象类型。
-- `list_schema_objects`：列出 schema objects。
-- `get_database_object_description`：查看表、视图、routine 等结构。
-- `preview_table_data`：预览表数据。
-- `execute_sql_query`：执行 SQL。
-- `list_recent_sql_queries`：查看最近查询。
-- `cancel_sql_query`：取消查询。
-
-数据库规则：
-
-- 先看连接、schema、对象结构，再执行 SQL。
-- 默认只做只读查询和预览。
-- DDL、DML、迁移、删除、更新数据必须有用户明确授权，并说明影响范围和回滚方式。
-- 不要把密钥、完整敏感请求、用户 cookie 或隐私数据写入日志和回复。
+- 先用 `list_database_connections` 查看数据源，再用 `test_database_connection` 测试目标连接。
+- 用 `list_database_schemas` 查看 schema；当 `isIntrospected=false` 或元数据陈旧时用 `introspect_schema`。
+- 用 `list_schema_object_kinds`、`list_schema_objects` 和 `get_database_object_description` 查看结构。
+- 用 `preview_table_data` 或只读 `execute_sql_query` 查看数据。
+- 用 `fetch_query_result` 按 `resultSetId` 和 offset 分页；不要把首屏当作完整结果。
+- 用 `list_recent_sql_queries` 查看近期或运行中查询；只在需要时用 `cancel_sql_query` 取消目标 session。
+- 只有用户明确要求时才用 `create_database_connection` 或 `edit_database_connection` 修改持久化数据源配置。
+- 把 `execute_sql_query` 的非空 `errorMessage` 一律视为失败。
+- 默认仅做只读查询。DDL、DML、迁移、删除、更新数据必须有用户明确授权，并先说明影响范围和回滚方式。
+- 不在日志、工具参数或回复中泄露 token、cookie、私钥或其他敏感信息。
 
 ### Notebook
 
-- `runNotebookCell`：执行 Jupyter notebook 单个 cell 或全量 notebook。
+- 用 `readNotebook` 读取整个 notebook，或按 `cell_id` 读取单个 cell 和完整输出。
+- 用 `notebookEdit` 替换、插入或删除 cell。
+- 用 `runNotebookCell` 执行单个 cell 或整个 notebook。
+- Notebook 工具使用绝对 `.ipynb` 路径；替换或删除前先读取并确认目标 `cell_id`。
 
 ## 常用流程
 
-### 代码改动后检查
+### 理解代码
 
-1. 判断是否触碰代码类文件；纯文档不跑 JetBrains MCP。
-2. 用搜索或 git diff 确认 touched files。
-3. 对 touched source files 运行 `get_file_problems(errorsOnly=false)`。
-4. 能构建时运行 `build_project`。
-5. 如有 run configuration，按需执行测试或服务配置。
-6. 修复本次新增或相关 warning/error 后重跑。
-7. 最终说明列出检查范围、结果、历史问题和未验证风险。
+1. 用 `search_file` 或 `search_symbol` 定位。
+2. 用 `read_file` 读取最小必要片段。
+3. 用 `get_symbol_info` 确认签名和声明。
+4. 需要调用链时用 `analyze_calls`。
+5. IDE 语义能力不足时才退回文本或正则搜索。
 
-### 找代码和理解符号
-
-1. 先用 `search_file`、`find_files_by_name_keyword` 或 `search_symbol` 定位。
-2. 用 `read_file` 或 `get_file_text_by_path` 读必要片段。
-3. 对关键引用用 `get_symbol_info` 确认类型、签名和来源。
-4. 不确定调用链时再用文本或正则搜索扩大范围。
-
-### 运行项目配置
-
-1. 用 `get_run_configurations` 列出配置。
-2. 选择最小相关配置，不随意运行长服务。
-3. 如果需要覆盖参数，先确认 `supportsDynamicLaunchOverrides=true`。
-4. 执行后记录 exit code、关键输出和完整输出路径。
-
-### 查数据库结构
+### 检查数据库结构
 
 1. `list_database_connections`。
 2. `test_database_connection`。
-3. `list_database_schemas(selectedOnly=true)`。
-4. `list_schema_objects` 和 `get_database_object_description`。
-5. 只读查询或 preview；写操作必须先得到明确授权。
+3. `list_database_schemas`，必要时 `introspect_schema`。
+4. `list_schema_object_kinds`、`list_schema_objects`。
+5. `get_database_object_description`。
+6. 只读 preview/query；需要更多行时 `fetch_query_result`。
 
-## 最终说明要求
+## 最终报告
 
-使用 JetBrains MCP 后，最终回复写清：
+使用 JetBrains MCP 后说明：
 
-- 使用的是哪个 IDE MCP，例如 PyCharm、IDEA 或 GoLand。
-- 检查了哪些文件、模块、运行配置或数据库对象。
-- 是否发现 warning/error，哪些是本次相关，哪些是历史或范围外问题。
-- 运行了哪些 build、run configuration、SQL 或 notebook。
-- 哪些检查未运行，以及原因。
-- 如果本次是纯文档整理，明确说明未运行 JetBrains MCP 的原因。
-
+- 实际使用的 IDE MCP，例如 PyCharm、IntelliJ IDEA 或 GoLand。
+- 检查的文件、模块、符号、运行配置或数据库对象。
+- 发现的 `WEAK WARNING`、warning、error，以及哪些属于本次、历史或范围外。
+- 执行的 build、run configuration、SQL 或 notebook 操作及结果。
+- 未运行的检查和原因。
+- 如果任务只有文档变更，说明未运行 JetBrains MCP inspections/build 的原因。
 ````
 
 :::
